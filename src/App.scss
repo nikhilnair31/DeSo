@@ -1,3 +1,31 @@
-#root{
+@import "./color-themes";
+
+.root{
     height: 100%;
+
+    .title {
+        @include themed('color', 'text');
+    }
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    .root_user_bio {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 1pc;
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+    .root_user_bio {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 1pc;
+        width: 100%;
+        align-items: center;
+    }
 }

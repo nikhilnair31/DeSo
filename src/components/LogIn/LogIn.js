@@ -2,27 +2,32 @@ import React, {useContext, useEffect, useState } from 'react';
 import './LogIn.scss';
 import {user} from '../../helpers/user'
 
-const LogIn = () => {
+const LogIn = (props) => {
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
 
-    const handleusernamechange = event => {
-        console.log(event.target.value);
-        setusername(event.target.value);
-    }
-    const handlepasswordchange = event => {
-        console.log(event.target.value);
-        setpassword(event.target.value);
-    }
     const login = () => {
-        user.auth(username, password, ({ err }) => err && alert(err));
+        console.log('login');
+        user.auth(username, password, ({ err }) => {
+            if (err){
+                console.log('login err');
+                alert(err);
+            }
+            else{
+                props.setcurrusername(username);
+            }
+        });
     }
     const signup = () => {
+        console.log('signup');
         user.create(username, password, ({ err }) => {
-            if (err) {
-              alert(err);
-            } else {
-              login();
+            if (err){
+                console.log('signup err');
+                alert(err);
+            }
+            else{
+                console.log('signup to login');
+                login();
             }
         });
     }
@@ -31,15 +36,11 @@ const LogIn = () => {
         <div className="login_wrapper">
             <div className="login">
                 <h1>🔫💬</h1>
-                <div className="login_text">
-                    <h1>Welcome</h1>
-                    <a href="https://docs.google.com/document/d/14Q2jeHABjQZgS-B4zeXYWJ7g1-WPgBSSEIqeVNpG414/edit?usp=sharing">Privacy Policy</a>
-                    
-                    <label>Username</label>
-                    <input name="username" onChange={handleusernamechange} minLength={3} maxLength={16} />
-
-                    <label>Password</label>
-                    <input name="password" onChange={handlepasswordchange} type="password" />
+                <div className="login_inputs">
+                    <h3 className='login_text'>Username</h3>
+                    <input name="username" onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
+                    <h3 className='login_text'>Password</h3>
+                    <input name="password" onChange={e => setpassword(e.target.value)} type="password" />
                 </div>
                 <div className="login_button_container">
                     <button className="login_button" onClick={login}>

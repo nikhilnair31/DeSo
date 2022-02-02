@@ -55,33 +55,24 @@
 
 //Desktop
 @media only screen and (min-width: 600px) {
-    .more_ideas {
-        // margin: 0pc 0pc 1pc 0pc;
-        .more_ideas_button {
-            height: 3pc;
-        }
-    }
-    .page_container{
-        .page_title {
-            font-size: 1.5pc;
-        }
+    .root_home {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 1pc;
+        position: absolute;
+        bottom: 0;
     }
 }
 
 //Mobile
 @media only screen and (max-width: 600px) {
-    .more_ideas {
-        // margin: 0pc 0pc 1pc 0pc;
-        .more_ideas_button {
-            height: 5vh;
-        }
-    }
-    .empty_item {
-        margin-bottom: 2.6pc;
-    }
-    .page_container{
-        .page_title {
-            font-size: 1pc;
-        }
+    .root_home {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 1pc;
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        align-items: center;
     }
 }

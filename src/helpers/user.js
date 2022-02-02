@@ -8,12 +8,8 @@ export const db = GUN();
 // Gun User
 export const user = db.user().recall({sessionStorage: true});
 
-// Current User's username
-export let username = '';
-
-user.get('alias').on(v => username = v)
-
 db.on('auth', async(event) => {
+    let username = '';
     console.log('user: ', user, '- event: ', event);
     const alias = user.get('alias'); // username string
     console.log('alias: ', alias);

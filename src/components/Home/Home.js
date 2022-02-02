@@ -1,143 +1,80 @@
 import React, {useEffect, useState, useContext, useRef} from 'react';
-import Intro from '../Intro/Intro';
-import Search from '../Search/Search';
-import AddIdea from '../AddIdea/AddIdea';
-import CardContainer from '../CardContainer/CardContainer';
-import Card from '../CardContainer/Card/Card.js';
-import RandCard from '../CardContainer/Card/RandCard.js';
-import Footer from '../Footer/Footer';
-import ScrollToTop from '../ScrollToTop/ScrollToTop';
-import Confirm from '../Confirm/Confirm';
-import Post from "../../helpers/post.js";
-import { ConfirmContext } from '../../providers/ConfirmProvider';
+import Login from '../LogIn/LogIn';
+import ChatMessage from '../ChatMessage/ChatMessage'
+import {user} from '../../helpers/user'
+import GUN from 'gun';
 import './Home.scss';
 
 const Home = (props) => {
-    const {conf, pid} = useContext(ConfirmContext);
-    const [showConf, setShowConf] = conf;
+    const [loadedmessages, setloadedmessages] = useState(false);
+    const [newMessage, setnewMessage] = useState('');
+    const [allmessages, setallmessages] = useState([]);
 
-    const footRef = useRef(null);
+    const db = GUN({
+        peers: [
+          'http://localhost:8765/gun'
+        ]
+    })
 
-    const [posts, setPosts] = useState([]);
-    const [lastKey, setLastKey] = useState("");
-    const [ideaListLoading, setIdeaListLoading] = useState(false);
-    const [searchedIdea, setSearchedIdea] = useState('');
-    const [randIdea, setRandIdea] = useState(null);
-    const [gotRandIdea, setGotRandIdea] = useState(false);
-	const [tagList, setTagList] = useState(['games', 'apps', 'startup']);
-	const [tagStatusList, setTagStatusList] = useState([true, true, true]);
-
-    const filteredPosts = posts.filter(idea => {
-        return idea.post.idea.toLowerCase().includes(searchedIdea.toLowerCase()) || 
-            idea.post.displayName.toLowerCase().includes(searchedIdea.toLowerCase()) || 
-                ((typeof idea.post.tag !== 'undefined') ? idea.post.tag.toLowerCase().includes(searchedIdea.toLowerCase()) : null);
-    });
-
-    const fetchRandIdea = () => {
-        // console.log(`fetchRandIdea`);
-        Post.randomIdea()
-            .then((res) => {
-              //console.log(`res.randomIndex:${res.randomIndex} - randIdeaPost: ${res.posts[res.randomIndex]}`);
-                setRandIdea(res.posts[res.randomIndex]);
-                setGotRandIdea(true);
-            })
-            .catch((err) => {
-              //console.log(err);
-                setIdeaListLoading(false);
-        });
-    };
-
-    const fetchPost = () => {
-        // console.log(`fetchPost: ${lastKey}`);
-        if (lastKey !== "") {
-          //console.log(`has lastKey`);
-            setIdeaListLoading(true);
-            Post.postsNextBatch(lastKey)
-                .then((res) => {
-                    setLastKey(res.lastKey);
-                    setPosts(posts.concat(res.posts));
-                    setIdeaListLoading(false);
-                })
-                .catch((err) => {
-                  //console.log(err);
-                    setIdeaListLoading(false);
-                });
-        }
-        else {
-            // console.log(`lastKey empty`);
-            setIdeaListLoading(true);
-            Post.postsFirstBatch()
-                .then((res) => {
-                    setLastKey(res.lastKey);
-                    setPosts(res.posts);
-                    setIdeaListLoading(false);
-                })
-                .catch((err) => {
-                  //console.log(err);
-                    setIdeaListLoading(false);
-            });
-        }
-    };
+    async function sendMessage() {
+        const secret = await GUN.SEA.encrypt(newMessage, '#foo');
+        console.log('newMessage: ', newMessage, '- secret: ', secret);
+        const message = user.get('all').set({ what: secret });
+        const index = new Date().toISOString();
+        db.get('chat').get(index).put(message);
+        setnewMessage('');
+    }
 
     useEffect(() => { 
-        if(filteredPosts.length <= 0)
-            footRef.current.style.position = "absolute";
-        else
-            footRef.current.style.position = "relative";
-
-        if(posts.length <= 0 && !ideaListLoading)
-            fetchPost();
-        // if(!gotRandIdea)
-        //     fetchRandIdea();
-    }, [gotRandIdea, filteredPosts]);
-
-    function Empty(props) {
-        return (
-            <div className="empty_item">
-                <p className="empty_text">{props.text}</p>
-            </div>
-        );
-    }
-
-    function MoreIdeas(props) {
-        return (
-            <div className="more_ideas">
-                <button className="more_ideas_button" onClick={() => fetchPost()}>{props.text}</button>
-            </div>
-        );
-    }
+        if(!loadedmessages) {
+            let filluparr = [];
+            var match = {
+                // lexical queries are kind of like a limited RegEx or Glob.
+                '.': {
+                // property selector
+                '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
+                },
+                '-': 1, // filter in reverse
+            };
+            // Get Messages
+            db.get('chat')
+            .map(match)
+            .once(async (data, id) => {
+                if (data) {
+                    // Key for end-to-end encryption
+                    const key = '#foo';
+                    var message = {
+                        // transform the data
+                        who: db.user(data).get('alias'), // a user might lie who they are! So let the user system detect whose data it is.
+                        what: (await GUN.SEA.decrypt(data.what, key)) + '', // force decrypt as text.
+                        when: GUN.state.is(data, 'what'), // get the internal timestamp for the what property.
+                    };
+                    console.log('chat message: ', message);
+                    if (message.what) {
+                        // setallmessages([...allmessages.slice(-100), message].sort((a, b) => a.when - b.when));
+                        // setallmessages([...allmessages, message]);
+                        filluparr.push(message);
+                        setallmessages(filluparr);
+                    }
+                }
+            });
+            setloadedmessages(true);
+        }
+    }, [allmessages]);
 
     return (
-        <div id="root_child">
-            {showConf && <Confirm />}
-            <Intro />
-            <Search setSearchedIdea={setSearchedIdea} fullfiltpost={filteredPosts} tagList={tagList} setTagList={setTagList} tagStatusList={tagStatusList} setTagStatusList={setTagStatusList}/>
-            <AddIdea />
+        <div className="root_home">
             {
-                (randIdea !== null) && (searchedIdea.length <= 0) &&
-                <CardContainer heading_text='Random Idea' cardcont_id='randcont'>
-                    <RandCard key={randIdea.id} post_id={randIdea.id} post_utc={randIdea.post.utc} post_idea_text={randIdea.post.idea} post_idea_tag={randIdea.post.tag} op_uid={randIdea.post.uid} op_displayName={randIdea.post.displayName} post_upvotes={randIdea.post.upvotes} setGotRandIdea={setGotRandIdea} />
-                </CardContainer>
+                // console.log('allmessages: ', allmessages) &&
+                // allmessages.length > 1 && 
+                allmessages.map((message, index) => (
+                    <ChatMessage key={index} message={message} sender={props.currusername} />
+                ))
             }
-            {
-                (filteredPosts.length > 0) && 
-                <CardContainer heading_text='Past Ideas' cardcont_id='pastcont'>
-                {   
-                    filteredPosts.map(({id, post}) => (
-                        <Card key={id} post_id={id} post_utc={post.utc} post_idea_text={post.idea} post_idea_tag={post.tag} op_uid={post.uid} op_displayName={post.displayName} post_upvotes={post.upvotes} />
-                    ))
-                }
-                <MoreIdeas text="More Ideas?"/>
-                </CardContainer>
-            }
-            {
-                (filteredPosts.length <= 0) && 
-                <CardContainer heading_text='' cardcont_id='emptycont'>
-                    <Empty text="oops! something's broken i guess? 🤷"/>
-                </CardContainer>
-            }
-            <Footer refe={footRef}/>
-            <ScrollToTop />
+            <form onSubmit={sendMessage}>
+                <input type="text" placeholder="Type a message..." onChange={e => setnewMessage(e.target.value)} maxLength={100} />
+                <button type="submit" disabled={!newMessage}>Send</button>
+            </form>
         </div>
     );
 }

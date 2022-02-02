@@ -12,12 +12,7 @@
         @include all_transition_durations;
         
         .login_text {
-            h1, p, a {
-                text-align: center;
-                padding: 0.25pc;
-                @include themed('color', 'text');
-                @include all_transition_durations;
-            }
+            @include themed('color', 'text');
         }
 
         .login_button_container {
@@ -98,7 +93,7 @@
         .login{
             width: 80vw;
             max-width: 20pc;
-            transform: translate(-50%, 20%);
+            transform: translate(-50%, 50%);
 
             .logo_img {
                 text-align: center;
