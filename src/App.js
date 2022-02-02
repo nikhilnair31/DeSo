@@ -11,7 +11,7 @@ const App = () => {
     document.getElementById("root").classList.add('theme-dark');
 
     useEffect(() => {
-        console.log('user: ', user, '- currusername: ', currusername);
+        // console.log('user: ', user, '- currusername: ', currusername);
         if(user && currusername === '' && !initialload) {
             user.get('alias').on(v => setcurrusername(v));
             setinitialload(true);
@@ -23,7 +23,7 @@ const App = () => {
         setcurrusername('');
     }
 
-    console.log('currusername: ', currusername);
+    // console.log('currusername: ', currusername);
     if(currusername!=='') {
         return (
             <div className="root">

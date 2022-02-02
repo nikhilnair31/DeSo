@@ -60,7 +60,9 @@
         flex-direction: column;
         grid-gap: 1pc;
         position: absolute;
-        bottom: 0;
+        bottom: 20px;
+        width: 100%;
+        align-items: center;
     }
 }
 

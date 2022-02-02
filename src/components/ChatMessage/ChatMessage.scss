@@ -1,12 +1,20 @@
 @import "../../color-themes";
 
+
+.message_text {
+    @include themed('color', 'text');
+}
+
 .message_received {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    width: 100%;
+}
+
+.message_sent {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
-
-    .message_text {
-        @include themed('color', 'text');
-    }
 }
