@@ -1,0 +1,59 @@
+@import "color-themes";
+
+@font-face {
+    font-family: GothamLight;
+    font-style: normal;
+    src: url('assets/fonts/GothamLight.otf') format("opentype");
+    font-display: swap;
+}
+
+$scroll_track_color: rgba(35, 35, 35, 0.5);
+$scroll_thumb_color: rgba(50, 50, 50, 0.5);
+$scroll_accent_color: rgba(60, 60, 60, 0.5);
+$scroll_width: 1rem;
+
+* {
+    //outline: 1px solid #f00 !important;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: GothamLight, Helvetica, Arial, Sans-Serif;
+    background-color: rgb(20, 20, 20);
+}
+
+#root {
+    //height: 100%;
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    body::-webkit-scrollbar {
+        width: $scroll_width;
+    }
+    
+    body::-webkit-scrollbar-track {
+        background: $scroll_track_color;
+    }
+    
+    body::-webkit-scrollbar-thumb {
+        background: $scroll_thumb_color;
+        &:hover {
+            background: $scroll_accent_color;
+        }
+    }
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+    body::-webkit-scrollbar {
+        width: 0pc;
+    }
+}

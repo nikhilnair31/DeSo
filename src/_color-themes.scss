@@ -1,0 +1,44 @@
+$transition_duration: 300ms;
+
+$themes: (
+    light: (
+        accent: #58ABAE,
+        accentplus: #85e4e7,
+        bg: rgb(255, 255, 255),
+		card: rgb(250, 250, 250),
+		inputfield: rgb(235, 235, 235),
+		footer: rgb(235, 235, 235),
+
+        text: rgb(10, 10, 10),
+        textplus: rgb(25, 25, 25),
+		alttext: rgb(255, 255, 255),
+		inputtext: rgb(15, 15, 15),
+    ),
+    dark: (
+        accent: #fe2b5d,
+        accentplus: #ff567d,
+        bg: rgb(20, 20, 20),
+		card: rgb(30, 30, 30),
+		inputfield: rgb(45, 45, 45),
+		footer: #ff567d,
+
+        text: rgb(255, 255, 255),
+        textplus: rgb(155, 155, 155),
+		alttext: rgb(20, 20, 20),
+		inputtext: rgb(201, 201, 201),
+    ),
+);
+
+@mixin themed($key, $color) {
+	@each $theme-name, $theme-color in $themes {
+		.theme-#{$theme-name} & {
+			#{$key}: map-get(map-get($themes, $theme-name), $color)
+		}
+	}
+}
+
+@mixin all_transition_durations {
+    transition-duration: $transition_duration;
+    -moz-transition-duration: $transition_duration;
+    -webkit-transition-duration: $transition_duration;
+}
