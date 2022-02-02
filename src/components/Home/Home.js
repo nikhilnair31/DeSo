@@ -1,29 +1,32 @@
 import React, {useEffect, useState, useReducer, useRef} from 'react';
-import ChatMessage from '../ChatMessage/ChatMessage'
+import Post from '../Post/Post'
 import {db, user} from '../../helpers/user'
 import GUN from 'gun';
 import './Home.scss';
 
 const initialState = {
-    messages: []
+    posts: []
 }
-function reducer(state, message) {
+function reducer(state, post) {
+    console.log('reducer posts: ', [post, ...state.posts].sort((a, b) => a.when - b.when));
     return {
-        messages: [message, ...state.messages].sort((a, b) => a.when - b.when)
+        posts: [post, ...state.posts].sort((a, b) => a.when - b.when)
     }
 }
 
 const Home = (props) => {
-    const [newMessage, setnewMessage] = useState('');
+    const [newPost, setnewPost] = useState('');
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    async function sendMessage() {
-        const secret = await GUN.SEA.encrypt(newMessage, '#foo');
-        console.log('newMessage: ', newMessage, '- secret: ', secret);
-        const message = user.get('all').set({ what: secret });
+    async function mintAsNFT() {
+    }
+    async function sendOutPost() {
+        const secret = await GUN.SEA.encrypt(newPost, '#foo');
+        console.log('newPost: ', newPost, '- secret: ', secret);
+        const post = user.get('all').set({ what: secret });
         const index = new Date().toISOString();
-        db.get('chat').get(index).put(message);
-        setnewMessage('');
+        db.get('chat').get(index).put(post);
+        setnewPost('');
     }
 
     useEffect(() => { 
@@ -43,9 +46,9 @@ const Home = (props) => {
                 const key = '#foo';
 
                 let whoalias = '';
-                db.user(data).once(async (dat) => {
-                    console.log('dat: ', dat, '- alias: ', dat.alias);
-                    whoalias = dat.alias;
+                db.user(data).once(async (userdat) => {
+                    console.log('userdat: ', userdat, '- alias: ', userdat.alias);
+                    whoalias = userdat.alias;
 
                     let decryptedwhat = '';
                     decryptedwhat = await GUN.SEA.decrypt(data.what, key) + '';
@@ -56,7 +59,7 @@ const Home = (props) => {
                         when: GUN.state.is(data, 'what'), // get the internal timestamp for the what property.
                     };
                     // console.log('chat data: ', data);
-                    // console.log('chat message: ', message);
+                    console.log('chat message: ', message);
                     if (message.what) {
                         dispatch(message);
                     }
@@ -67,13 +70,18 @@ const Home = (props) => {
 
     return (
         <div className="root_home">
-            {
-                state.messages.map((message, index) => (
-                    <ChatMessage key={index} message={message} curruseralias={props.currusername} />
-                ))
-            }
-            <input type="text" placeholder="Type a message..." onChange={e => setnewMessage(e.target.value)} maxLength={100} />
-            <button type="submit" disabled={!newMessage} onClick ={sendMessage}>Send</button>
+            <div className="all_posts_container">
+                {
+                    state.posts.map((post, index) => (
+                        <Post key={index} post={post} curruseralias={props.currusername} />
+                    ))
+                }
+            </div>
+            <div className="make_post_container">
+                <input type="text" placeholder="Type a post..." onChange={e => setnewPost(e.target.value)} maxLength={100} />
+                <button type="submit" disabled={!newPost} onClick ={sendOutPost}>Post</button>
+                <button type="submit" disabled={!newPost} onClick ={mintAsNFT}>Mint</button>
+            </div>
         </div>
     );
 }

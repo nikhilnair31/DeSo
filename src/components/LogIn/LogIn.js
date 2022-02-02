@@ -35,12 +35,12 @@ const LogIn = (props) => {
     return (
         <div className="login_wrapper">
             <div className="login">
-                <h1>🔫💬</h1>
+                <h1 className='login_text'>DeSo</h1>
                 <div className="login_inputs">
                     <h3 className='login_text'>Username</h3>
                     <input name="username" onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
                     <h3 className='login_text'>Password</h3>
-                    <input name="password" onChange={e => setpassword(e.target.value)} type="password" />
+                    <input name="password" onChange={e => setpassword(e.target.value)} />
                 </div>
                 <div className="login_button_container">
                     <button className="login_button" onClick={login}>

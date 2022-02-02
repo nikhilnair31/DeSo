@@ -1,0 +1,27 @@
+@import "../../color-themes";
+
+.post {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    // width: 100%;
+    grid-gap: 1pc;
+    padding: 1pc;
+    margin: 1pc;
+    @include themed('background-color', 'card');
+}
+
+.post_text {
+    @include themed('color', 'text');
+}
+
+.post_texts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // width: 100%;
+    p {
+        padding: 0.1pc;
+        margin: 0.1pc;
+    }
+}

@@ -16,7 +16,7 @@
         }
 
         .login_button_container {
-            padding: 1pc;
+            padding: 0.5pc;
             .login_button {
                 display: inline-flex;
                 justify-content: center;
@@ -49,12 +49,6 @@
         .login{
             width: 20pc;
             transform: translate(-50%, 25%);
-            
-            .logo_img {
-                text-align: center;
-                margin-top: 2pc;
-                width: 5pc;
-            }
 
             .login_text {
                 h1 {
@@ -94,12 +88,6 @@
             width: 80vw;
             max-width: 20pc;
             transform: translate(-50%, 50%);
-
-            .logo_img {
-                text-align: center;
-                margin-top: 2pc;
-                width: 5pc;
-            }
 
             .login_text {
                 h1 {
