@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { db, user } from '../helpers/user'
 import './Post.scss';
 
+let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
+
 const Post = (props) => {
     const [canDeletePost, setcanDeletePost] = useState(false);
     const [avatar, setavatar] = useState('');
@@ -9,13 +11,13 @@ const Post = (props) => {
     
     function deletePost() {
         console.log('deletePost');
-        user.get('all').set(null);
-        db.get('posts').get(props.post.posttime).put(null);
+        const posts = db.get('posts');
+        posts.get(props.post.postid).put(null);
     }
 
     useEffect(() => {
         console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
-        setcanDeletePost( props.post.posteralias === props.curruseralias );
+        setcanDeletePost( props.post.posterpub === user.is.pub );
         setavatar(`https://avatars.dicebear.com/api/initials/${props.post.posteralias}.svg`);
         setts(new Date(props.post.posttime));
     }, [props.post]);
@@ -24,13 +26,14 @@ const Post = (props) => {
         <div className={`post`}>
             <img src={avatar} alt="avatar" width={50}/>
             <div className="post_texts">
+                {/* <p className="post_text">{props.post.postid}</p> */}
                 <p className="post_text">{props.post.posteralias}</p>
                 <p className="post_text">{props.post.posttext}</p>
                 <p className="post_text">{ts.toLocaleTimeString()}</p>
             </div>
             { 
                 ( props.post.postimagecid!=='' ) && 
-                <img src={`https://ipfs.io/ipfs/`+props.post.postimagecid} width={100}/>
+                <img src={imagebasedomains[0]+props.post.postimagecid} width={100}/>
             }
             {
                 canDeletePost && 

@@ -22,13 +22,4 @@ export async function pinFileToIPFS (file) {
     catch (error) {
         console.log(error);
     }
-
-    // .then(function (response) {
-    //     console.log('pinFileToIPFS response: ', response);
-    //     return response;
-    // })
-    // .catch(function (error) {
-    //     console.log('pinFileToIPFS error: ', error);
-    //     return error;
-    // });
 };
