@@ -9,9 +9,9 @@ const initialState = {
     posts: []
 }
 function reducer(state, post) {
-    console.log('reducer posts: ', [post, ...state.posts].sort((a, b) => a.when - b.when));
+    console.log('reducer posts: ', [post, ...state.posts].sort((a, b) => a.posttime - b.posttime));
     return {
-        posts: [post, ...state.posts].sort((a, b) => a.when - b.when)
+        posts: [post, ...state.posts].sort((a, b) => a.posttime - b.posttime)
     }
 }
 
@@ -21,12 +21,6 @@ const Home = (props) => {
     const [file, setfile] = useState();
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    function onSubmit(event) {
-        event.preventDefault();
-        console.log('onSubmit');
-        const resp = pinFileToIPFS(file);
-        console.log('resp: ', resp);
-    }
     function captureFile(event) {
         event.preventDefault();
         console.log('captureFile');
@@ -34,15 +28,29 @@ const Home = (props) => {
         setfile(pickedfile);
     }
     async function sendOutPost() {
-        const secret = await GUN.SEA.encrypt(newPostText, '#foo');
-        console.log('newPostText: ', newPostText, '- secret: ', secret);
-        const post = user.get('all').set({ what: secret });
-        const index = new Date().toISOString();
-        db.get('chat').get(index).put(post);
-        setnewPostText('');
+        if(file){
+            pinFileToIPFS(file).then( async (resp) => {
+                console.log('resp: ', resp);
+                let respcid = resp.IpfsHash ? resp.IpfsHash : '';
+                console.log('respcid: ', respcid);
+
+                const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
+                console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText);
+                const post = user.get('all').set({ posttext: secretnewPostText, imagecid: respcid });
+                const index = new Date().toISOString();
+                db.get('posts').get(index).put(post);
+                setnewPostText('');
+            });
+        }
+        else{
+            const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
+            console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText);
+            const post = user.get('all').set({ posttext: secretnewPostText, imagecid: '404' });
+            const index = new Date().toISOString();
+            db.get('posts').get(index).put(post);
+            setnewPostText('');
+        }
     }
-    // async function mintAsNFT() {
-    // }
 
     useEffect(() => { 
         var match = {
@@ -54,7 +62,7 @@ const Home = (props) => {
             '-': 1, // filter in reverse
         };
         // Get Messages
-        db.get('chat')
+        db.get('posts')
         .map(match)
         .once(async (data, id) => {
             if (data) {
@@ -65,18 +73,19 @@ const Home = (props) => {
                     console.log('userdat: ', userdat, '- alias: ', userdat.alias);
                     whoalias = userdat.alias;
 
-                    let decryptedwhat = '';
-                    decryptedwhat = await GUN.SEA.decrypt(data.what, key) + '';
+                    let decryptedposttext = '';
+                    decryptedposttext = await GUN.SEA.decrypt(data.posttext, key) + '';
 
-                    var message = {
-                        who: whoalias, // a user might lie who they are! So let the user system detect whose data it is.
-                        what: decryptedwhat, // force decrypt as text.
-                        when: GUN.state.is(data, 'what'), // get the internal timestamp for the what property.
+                    var post = {
+                        posteralias: whoalias, // a user might lie who they are! So let the user system detect whose data it is.
+                        posttext: decryptedposttext, // force decrypt as text.
+                        posttime: GUN.state.is(data, 'posttext'), // get the internal timestamp for the 'posttext' property.
+                        postimagecid: data.imagecid,
                     };
-                    // console.log('chat data: ', data);
-                    console.log('chat message: ', message);
-                    if (message.what) {
-                        dispatch(message);
+                    console.log('posts data: ', data);
+                    console.log('posts post: ', post);
+                    if (post.posttext) {
+                        dispatch(post);
                     }
                 });
             }
@@ -94,12 +103,7 @@ const Home = (props) => {
             </div>
             <div className="make_post_container">
                 <input type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />
-                {/* <form onSubmit={onSubmit}>
-                    <input type="file" onChange={captureFile}/>
-                    <input type="submit" />
-                </form> */}
                 <input type="file" onChange={captureFile}/>
-                <input type="submit" onClick={onSubmit}/>
                 <button type="submit" disabled={!newPostText} onClick ={sendOutPost}>Post</button>
                 {/* <button type="submit" disabled={!newPostText} onClick ={mintAsNFT}>Mint</button> */}
             </div>
