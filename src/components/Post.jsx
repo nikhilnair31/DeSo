@@ -16,7 +16,7 @@ const Post = (props) => {
     }
 
     useEffect(() => {
-        console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
+        // console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
         setcanDeletePost( props.post.posterpub === user.is.pub );
         setavatar(`https://avatars.dicebear.com/api/initials/${props.post.posteralias}.svg`);
         setts(new Date(props.post.posttime));

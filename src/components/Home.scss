@@ -5,10 +5,27 @@
     @include themed('background-color', 'bg');
 }
 
+::-webkit-scrollbar {
+    width: 3px;
+    &:hover {
+        width: 6px;
+    }
+}
+::-webkit-scrollbar-track {
+    @include themed('background-color', 'card');
+    // background: rgb(255, 255, 255);
+}
+::-webkit-scrollbar-thumb {
+    @include themed('background-color', 'card');
+    // background: rgb(255, 255, 255);
+    &:hover {
+        @include themed('background-color', 'accent');
+    }
+}
+
 .home {
     display: flex;
     flex-direction: column;
-    grid-gap: 1pc;
     min-height: 100vh;
 
     .container {
@@ -16,8 +33,6 @@
         flex-direction: column;
         justify-content: center;
         min-height: 100vh;
-        margin: 0 auto;
-        width: 30pc;
 
         .all_posts_container {
             height: 79vh;
@@ -31,7 +46,7 @@
         display: flex;
         position: fixed;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
         height: 10vh;
         bottom: 0;
         width: 100%;
@@ -40,37 +55,82 @@
         .post_input {
             border: 0px;
             height: 5vh;
-            min-width: 15vw;
+            max-width: 40vw;
             margin: auto 0.1pc;
             padding: 0.5pc;
+            border-radius: 0.5pc;
             @include themed('color', 'inputtext');
             @include themed('background-color', 'inputfield');
         }
-        .post_attach_button {
-            border: 0px;
-            height: 7vh;
-            min-width: 7vw;
-            margin: auto 0.1pc;
-            padding: 1pc;
-            @include themed('color', 'accentplus');
-            @include themed('background-color', 'inputfield');
-        }
+        // .post_attach_button {
+        //     height: 3vh;
+        //     width: 6vw;
+        //     margin: auto 0.1pc;
+        //     padding: 1pc;
+        //     border-radius: 0.5pc;
+        //     @include themed('color', 'accentplus');
+        //     @include themed('background-color', 'inputfield');
+
+        //     &::-webkit-file-upload-button {
+        //         visibility: hidden;
+        //     }
+        //     &:before {
+        //         content: 'Select some files';
+        //         display: inline-block;
+        //         // @include themed('background-color', 'inputfield');
+        //         // border: 1px solid #999;
+        //         // border-radius: 3px;
+        //         // padding: 5px 8px;
+        //         word-wrap: break-word;
+        //         cursor: pointer;
+        //     }
+        //     &:hover::before {
+        //         border-color: black;
+        //     }
+        //     &:active::before {
+        //         @include themed('background-color', 'accent');
+        //     }
+        // }
         .post_post_input {
             border: 0px;
             height: 7vh;
             min-width: 7vw;
             margin: auto 0.1pc;
             padding: 1pc;
-            @include themed('color', 'accent');
+            border-radius: 0.5pc;
+            @include themed('color', 'accentplus');
             @include themed('background-color', 'inputfield');
+
+            &:disabled {
+                @include themed('color', 'textplus');
+                @include themed('background-color', 'inputfieldoff');
+            }
         }
     }
 }
 
 //Desktop
 @media only screen and (min-width: 600px) {
+    .home {
+        .container {
+            margin: 0 auto;
+            width: 30pc;
+        }
+        .make_post_container {
+            justify-content: center;
+        }
+    }
 }
 
 //Mobile
 @media only screen and (max-width: 600px) {
+    .home {
+        .container {
+            // margin: 0 auto;
+            // width: 30pc;
+        }
+        .make_post_container {
+            justify-content: space-around;
+        }
+    }
 }

@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useReducer, useRef} from 'react';
+import { MdAttachFile } from 'react-icons/md';
 import Post from './Post'
 import GUN from 'gun';
 import { pinFileToIPFS } from '../helpers/pinata'
@@ -74,7 +75,7 @@ const Home = (props) => {
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
-                console.log('data: ', data, 'id: ', id);
+                // console.log('data: ', data, 'id: ', id);
                 const key = '#foo';
                 var post = {
                     postid: id, 
@@ -84,7 +85,7 @@ const Home = (props) => {
                     posttime: data.posttime,
                     postimagecid: data.imagecid,
                 };
-                console.log('post: ', post);
+                // console.log('post: ', post);
                 dispatch(post);
             }
         });
@@ -103,10 +104,8 @@ const Home = (props) => {
             </div>
             <div className="make_post_container">
                 <input className="post_input" type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />
-                {/* <input className="post_attach_button" type="file" onChange={captureFile}/> */}
-                <button className="post_attach_button" type="file" onChange ={captureFile}>Attach</button>
-                <button className="post_post_input" type="submit" disabled={(!newPostText || !file)} onClick ={sendOutPost}>Post</button>
-                {/* <button type="submit" disabled={!newPostText} onClick ={mintAsNFT}>Mint</button> */}
+                <input type="file" className="post_attach_button" onChange ={captureFile} />
+                <button className="post_post_input" type="submit" disabled={((!newPostText || file) ? true: false)} onClick ={sendOutPost}>Post</button>
             </div>
         </div>
     );
