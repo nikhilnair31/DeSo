@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState } from 'react';
 import './LogIn.scss';
-import {user} from '../../helpers/user'
+import {user} from '../helpers/user'
 
 const LogIn = (props) => {
     const [username, setusername] = useState('');

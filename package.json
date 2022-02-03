@@ -1,14 +1,16 @@
 {
-  "name": "idea",
+  "name": "deso",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pinata/sdk": "^1.1.23",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "autosize": "^5.0.0",
     "firebase": "^8.4.3",
     "gun": "^0.2020.1235",
+    "ipfs-http-client": "^56.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^3.0.4",

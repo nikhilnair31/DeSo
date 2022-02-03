@@ -1,7 +1,8 @@
 import React, {useEffect, useState, useReducer, useRef} from 'react';
-import Post from '../Post/Post'
-import {db, user} from '../../helpers/user'
+import Post from './Post'
 import GUN from 'gun';
+import { pinFileToIPFS } from '../helpers/pinata'
+import { db, user } from '../helpers/user'
 import './Home.scss';
 
 const initialState = {
@@ -15,19 +16,33 @@ function reducer(state, post) {
 }
 
 const Home = (props) => {
-    const [newPost, setnewPost] = useState('');
+    const inputEl = useRef();
+    const [newPostText, setnewPostText] = useState('');
+    const [file, setfile] = useState();
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    async function mintAsNFT() {
+    function onSubmit(event) {
+        event.preventDefault();
+        console.log('onSubmit');
+        const resp = pinFileToIPFS(file);
+        console.log('resp: ', resp);
+    }
+    function captureFile(event) {
+        event.preventDefault();
+        console.log('captureFile');
+        const pickedfile = event.target.files[0];
+        setfile(pickedfile);
     }
     async function sendOutPost() {
-        const secret = await GUN.SEA.encrypt(newPost, '#foo');
-        console.log('newPost: ', newPost, '- secret: ', secret);
+        const secret = await GUN.SEA.encrypt(newPostText, '#foo');
+        console.log('newPostText: ', newPostText, '- secret: ', secret);
         const post = user.get('all').set({ what: secret });
         const index = new Date().toISOString();
         db.get('chat').get(index).put(post);
-        setnewPost('');
+        setnewPostText('');
     }
+    // async function mintAsNFT() {
+    // }
 
     useEffect(() => { 
         var match = {
@@ -69,7 +84,7 @@ const Home = (props) => {
     }, []);
 
     return (
-        <div className="root_home">
+        <div className="home">
             <div className="all_posts_container">
                 {
                     state.posts.map((post, index) => (
@@ -78,9 +93,15 @@ const Home = (props) => {
                 }
             </div>
             <div className="make_post_container">
-                <input type="text" placeholder="Type a post..." onChange={e => setnewPost(e.target.value)} maxLength={100} />
-                <button type="submit" disabled={!newPost} onClick ={sendOutPost}>Post</button>
-                <button type="submit" disabled={!newPost} onClick ={mintAsNFT}>Mint</button>
+                <input type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />
+                {/* <form onSubmit={onSubmit}>
+                    <input type="file" onChange={captureFile}/>
+                    <input type="submit" />
+                </form> */}
+                <input type="file" onChange={captureFile}/>
+                <input type="submit" onClick={onSubmit}/>
+                <button type="submit" disabled={!newPostText} onClick ={sendOutPost}>Post</button>
+                {/* <button type="submit" disabled={!newPostText} onClick ={mintAsNFT}>Mint</button> */}
             </div>
         </div>
     );

@@ -1,0 +1,26 @@
+@import "../color-themes";
+
+.user_bio {
+    position: absolute;
+    top: 0;
+    z-index: 9;
+    display: flex;
+    flex-direction: row;
+    grid-gap: 1pc;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    @include themed('background-color', 'card');
+    
+    .title {
+        @include themed('color', 'text');
+    }
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+}

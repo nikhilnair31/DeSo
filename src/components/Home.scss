@@ -1,0 +1,41 @@
+@import "../color-themes";
+
+#root_child {
+    height: 100%;
+    @include themed('background-color', 'bg');
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 1pc;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    align-items: center;
+    
+    .all_posts_container {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    
+    .make_post_container {
+        display: flex;
+        flex-direction: row;
+        grid-gap: 1pc;
+        padding: 1pc;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        @include themed('background-color', 'card');
+    }
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+}
