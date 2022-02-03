@@ -92,12 +92,14 @@ const Home = (props) => {
 
     return (
         <div className="home">
-            <div className="all_posts_container">
-                {
-                    state.posts.map((post, index) => (
-                        <Post key={index} post={post} curruseralias={props.currusername} />
-                    ))
-                }
+            <div className="container">
+                <div className="all_posts_container">
+                    {
+                        state.posts.map((post, index) => (
+                            <Post key={index} post={post} curruseralias={props.currusername} />
+                        ))
+                    }
+                </div>
             </div>
             <div className="make_post_container">
                 <input type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />

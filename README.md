@@ -1,7 +1,7 @@
 ## DeSo
 ## To-Do
 * General
-    - [ ] Fix the sorting order of the posts
+        - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
     - [ ] Include basic CRUD operations (maybe no updating since Twitter doesn;t either lmao) 
@@ -15,6 +15,7 @@
         - [x] Fix the broken initials problem
         - [x] Kinda shifted from chat to Twitter feed-ish
     - [x] Include user's pub key in the post along with alias
+    - [x] Fix the posts so that they scroll within the div
 * Login Component
     - [ ] Streamline
     - [ ] Include MetaMask wallet login to allow for NFT stuff

@@ -9,11 +9,11 @@ const Header = (props) => {
     }
 
     return (
-        <div className="user_bio">
+        <header className="user_bio">
             <span className='title'>Sup {props.currusername}</span>
             <img src={`https://avatars.dicebear.com/api/initials/${props.currusername}.svg`} alt="avatar" width={50}/> 
             <button className="signout-button" onClick={signout}>Sign Out</button>
-        </div>
+        </header>
     );
 }
 

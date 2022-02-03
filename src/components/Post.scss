@@ -7,7 +7,7 @@
     // width: 100%;
     grid-gap: 1pc;
     padding: 1pc;
-    margin: 1pc;
+    margin: 0.2pc 0.5pc 0.2pc 0.5pc;
     @include themed('background-color', 'card');
 }
 
