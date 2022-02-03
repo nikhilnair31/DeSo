@@ -8,12 +8,20 @@
     flex-direction: row;
     grid-gap: 1pc;
     width: 100%;
+    height: 7vh;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     @include themed('background-color', 'card');
     
     .title {
         @include themed('color', 'text');
+    }
+
+    .signout_button {
+        border: 0px;
+        height: 7vh;
+        @include themed('color', 'text');
+        @include themed('background-color', 'inputfield');
     }
 }
 

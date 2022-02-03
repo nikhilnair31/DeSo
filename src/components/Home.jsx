@@ -102,9 +102,10 @@ const Home = (props) => {
                 </div>
             </div>
             <div className="make_post_container">
-                <input type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />
-                <input type="file" onChange={captureFile}/>
-                <button type="submit" disabled={!newPostText} onClick ={sendOutPost}>Post</button>
+                <input className="post_input" type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />
+                {/* <input className="post_attach_button" type="file" onChange={captureFile}/> */}
+                <button className="post_attach_button" type="file" onChange ={captureFile}>Attach</button>
+                <button className="post_post_input" type="submit" disabled={(!newPostText || !file)} onClick ={sendOutPost}>Post</button>
                 {/* <button type="submit" disabled={!newPostText} onClick ={mintAsNFT}>Mint</button> */}
             </div>
         </div>

@@ -16,6 +16,8 @@
         flex-direction: column;
         justify-content: center;
         min-height: 100vh;
+        margin: 0 auto;
+        width: 30pc;
 
         .all_posts_container {
             height: 79vh;
@@ -34,6 +36,34 @@
         bottom: 0;
         width: 100%;
         @include themed('background-color', 'card');
+
+        .post_input {
+            border: 0px;
+            height: 5vh;
+            min-width: 15vw;
+            margin: auto 0.1pc;
+            padding: 0.5pc;
+            @include themed('color', 'inputtext');
+            @include themed('background-color', 'inputfield');
+        }
+        .post_attach_button {
+            border: 0px;
+            height: 7vh;
+            min-width: 7vw;
+            margin: auto 0.1pc;
+            padding: 1pc;
+            @include themed('color', 'accentplus');
+            @include themed('background-color', 'inputfield');
+        }
+        .post_post_input {
+            border: 0px;
+            height: 7vh;
+            min-width: 7vw;
+            margin: auto 0.1pc;
+            padding: 1pc;
+            @include themed('color', 'accent');
+            @include themed('background-color', 'inputfield');
+        }
     }
 }
 

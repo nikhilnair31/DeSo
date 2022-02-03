@@ -4,11 +4,32 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    // width: 100%;
     grid-gap: 1pc;
     padding: 1pc;
     margin: 0.2pc 0.5pc 0.2pc 0.5pc;
     @include themed('background-color', 'card');
+
+    .post_avatar {
+        align-self: center;
+        width: 4pc;
+        height: 4pc;
+        border-radius: 15%;
+        margin: 2px 5px;
+    }
+
+    .post_image {
+        margin-left: auto;
+        border-radius: 0.3pc;
+    }
+
+    .post_delete_button {
+        margin-left: auto;
+        align-self: stretch;
+        border: 0px;
+        border-radius: 0.3pc;
+        @include themed('color', 'text');
+        @include themed('background-color', 'inputfield');
+    }
 }
 
 .post_text {

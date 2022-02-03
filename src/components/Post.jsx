@@ -23,8 +23,8 @@ const Post = (props) => {
     }, [props.post]);
 
     return (
-        <div className={`post`}>
-            <img src={avatar} alt="avatar" width={50}/>
+        <div className='post'>
+            <img className="post_avatar" src={avatar} alt="avatar" />
             <div className="post_texts">
                 {/* <p className="post_text">{props.post.postid}</p> */}
                 <p className="post_text">{props.post.posteralias}</p>
@@ -33,11 +33,11 @@ const Post = (props) => {
             </div>
             { 
                 ( props.post.postimagecid!=='' ) && 
-                <img src={imagebasedomains[0]+props.post.postimagecid} width={100}/>
+                <img className="post_image" src={imagebasedomains[0]+props.post.postimagecid} width={100}/>
             }
             {
                 canDeletePost && 
-                <button onClick={deletePost} >Delete</button>
+                <button className="post_delete_button" onClick={deletePost} >Delete</button>
             }
         </div>
     );
