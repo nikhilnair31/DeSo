@@ -7,11 +7,9 @@ import './PostModal.scss';
 const PostModal = (props) => {
     const [balance, setBalance] = useState();
 
-    const getBalance = async () => {
-        const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const balance = await provider.getBalance(account);
-        setBalance(ethers.utils.formatEther(balance));
+    const pushPostbuttonClicked = () => {
+        props.sendOutPost();
+        props.close();
     };
 
     useEffect(() => { 
@@ -26,17 +24,17 @@ const PostModal = (props) => {
             </div>
             <input className="post_input" type="text" placeholder="Type a post..." value={props.newPostText} onChange={e => props.setnewPostText(e.target.value)} maxLength={100} />
             
-            {/* <input type="file" className="post_attach_button" onChange ={props.captureFile} /> */}
+            <input type="file" className="post_attach_button" onChange ={props.captureFile} />
 
-            <div className="box">
-                <input type="file" name="file-1[]" id="file-1" className="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple=""  onChange ={props.captureFile} />
+            {/* <div className="box">
+                <input type="file" className="inputfile inputfile-1" onChange ={props.captureFile} />
                 <label htmlFor="file-1"> <span>Choose a file..</span> </label>
-            </div>
+            </div> */}
             
-            <button className="post_post_button" type="submit" disabled={((!props.newPostText || props.file) ? true: false)} onClick ={props.sendOutPost}>Post</button>
+            <button className="post_post_button" type="submit" disabled={((!props.newPostText || !props.file) ? true: false)} onClick ={pushPostbuttonClicked}>Post</button>
             
-            <Popup trigger={<button className="mint_button" disabled={((!props.newPostText || props.file) ? true: false)} > Mint and Post </button>} modal nested>
-            { close => (<MintModal close={close} />) }
+            <Popup trigger={<button className="mint_button" disabled={((!props.newPostText || !props.file) ? true: false)} > Mint and Post </button>} modal nested>
+            { close => (<MintModal close={close} file={props.file} />) }
             </Popup>
         </div>
     );

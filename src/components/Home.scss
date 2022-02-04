@@ -65,19 +65,6 @@
         @include themed('background-color', 'inputfieldoff');
     }
 }
-.mint_button {
-    border: 0px;
-    height: 7vh;
-    min-width: 7vw;
-    border-radius: 0.5pc;
-    @include themed('color', 'text');
-    @include themed('background-color', 'inputfield');
-
-    &:disabled {
-        @include themed('color', 'textplus');
-        @include themed('background-color', 'inputfieldoff');
-    }
-}
 
 //Desktop
 @media only screen and (min-width: 600px) {
@@ -93,9 +80,16 @@
         }
         .make_post_container {
             justify-content: center;
+
+            .post_button {
+                min-width: 25%;
+            }
         }
     }
     .popup-overlay {
+        .popup-content {
+            width: 50%;
+        }
         .modal {
             padding: 2pc;
             margin: 2pc;
@@ -122,9 +116,16 @@
         }
         .make_post_container {
             justify-content: space-around;
+
+            .post_button {
+                min-width: 95%;
+            }
         }
     }
     .popup-overlay {
+        .popup-content {
+            width: 100%;
+        }
         .modal {
             padding: 2pc;
             margin: 2pc;

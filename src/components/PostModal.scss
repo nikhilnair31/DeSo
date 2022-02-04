@@ -39,21 +39,26 @@
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            @include themed('color', 'accentplus');
+            @include themed('color', 'textplus');
             @include themed('background-color', 'inputfield');
 
             &:disabled {
-                @include themed('color', 'textplus');
-                @include themed('background-color', 'inputfieldoff');
+                color: #686868;
+                background-color: #1a1a1a;
+            }
+        }
+        .mint_button {
+            @include themed('color', 'textplus');
+            @include themed('background-color', 'inputfield');
+
+            &:disabled {
+                color: #686868;
+                background-color: #1a1a1a;
             }
         }
     }
 }
 
-.box {
-    // background-color: rgb(71, 47, 49);
-    padding: 0pc;
-}
 .inputfile {
     position: absolute;
     z-index: -1;
@@ -61,8 +66,6 @@
 .inputfile + label {
     color: rgb(217, 196, 198);
     background-color: rgb(158, 45, 59);
-}
-.inputfile + label {
     cursor: pointer;
     font-weight: 700;
     text-overflow: ellipsis;
@@ -70,8 +73,9 @@
     text-align: center;
     display: inline-block;
     padding: 0.5pc;
-    width: 100%;
+    width: 94%;
     border-radius: 0.5pc;
+    // height: 5vh;
 }
 
 //Desktop
@@ -88,7 +92,7 @@
                 min-width: 3vw;
             }
             .post_input {
-                width: 100%;
+                width: 92%;
             }
             .post_post_button {
                 width: 100%;
@@ -114,7 +118,7 @@
                 min-width: 7vw;
             }
             .post_input {
-                width: 100%;
+                width: 92%;
             }
             .post_attach_button {
                 width: 100%;
