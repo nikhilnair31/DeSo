@@ -21,7 +21,7 @@ const App = () => {
     if(currusername!=='') {
         return (
             <div className="root">
-                <Header currusername={currusername} setcurrusername={setcurrusername} />
+                <Header setcurrusername={setcurrusername} currusername={currusername} />
                 <Home currusername={currusername} />
             </div>
         );

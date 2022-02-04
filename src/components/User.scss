@@ -49,22 +49,48 @@
         bottom: 0;
         width: 100%;
         @include themed('background-color', 'card');
+
+        .post_input {
+            border: 0px;
+            height: 5vh;
+            max-width: 40vw;
+            margin: auto 0.1pc;
+            padding: 0.5pc;
+            border-radius: 0.5pc;
+            @include themed('color', 'inputtext');
+            @include themed('background-color', 'inputfield');
+        }
+        .post_post_input {
+            border: 0px;
+            height: 7vh;
+            min-width: 7vw;
+            margin: auto 0.1pc;
+            padding: 1pc;
+            border-radius: 0.5pc;
+            @include themed('color', 'accentplus');
+            @include themed('background-color', 'inputfield');
+
+            &:disabled {
+                @include themed('color', 'textplus');
+                @include themed('background-color', 'inputfieldoff');
+            }
+        }
     }
 }
 
-.post_button {
-    border: 0px;
-    height: 7vh;
-    min-width: 40vw;
-    border-radius: 0.5pc;
-    @include themed('color', 'text');
-    @include themed('background-color', 'inputfield');
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    .modal {
+        color: #ffffff;
+        background-color: #1e1e1e;
 
-    &:disabled {
-        @include themed('color', 'textplus');
-        @include themed('background-color', 'inputfieldoff');
+        .close {
+            float: right;
+            border: 0pc;
+        }
     }
 }
+
 .mint_button {
     border: 0px;
     height: 7vh;

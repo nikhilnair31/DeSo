@@ -1,7 +1,8 @@
 import React, {useEffect, useState, useReducer, useRef} from 'react';
-import { MdAttachFile } from 'react-icons/md';
 import Post from './Post'
 import GUN from 'gun';
+import Popup from 'reactjs-popup';
+import PostModal from './PostModal';
 import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import './Home.scss';
@@ -17,10 +18,10 @@ function reducer(state, post) {
 }
 
 const Home = (props) => {
-    const inputEl = useRef();
     const [newPostText, setnewPostText] = useState('');
     const [file, setfile] = useState();
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [balance, setBalance] = useState();
 
     function captureFile(event) {
         event.preventDefault();
@@ -103,9 +104,9 @@ const Home = (props) => {
                 </div>
             </div>
             <div className="make_post_container">
-                <input className="post_input" type="text" placeholder="Type a post..." value={newPostText} onChange={e => setnewPostText(e.target.value)} ref={inputEl} maxLength={100} />
-                <input type="file" className="post_attach_button" onChange ={captureFile} />
-                <button className="post_post_input" type="submit" disabled={((!newPostText || file) ? true: false)} onClick ={sendOutPost}>Post</button>
+                <Popup trigger={<button className="post_button"> Post </button>} modal nested >
+                    { close => <PostModal close={close} newPostText={newPostText} setnewPostText={setnewPostText} file={file} captureFile={captureFile} sendOutPost={sendOutPost} /> }
+                </Popup>
             </div>
         </div>
     );

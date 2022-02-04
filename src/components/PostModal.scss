@@ -1,0 +1,130 @@
+@import "../color-themes";
+
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    .post_modal {
+        color: #ffffff;
+        background-color: #1e1e1e;
+
+        .close {
+            float: right;
+            border: 0pc;
+            color: #ffffff;
+            background-color: #3f3f3f;
+        }
+        .header {
+            font-weight: bolder;
+            margin: 0pc 0pc 1pc 0pc;
+        }
+        .content {
+            margin: 0pc 0pc 1pc 0pc;
+        }
+        .post_input {
+            border: 0px;
+            height: 5vh;
+            padding: 0.5pc;
+            margin: 0.3pc auto;
+            border-radius: 0.5pc;
+            @include themed('color', 'inputtext');
+            @include themed('background-color', 'inputfield');
+        }
+        .post_attach_button {
+            padding: 0.5pc;
+        }
+        .post_post_button {
+            border: 0px;
+            height: 7vh;
+            min-width: 7vw;
+            margin: 0.3pc auto;
+            padding: 1pc;
+            border-radius: 0.5pc;
+            @include themed('color', 'accentplus');
+            @include themed('background-color', 'inputfield');
+
+            &:disabled {
+                @include themed('color', 'textplus');
+                @include themed('background-color', 'inputfieldoff');
+            }
+        }
+    }
+}
+
+.box {
+    // background-color: rgb(71, 47, 49);
+    padding: 0pc;
+}
+.inputfile {
+    position: absolute;
+    z-index: -1;
+}
+.inputfile + label {
+    color: rgb(217, 196, 198);
+    background-color: rgb(158, 45, 59);
+}
+.inputfile + label {
+    cursor: pointer;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    display: inline-block;
+    padding: 0.5pc;
+    width: 100%;
+    border-radius: 0.5pc;
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    .popup-overlay {
+        .post_modal {
+            padding: 2pc;
+            margin: 2pc;
+            border-radius: 0.5pc;
+    
+            .close {
+                border-radius: 0.5pc;
+                height: 4vh;
+                min-width: 3vw;
+            }
+            .post_input {
+                width: 100%;
+            }
+            .post_post_button {
+                width: 100%;
+            }
+            .mint_button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+    .popup-overlay {
+        .post_modal {
+            padding: 2pc;
+            margin: 2pc;
+            border-radius: 0.5pc;
+    
+            .close {
+                border-radius: 0.5pc;
+                height: 4vh;
+                min-width: 7vw;
+            }
+            .post_input {
+                width: 100%;
+            }
+            .post_attach_button {
+                width: 100%;
+            }
+            .post_post_button {
+                width: 100%;
+            }
+            .mint_button {
+                width: 100%;
+            }
+        }
+    }
+}

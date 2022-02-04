@@ -15,9 +15,10 @@
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^3.0.4",
     "react-icons": "^4.3.1",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.0.0-beta.8",
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
+    "reactjs-popup": "^2.0.5",
     "sass": "^1.32.12",
     "web-vitals": "^1.1.1"
   },
@@ -44,5 +45,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@nomiclabs/hardhat-waffle": "^2.0.2",
+    "@openzeppelin/contracts": "^4.4.2",
+    "chai": "^4.3.6",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.4"
   }
 }
