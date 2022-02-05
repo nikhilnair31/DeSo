@@ -25,20 +25,23 @@
         https://medium.com/ethereum-developers/the-ultimate-end-to-end-tutorial-to-create-and-deploy-a-fully-descentralized-dapp-in-ethereum-18f0cf6d7e0e
 ## To-Do
 * General
+    - [ ] Get liking and commenting working
     - [ ] Find a way to upload text-only posts as NFT (Maybe by using an API to format the text into a picture?)
     - [ ] While the post data gets removed from GUN peers there may still remain images on Pinata
         - [x] Kinda fixed it by getting an unpin function built on API. Check why it isn't working.
     - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
-    - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
 * Login Component
-    - [ ] Streamline
+    - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
+    - [ ] Include additional data like user's name, email-id and bio. (Make it editable)
     - [ ] Allow upload of new pfp
+    - [ ] Streamline
 * Styling
     - [ ] Check why SCSS mixins aren't working in Popups
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Put delete and share buttons into a popup menu
 	- [x] Check why NFT's images aren't loading on MetaMask/OpenSea
 	- [x] Setup meta data sctructure according to OpenSea guidelines
     - [x] Include MetaMask wallet login to allow for NFT stuff

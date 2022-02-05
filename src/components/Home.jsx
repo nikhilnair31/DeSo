@@ -46,7 +46,7 @@ const Home = (props) => {
                 const indexkey = new Date().toISOString();
                 const posts = db.get('posts');
                 const thispost = db.get('singlepost'+indexkey);
-                thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: respcid, nftflag: isnftminted });
+                thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: respcid, nftflag: isnftminted, likecount: 0, commentcount: 0, comments: {} });
                 posts.set(thispost);
 
                 setnewPostText('');
@@ -60,7 +60,7 @@ const Home = (props) => {
             const indexkey = new Date().toISOString();
             const posts = db.get('posts');
             const thispost = db.get('singlepost'+indexkey);
-            thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: '', nftflag: isnftminted });
+            thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: '', nftflag: isnftminted, likecount: 0, commentcount: 0, comments: {} });
             posts.set(thispost);
             
             setnewPostText('');
@@ -88,7 +88,10 @@ const Home = (props) => {
                     posttext: await GUN.SEA.decrypt(data.posttext, key) + '',
                     posttime: data.posttime,
                     postimagecid: data.imagecid,
-                    postnftflag: data.nftflag
+                    postnftflag: data.nftflag,
+                    postlikecount: data.likecount,
+                    postcommentcount: data.commentcount,
+                    postcomments: data.comments
                 };
                 // console.log('post: ', post);
                 dispatch(post);
@@ -107,11 +110,9 @@ const Home = (props) => {
                     }
                 </div>
             </div>
-            <div className="make_post_container">
-                <Popup trigger={<button className="post_button"> Post </button>} modal nested >
-                    { close => <PostModal close={close} currusername={props.currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} filename={filename} setisnftflag={setisnftflag} captureFile={captureFile} sendOutPost={sendOutPost} /> }
-                </Popup>
-            </div>
+            <Popup trigger={<i class="fas fa-plus post_button"></i>} modal nested >
+                { close => <PostModal close={close} currusername={props.currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} filename={filename} setisnftflag={setisnftflag} captureFile={captureFile} sendOutPost={sendOutPost} /> }
+            </Popup>
         </div>
     );
 }

@@ -1,0 +1,81 @@
+@import "../color-themes";
+
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    .menu_modal {
+        color: #ffffff;
+        background-color: #1e1e1e;
+
+        .header {
+            font-weight: bold;
+        }
+        .content {
+        }
+        .menu_button {
+            border: 0px;
+            height: 7vh;
+            // min-width: 7vw;
+            margin: 0.15pc auto;
+            padding: 1pc;
+            border-radius: 0.5pc;
+            @include themed('color', 'textplus');
+            @include themed('background-color', 'inputfield');
+        }
+        .delete_button {
+            color: #ffffff;
+            font-weight: bold;
+            background-color: rgb(182, 92, 104);
+        }
+        .share_button {
+        }
+        .cancel_button {
+        }
+    }
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    .popup-overlay {
+        .menu_modal {
+            padding: 2pc;
+            margin: 2pc;
+            border-radius: 0.5pc;
+
+            .header {
+                font-size: 1rem;
+                margin: 0pc 0pc 1pc 0pc;
+            }
+            .content {
+                font-size: 1rem;
+                margin: 0pc 0pc 1pc 0pc;
+            }
+            .menu_button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+    .popup-overlay {
+        .menu_modal {
+            padding: 2pc;
+            margin: 2pc;
+            border-radius: 0.5pc;
+    
+            .header {
+                font-size: 1rem;
+                margin: 0pc 0pc 1pc 0pc;
+            }
+            .content {
+                font-size: 1rem;
+                margin: 0pc 0pc 1pc 0pc;
+            }
+            .menu_button {
+                width: 100%;
+            }
+        }
+    }
+}

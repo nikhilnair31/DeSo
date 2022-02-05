@@ -2,61 +2,87 @@
 
 .post {
     display: flex;
-    flex-direction: column;
-    // justify-content: flex-start;
-    // grid-gap: 1pc;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 1pc;
     margin: 0.2pc 0.5pc 0.2pc 0.5pc;
     border-radius: 0.5pc;
     @include themed('background-color', 'card');
 
-    .post_avatar {
-        float: left;
-        width: 3pc;
-        height: 3pc;
-        border-radius: 20%;
-    }
-    .post_name_time_container {
+    .post_avatar_container {
         display: flex;
-        flex-direction: row;
+        .post_avatar {
+            width: 2.5pc;
+            height: 2.5pc;
+            border-radius: 20%;
+        }
+    }
+    .post_text_image_container {
+        display: flex;
+        flex-direction: column;
         justify-content: flex-start;
-        grid-gap: 0.2pc;
+        grid-gap: 0.1pc;
+        width: 20pc;
+
         .post_alias {
+            margin: 0pc;
             padding-left: 1pc;
             @include themed('color', 'text');
         }
-        .post_sep {
-            padding-left: 0.3pc;
+        .post_text_container {
+            padding: 0pc 0pc 0pc 1pc;
+            .post_text {
+                margin: 0.2pc auto;
+            }
+        }
+        .post_image {
+            width: 17pc;
+            padding-left: 1pc;
+            padding-top: 1pc;
+        }
+        .post_interaction_container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            grid-gap: 0.2pc;
+            .interact_button {
+                color: white;
+                padding: 0.5pc;
+                margin: auto 0.5pc;
+            }
+            .interact_text {
+                color: white;
+                padding: 0.5pc;
+                margin: auto 0.5pc;
+            }
+        }
+    }
+    .post_menu_container {
+        display: flex;
+        flex-direction: column;
+        // margin-left: auto;
+        grid-gap: 0.1pc;
+        .post_menu_button {
+            border: 0px;
+            line-height: 40px;
+            border-radius: 20%;
+            width: 2.5pc;
+            height: 2.5pc;
+            font-size: 1rem;
+            vertical-align: bottom;
+            text-align: center;
             @include themed('color', 'text');
+            // @include themed('background-color', 'inputfield');
         }
-        .post_time {
-            padding-left: 0.3pc;
-            @include themed('color', 'text');
-        }
-    }
-    .post_text_container {
-        padding: 0pc 0pc 1pc 4pc;
-        .post_text {
-            margin: 0.3pc auto;
-        }
-    }
-    .post_image {
-        align-self: center;
-        border-radius: 0.3pc;
-        width: 23pc;
-        margin-bottom: 0.3pc;
-    }
-    .post_delete_button {
-        margin-left: auto;
-        align-self: stretch;
-        border: 0px;
-        border-radius: 0.3pc;
-        @include themed('color', 'text');
-        @include themed('background-color', 'inputfield');
     }
 }
 .isnft {
     @include themed('background-color', 'cardnft');
+    .post_alias {
+        margin: 0.5pc auto;
+        padding-left: 1pc;
+        @include themed('color', 'text');
+    }
 }
 
 .post_text {

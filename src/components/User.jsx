@@ -4,7 +4,7 @@ import {user} from '../helpers/user'
 import { ethers } from 'ethers';
 import './User.scss';
 
-const User = (props) => {
+const User = () => {
     const { state } = useLocation();
     const [connectedtometamask, setconnectedtometamask] = useState(false);
     const [balance, setBalance] = useState();

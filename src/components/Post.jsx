@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { db, user } from '../helpers/user'
 import { unpinFile } from '../helpers/pinata'
+import Popup from 'reactjs-popup';
+import MenuModal from './MenuModal';
 import './Post.scss';
 
 let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
@@ -8,6 +10,8 @@ let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/i
 const Post = (props) => {
     const [canDeletePost, setcanDeletePost] = useState(false);
     const [avatar, setavatar] = useState('');
+    const [postLikeCount, setpostLikeCount] = useState(0);
+    const [postCommentCount, setpostCommentCount] = useState(0);
     const [ts, setts] = useState(new Date());
     
     const timeDifference = (utc) => {
@@ -53,36 +57,65 @@ const Post = (props) => {
             });
         }
     }
+    function likePost() {
+        console.log('likePost');
+        const posts = db.get('posts');
+        const thispost = db.get('singlepost'+props.post.posttime);
+        thispost.put({
+            posterpub: props.post.posterpub, 
+            posteralias: props.post.posteralias, 
+            posttext: props.post.posttext, 
+            posttime: props.post.posttime, 
+            imagecid: props.post.postimagecid, 
+            nftflag: props.post.postnftflag, 
+            likecount: postLikeCount+1, 
+            commentcount: props.post.postcommentcount, 
+            comments: props.post.postcomments 
+        });
+        posts.set(thispost);
+        setpostLikeCount(postLikeCount+1);
+    }
+    function commentPost() {
+        console.log('commentPost');
+    }
 
     useEffect(() => {
-        console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
-        console.log('props.post.posterpub === user.is.pub: ', (props.post.posterpub === user.is.pub), '!props.post.postnftflag: ', (!props.post.postnftflag), ' = ', (props.post.posterpub === user.is.pub && !props.postnftflag)); 
+        // console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
+        // console.log('props.post.posterpub === user.is.pub: ', (props.post.posterpub === user.is.pub), '!props.post.postnftflag: ', (!props.post.postnftflag), ' = ', (props.post.posterpub === user.is.pub && !props.postnftflag)); 
         setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.postnftflag );
         setavatar(`https://avatars.dicebear.com/api/initials/${props.post.posteralias}.svg`);
         setts(new Date(props.post.posttime));
+        setpostLikeCount((props.postlikecount===undefined) ? 0 : props.postlikecount);
+        setpostCommentCount((props.postcommentcount===undefined) ? 0 : props.postlikecount);
     }, [props.post]);
 
     return (
         <div className={'post '+( props.post.postnftflag ? 'isnft' : '' )}>
-            <div className="post_name_time_container">
-            <img className="post_avatar" src={avatar} alt="avatar" />
-                <p className="post_alias">{props.post.posteralias}</p>
-                <p className="post_sep"> · </p>
-                <p className="post_time">{timeDifference(ts)}</p>
-                {/* <p className="post_text">{ts.toLocaleTimeString()}</p> */}
-                {
-                    canDeletePost && 
-                    <button className="post_delete_button" onClick={deletePost} >Delete</button>
+            <div className="post_avatar_container">
+                <img className="post_avatar" src={avatar} alt="avatar" />
+            </div>
+            <div className="post_text_image_container">
+                <p className="post_alias">{props.post.posteralias} · {timeDifference(ts)}</p>
+                <div className="post_text_container">
+                    {/* <p className="post_text">{props.post.postid}</p> */}
+                    <p className="post_text">{props.post.posttext}</p>
+                </div>
+                { 
+                    ( props.post.postimagecid!=='' ) && 
+                    <img className="post_image" src={imagebasedomains[0]+props.post.postimagecid} />
                 }
+                <div className="post_interaction_container">
+                    <i class="fas fa-heart interact_button like_button" onClick={likePost} ></i>
+                    <p className="interact_text like_text">{postLikeCount}</p>
+                    <i class="fas fa-comment-alt interact_button comment_button" onClick={commentPost} ></i>
+                    <p className="interact_text comment_text">{postCommentCount}</p>
+                </div>
             </div>
-            <div className="post_text_container">
-                {/* <p className="post_text">{props.post.postid}</p> */}
-                <p className="post_text">{props.post.posttext}</p>
+            <div className="post_menu_container">
+                <Popup trigger={<i class="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
+                    { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} /> }
+                </Popup>
             </div>
-            { 
-                ( props.post.postimagecid!=='' ) && 
-                <img className="post_image" src={imagebasedomains[0]+props.post.postimagecid} />
-            }
         </div>
     );
 }

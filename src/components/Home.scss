@@ -39,24 +39,19 @@
             flex-direction: column-reverse;
         }
     }
-    
-    .make_post_container {
-        display: flex;
-        position: fixed;
-        align-items: center;
-        justify-content: space-around;
-        height: 10vh;
-        bottom: 0;
-        width: 100%;
-        @include themed('background-color', 'card');
-    }
 }
 
 .post_button {
+    position: absolute;
+    bottom: 1.5pc;
+    right: 1.5pc;
+    height: 4pc;
+    width: 4pc;
     border: 0px;
-    height: 7vh;
-    min-width: 40vw;
-    border-radius: 0.5pc;
+    border-radius: 20%;
+    line-height: 4pc;
+    font-size: 1.5rem;
+    text-align: center;
     @include themed('color', 'text');
     @include themed('background-color', 'inputfield');
 
@@ -76,13 +71,6 @@
 
             .all_posts_container {
                 height: 85vh;
-            }
-        }
-        .make_post_container {
-            justify-content: center;
-
-            .post_button {
-                min-width: 25%;
             }
         }
     }
@@ -108,17 +96,10 @@
 @media only screen and (max-width: 600px) {
     .home {
         .container {
-            min-height: 85vh;
+            min-height: 100vh;
 
             .all_posts_container {
-                height: 89vh;
-            }
-        }
-        .make_post_container {
-            justify-content: space-around;
-
-            .post_button {
-                min-width: 95%;
+                height: 99vh;
             }
         }
     }
