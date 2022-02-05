@@ -10,6 +10,38 @@ const Post = (props) => {
     const [avatar, setavatar] = useState('');
     const [ts, setts] = useState(new Date());
     
+    const timeDifference = (utc) => {
+        // dayjs(item.utc).format("YYYY-MM-DD")
+        var msPerMinute = 60 * 1000;
+        var msPerHour = msPerMinute * 60;
+        var msPerDay = msPerHour * 24;
+        var msPerMonth = msPerDay * 30;
+        var msPerYear = msPerDay * 365;
+    
+        var now = Math.floor(Date.now())
+        var elapsed = now - utc;
+        // console.log(elapsed, '=', now, '-', utc);
+    
+        if (elapsed < msPerMinute) {
+            return Math.round(elapsed/1000) + 's';   
+        }
+        else if (elapsed < msPerHour) {
+            return Math.round(elapsed/msPerMinute) + 'm';   
+        }
+        else if (elapsed < msPerDay ) {
+            return Math.round(elapsed/msPerHour ) + 'h';   
+        }
+        else if (elapsed < msPerMonth) {
+            return Math.round(elapsed/msPerDay) + 'd';   
+        }
+        else if (elapsed < msPerYear) {
+            return Math.round(elapsed/msPerMonth) + 'month';   
+        }
+        else {
+            //return 'around ' + Math.round(elapsed/msPerYear ) + ' years ago'; 
+            return Math.round(elapsed/msPerYear ) + 'year';   
+        }
+    }
     function deletePost() {
         console.log('deletePost');
         const posts = db.get('posts');
@@ -32,20 +64,24 @@ const Post = (props) => {
 
     return (
         <div className={'post '+( props.post.postnftflag ? 'isnft' : '' )}>
+            <div className="post_name_time_container">
             <img className="post_avatar" src={avatar} alt="avatar" />
-            <div className="post_texts">
+                <p className="post_alias">{props.post.posteralias}</p>
+                <p className="post_sep"> · </p>
+                <p className="post_time">{timeDifference(ts)}</p>
+                {/* <p className="post_text">{ts.toLocaleTimeString()}</p> */}
+                {
+                    canDeletePost && 
+                    <button className="post_delete_button" onClick={deletePost} >Delete</button>
+                }
+            </div>
+            <div className="post_text_container">
                 {/* <p className="post_text">{props.post.postid}</p> */}
-                <p className="post_text">{props.post.posteralias}</p>
                 <p className="post_text">{props.post.posttext}</p>
-                <p className="post_text">{ts.toLocaleTimeString()}</p>
             </div>
             { 
                 ( props.post.postimagecid!=='' ) && 
-                <img className="post_image" src={imagebasedomains[0]+props.post.postimagecid} width={100}/>
-            }
-            {
-                canDeletePost && 
-                <button className="post_delete_button" onClick={deletePost} >Delete</button>
+                <img className="post_image" src={imagebasedomains[0]+props.post.postimagecid} />
             }
         </div>
     );

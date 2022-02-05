@@ -67,8 +67,8 @@
             height: 6vh;
             border-radius: 0.5pc;
             margin: 0.3pc auto;
-            @include themed('color', 'text');
-            @include themed('background-color', 'inputfield');
+            color: #ffffff;
+            background-color: rgb(30, 30, 30);
         }
         .connect_button {
             border: 0px;
@@ -77,14 +77,19 @@
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            color: #85ff7a;
-            background-color: #1a1a1a;
+            // @include themed('color', 'text');
+            // @include themed('background-color', 'inputfield');
+            color: #ffffff;
+            background-color: rgb(30, 30, 30);
 
             &:disabled {
                 background-color: #1e1e1e;
                 // @include themed('color', 'textplus');
                 // @include themed('background-color', 'inputfieldoff');
             }
+        }
+        .connected {
+            color: #85ff7a;
         }
         .balance_button {
             border: 0px;
@@ -94,8 +99,8 @@
             padding: 1pc;
             border-radius: 0.5pc;
             white-space: pre-wrap;
-            @include themed('color', 'accentplus');
-            @include themed('background-color', 'inputfield');
+            color: #ffffff;
+            background-color: rgb(30, 30, 30);
         }
     }
 }

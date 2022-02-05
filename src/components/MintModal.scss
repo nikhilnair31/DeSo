@@ -52,14 +52,18 @@
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            color: #85ff7a;
-            background-color: #1a1a1a;
+            color: #000000;
+            background-color: #ffffff;
 
             &:disabled {
                 background-color: #1e1e1e;
                 // @include themed('color', 'textplus');
                 // @include themed('background-color', 'inputfieldoff');
             }
+        }
+        .connected {
+            color: #85ff7a;
+            background-color: #1a1a1a;
         }
         .balance_button {
             border: 0px;

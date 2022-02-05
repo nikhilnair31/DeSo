@@ -79,8 +79,9 @@ const MintModal = (props) => {
     };
 
     useEffect(() => { 
-        connectToMetamask();
-    }, []);
+        if(connectedtometamask) getBalance();
+        else connectToMetamask();
+    }, [connectedtometamask]);
 
     return (
         <div className="mint_modal">
@@ -90,8 +91,7 @@ const MintModal = (props) => {
                 The following is NFT related stuff.
             </div>
             <br />
-            <button className="connect_button" type="submit" disabled={connectToMetamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button>
-            <button className="balance_button" onClick={getBalance}>{(!balance ? 'Show My Balance':'Your Balance: '+balance)}</button>
+            <button className={"connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={!connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected! Balance: '+balance : 'Connect to MetaMask')}</button>
             <button className="balance_button" onClick={mintToken}>Mint</button>
         </div>
     );

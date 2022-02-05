@@ -2,27 +2,50 @@
 
 .post {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    grid-gap: 1pc;
+    flex-direction: column;
+    // justify-content: flex-start;
+    // grid-gap: 1pc;
     padding: 1pc;
     margin: 0.2pc 0.5pc 0.2pc 0.5pc;
     border-radius: 0.5pc;
     @include themed('background-color', 'card');
 
     .post_avatar {
-        align-self: center;
-        width: 4pc;
-        height: 4pc;
-        border-radius: 15%;
-        margin: 2px 5px;
+        float: left;
+        width: 3pc;
+        height: 3pc;
+        border-radius: 20%;
     }
-
+    .post_name_time_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        grid-gap: 0.2pc;
+        .post_alias {
+            padding-left: 1pc;
+            @include themed('color', 'text');
+        }
+        .post_sep {
+            padding-left: 0.3pc;
+            @include themed('color', 'text');
+        }
+        .post_time {
+            padding-left: 0.3pc;
+            @include themed('color', 'text');
+        }
+    }
+    .post_text_container {
+        padding: 0pc 0pc 1pc 4pc;
+        .post_text {
+            margin: 0.3pc auto;
+        }
+    }
     .post_image {
-        margin-left: auto;
+        align-self: center;
         border-radius: 0.3pc;
+        width: 23pc;
+        margin-bottom: 0.3pc;
     }
-
     .post_delete_button {
         margin-left: auto;
         align-self: stretch;
