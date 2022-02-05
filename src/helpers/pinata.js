@@ -40,3 +40,19 @@ export async function pinJSONToIPFS (JSONBody) {
         console.log(error);
     }
 };
+export async function unpinFile (hashToUnpin) {
+    try {
+        const {data:response} = await axios.delete(`https://api.pinata.cloud/pinning/unpin/${hashToUnpin}`,
+            {
+                headers: {
+                    'pinata_api_key': '19c6af79dcf0558a1db6',
+                    'pinata_secret_api_key': '158763cd14beb46de4aa51d2af3dcbfdb8b8be030975dc53a8a1559c9fb7520a'
+                }
+            }
+        )
+        return response
+    }
+    catch (error) {
+        console.log(error);
+    }
+};

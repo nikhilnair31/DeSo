@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useReducer, useRef} from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import Post from './Post'
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
@@ -18,46 +18,49 @@ function reducer(state, post) {
 }
 
 const Home = (props) => {
+    const [isnftflag, setisnftflag] = useState(false);
     const [newPostText, setnewPostText] = useState('');
     const [file, setfile] = useState();
-    const [state, dispatch] = useReducer(reducer, initialState)
-    const [balance, setBalance] = useState();
+    const [filename, setfilename] = useState();
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    function captureFile(event) {
+    function captureFile(event, filename) {
         event.preventDefault();
         console.log('captureFile');
         const pickedfile = event.target.files[0];
         setfile(pickedfile);
+        setfilename(filename);
     }
-    async function sendOutPost() {
+    async function sendOutPost(isnftminted) {
+        console.log('sendOutPost - ', isnftminted);
         if(file){
+            console.log('file');
             pinFileToIPFS(file).then( async (resp) => {
                 console.log('resp: ', resp);
                 let respcid = resp.IpfsHash ? resp.IpfsHash : '';
                 console.log('respcid: ', respcid);
 
                 const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
-                console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText);
+                console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText, ' - user.is.pub: ', user.is.pub); 
 
-                console.log('user.is.pub: ', user.is.pub);
                 const indexkey = new Date().toISOString();
                 const posts = db.get('posts');
                 const thispost = db.get('singlepost'+indexkey);
-                thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: respcid, });
+                thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: respcid, nftflag: isnftminted });
                 posts.set(thispost);
 
                 setnewPostText('');
             });
         }
         else{
+            console.log('!file');
             const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
-            console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText);
+            console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText, ' - user.is.pub: ', user.is.pub);
 
-            console.log('user.is.pub: ', user.is.pub);
             const indexkey = new Date().toISOString();
             const posts = db.get('posts');
             const thispost = db.get('singlepost'+indexkey);
-            thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: '', });
+            thispost.put({ posterpub: user.is.pub, posteralias: props.currusername, posttext: secretnewPostText, posttime: indexkey, imagecid: '', nftflag: isnftminted });
             posts.set(thispost);
             
             setnewPostText('');
@@ -85,6 +88,7 @@ const Home = (props) => {
                     posttext: await GUN.SEA.decrypt(data.posttext, key) + '',
                     posttime: data.posttime,
                     postimagecid: data.imagecid,
+                    postnftflag: data.nftflag
                 };
                 // console.log('post: ', post);
                 dispatch(post);
@@ -105,7 +109,7 @@ const Home = (props) => {
             </div>
             <div className="make_post_container">
                 <Popup trigger={<button className="post_button"> Post </button>} modal nested >
-                    { close => <PostModal close={close} newPostText={newPostText} setnewPostText={setnewPostText} file={file} captureFile={captureFile} sendOutPost={sendOutPost} /> }
+                    { close => <PostModal close={close} currusername={props.currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} filename={filename} setisnftflag={setisnftflag} captureFile={captureFile} sendOutPost={sendOutPost} /> }
                 </Popup>
             </div>
         </div>

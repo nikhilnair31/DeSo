@@ -1,19 +1,21 @@
-import React, {useEffect, useState, useReducer, useRef} from 'react';
-import { ethers } from 'ethers';
+import React, { useRef } from 'react';
 import Popup from 'reactjs-popup';
 import MintModal from './MintModal';
 import './PostModal.scss';
 
 const PostModal = (props) => {
-    const [balance, setBalance] = useState();
+    const inputElement = useRef();
 
-    const pushPostbuttonClicked = () => {
-        props.sendOutPost();
+    const pushPostbuttonClicked = (isnftminted) => {
+        console.log('pushPostbuttonClicked - ', isnftminted);
+        props.sendOutPost(isnftminted);
         props.close();
     };
-
-    useEffect(() => { 
-    }, []);
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(`Selected file - ${inputElement.current.files[0].name}`);
+        props.captureFile(event, inputElement.current.files[0].name);
+    }
 
     return (
         <div className="post_modal">
@@ -24,17 +26,17 @@ const PostModal = (props) => {
             </div>
             <input className="post_input" type="text" placeholder="Type a post..." value={props.newPostText} onChange={e => props.setnewPostText(e.target.value)} maxLength={100} />
             
-            <input type="file" className="post_attach_button" onChange ={props.captureFile} />
+            <input type="file" className="post_attach_button" ref={inputElement} onChange ={handleSubmit} />
 
             {/* <div className="box">
                 <input type="file" className="inputfile inputfile-1" onChange ={props.captureFile} />
                 <label htmlFor="file-1"> <span>Choose a file..</span> </label>
             </div> */}
             
-            <button className="post_post_button" type="submit" disabled={((!props.newPostText || !props.file) ? true: false)} onClick ={pushPostbuttonClicked}>Post</button>
+            <button className="post_post_button" type="submit" disabled={((!props.newPostText) ? true: false)} onClick ={()=>pushPostbuttonClicked(false)}>Post</button>
             
-            <Popup trigger={<button className="mint_button" disabled={((!props.newPostText || !props.file) ? true: false)} > Mint and Post </button>} modal nested>
-            { close => (<MintModal close={close} file={props.file} />) }
+            <Popup trigger={<button className="mint_button" disabled={((!props.file) ? true: false)} > Mint and Post </button>} modal nested>
+                { close => (<MintModal close={close} currusername={props.currusername} file={props.file} filename={props.filename} setisnftflag={props.setisnftflag} newPostText={props.newPostText} pushPostbuttonClicked={pushPostbuttonClicked} />) }
             </Popup>
         </div>
     );

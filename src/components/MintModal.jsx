@@ -5,7 +5,6 @@ import PostMint from '../artifacts/contracts/PostMint.sol/PostMint.json';
 import './MintModal.scss';
 
 const contractAddress = '0x5a951603fDaaBab6e9bC9149c2eCc15b1917E96c';
-// const metadataURI = `QmaCD3cXyHDchNtVdrNmH1RKkB5E9zQyXUngJzBT5qudCt.json`;
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const contract = new ethers.Contract(contractAddress, PostMint.abi, signer);
@@ -31,20 +30,29 @@ const MintModal = (props) => {
         pinFileToIPFS(props.file).then( async (resp) => {
             console.log('resp: ', resp);
             let respcid = resp.IpfsHash ? resp.IpfsHash : '';
-            console.log('respcid: ', respcid);
+            // console.log('respcid: ', respcid);
             
             let metadatajson = {
-                "image": `ipfs://${respcid}/${props.file}`,
-                "tokenId": 6,
-                "name": "PostMint - Test 6",
-                "description": "For OpenSea"
+                'pinataMetadata': {
+                    'name': `metadata-${props.filename}.json`
+                },
+                /* The contents of the "pinataContent" object will be added to IPFS */
+                /* The hash provided back will only represent the JSON contained in this object */
+                /* The JSON the returned hash links to will NOT contain the "pinataMetadata" object above */
+                /* The image URI include only the IPFS hash returned for the uploaded image */
+                'pinataContent': {
+                    "image": `ipfs://${respcid}`,
+                    "name": `${props.newPostText}`,
+                    "description": `This is the NFT of the post made by ${props.currusername} on DeSo.`
+                }
             }
 
             pinJSONToIPFS(metadatajson).then( async (resp) => {
                 console.log('resp: ', resp);
-                let respcid = resp.IpfsHash ? resp.IpfsHash+'.json' : '';
-                console.log('respcid: ', respcid);
+                let respcid = resp.IpfsHash ? resp.IpfsHash : '';
+                // console.log('respcid: ', respcid);
                 
+                props.setisnftflag(true);
                 setmetadataURI(respcid);
 
                 const signeraddr = await signer.getAddress();
@@ -55,23 +63,16 @@ const MintModal = (props) => {
                 });
             
                 await result.wait();
-                getMintedStatus();
+                getMintedStatus(respcid);
+
+                console.log('pinJSONToIPFS - ', true);
+                props.pushPostbuttonClicked(true);
+                // getCount();
             });
         });
-
-        // const signeraddr = await signer.getAddress();
-        // console.log("signeraddr:", signeraddr);
-
-        // const result = await contract.payToMint(signeraddr, metadataURI, {
-        //     value: ethers.utils.parseEther('0.01'),
-        // });
-    
-        // await result.wait();
-        // getMintedStatus();
-        // getCount();
     };
-    const getMintedStatus = async () => {
-        const result = await contract.isContentOwned(metadataURI);
+    const getMintedStatus = async (respmetadataURI) => {
+        const result = await contract.isContentOwned(respmetadataURI);
         console.log(result)
         props.close();
         // setIsMinted(result);
@@ -89,7 +90,6 @@ const MintModal = (props) => {
                 The following is NFT related stuff.
             </div>
             <br />
-            {/* <button className="post_post_button" type="submit" disabled={((!props.newPostText || props.file) ? true: false)} onClick ={props.sendOutPost}>Post</button> */}
             <button className="connect_button" type="submit" disabled={connectToMetamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button>
             <button className="balance_button" onClick={getBalance}>{(!balance ? 'Show My Balance':'Your Balance: '+balance)}</button>
             <button className="balance_button" onClick={mintToken}>Mint</button>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { db, user } from '../helpers/user'
+import { unpinFile } from '../helpers/pinata'
 import './Post.scss';
 
 let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
@@ -13,17 +14,24 @@ const Post = (props) => {
         console.log('deletePost');
         const posts = db.get('posts');
         posts.get(props.post.postid).put(null);
+
+        if(props.postimagecid){
+            unpinFile(props.postimagecid).then( async (resp) => {
+                console.log('deletePost resp: ', resp);
+            });
+        }
     }
 
     useEffect(() => {
-        // console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
-        setcanDeletePost( props.post.posterpub === user.is.pub );
+        console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
+        console.log('props.post.posterpub === user.is.pub: ', (props.post.posterpub === user.is.pub), '!props.post.postnftflag: ', (!props.post.postnftflag), ' = ', (props.post.posterpub === user.is.pub && !props.postnftflag)); 
+        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.postnftflag );
         setavatar(`https://avatars.dicebear.com/api/initials/${props.post.posteralias}.svg`);
         setts(new Date(props.post.posttime));
     }, [props.post]);
 
     return (
-        <div className='post'>
+        <div className={'post '+( props.post.postnftflag ? 'isnft' : '' )}>
             <img className="post_avatar" src={avatar} alt="avatar" />
             <div className="post_texts">
                 {/* <p className="post_text">{props.post.postid}</p> */}

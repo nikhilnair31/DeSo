@@ -32,6 +32,9 @@
         @include themed('background-color', 'inputfield');
     }
 }
+.isnft {
+    @include themed('background-color', 'cardnft');
+}
 
 .post_text {
     @include themed('color', 'text');

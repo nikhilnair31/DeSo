@@ -3,6 +3,7 @@
 .user_bio {
     position: absolute;
     top: 0;
+    // bottom: 0px;
     z-index: 9;
     display: flex;
     flex-direction: row;
@@ -10,9 +11,15 @@
     width: 100%;
     height: 7vh;
     align-items: center;
-    justify-content: space-between;
-    @include themed('background-color', 'card');
+    backdrop-filter: blur(10px);
+    justify-content: flex-start;
+    background-color: #1e1e1e75;
+    // @include themed('background-color', 'card');
     
+    .userpfp {
+        border-radius: 50%;
+        padding: 0.5pc;
+    }
     .title {
         @include themed('color', 'text');
     }
