@@ -15,7 +15,7 @@ const Header = (props) => {
 
     return (
         <header className="user_bio">
-            <img src={`https://avatars.dicebear.com/api/initials/${props.currusername}.svg`} alt="avatar" width={45} className='userpfp' onClick={handleClick}/> 
+            <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${props.currusername}.svg`} alt="avatar" width={45} className='userpfp' onClick={handleClick}/> 
             <span className='title' >hi {props.currusername}</span>
         </header>
     );

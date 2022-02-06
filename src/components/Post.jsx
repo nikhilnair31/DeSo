@@ -11,6 +11,8 @@ const Post = (props) => {
     const [canDeletePost, setcanDeletePost] = useState(false);
     const [avatar, setavatar] = useState('');
     const [postLikeCount, setpostLikeCount] = useState(0);
+    const [postLikeUserPubsArr, setpostLikeUserPubsArr] = useState('');
+    const [postLikedByCurrUser, setpostLikedByCurrUser] = useState(false);
     const [postCommentCount, setpostCommentCount] = useState(0);
     const [ts, setts] = useState(new Date());
     
@@ -46,6 +48,19 @@ const Post = (props) => {
             return Math.round(elapsed/msPerYear ) + 'year';   
         }
     }
+    const isPostLikedByCurrUser = () => {
+        if(props.post.likeduserpubs!==undefined) {
+            setpostLikeUserPubsArr(props.post.likeduserpubs);
+            if( props.post.likeduserpubs.includes(user.is.pub) ) {
+                setpostLikedByCurrUser(true);
+                console.log('post already liked');
+            }
+            else {
+                setpostLikedByCurrUser(false);
+                console.log('post not liked');
+            }
+        }
+    }
     function deletePost() {
         console.log('deletePost');
         const posts = db.get('posts');
@@ -60,37 +75,51 @@ const Post = (props) => {
     function likePost() {
         console.log('likePost');
         const posts = db.get('posts');
-        const thispost = db.get('singlepost'+props.post.posttime);
-        thispost.put({
-            posterpub: props.post.posterpub, 
-            posteralias: props.post.posteralias, 
-            posttext: props.post.posttext, 
-            posttime: props.post.posttime, 
-            imagecid: props.post.postimagecid, 
-            nftflag: props.post.postnftflag, 
-            likecount: postLikeCount+1, 
-            commentcount: props.post.postcommentcount, 
-            comments: props.post.postcomments 
-        });
-        posts.set(thispost);
-        setpostLikeCount(postLikeCount+1);
+        if(postLikedByCurrUser) {
+            console.log('postLikedByCurrUser');
+            let str = postLikeUserPubsArr;
+            str = str.replace(user.is.pub, '');
+            console.log('not postLikedByCurrUser str: ', str);
+            setpostLikedByCurrUser(false);
+            setpostLikeUserPubsArr(str);
+            setpostLikeCount(postLikeCount-1);
+            posts.get(props.post.postid).put({
+                likecount: postLikeCount-1,
+                likeduserpubs: str
+            });
+        }
+        else {
+            console.log('not postLikedByCurrUser');
+            let str = postLikeUserPubsArr;
+            str = str + ' ' + user.is.pub;
+            console.log('not postLikedByCurrUser str: ', str);
+            setpostLikedByCurrUser(true);
+            setpostLikeUserPubsArr(str);
+            setpostLikeCount(postLikeCount+1);
+            posts.get(props.post.postid).put({
+                likecount: postLikeCount+1,
+                likeduserpubs: str
+            });
+        }
     }
     function commentPost() {
         console.log('commentPost');
     }
 
     useEffect(() => {
-        // console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
-        // console.log('props.post.posterpub === user.is.pub: ', (props.post.posterpub === user.is.pub), '!props.post.postnftflag: ', (!props.post.postnftflag), ' = ', (props.post.posterpub === user.is.pub && !props.postnftflag)); 
-        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.postnftflag );
-        setavatar(`https://avatars.dicebear.com/api/initials/${props.post.posteralias}.svg`);
+        console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
+        
+        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
+        setavatar(`https://avatars.dicebear.com/api/big-ears-neutral/${props.post.posteralias}.svg`);
         setts(new Date(props.post.posttime));
-        setpostLikeCount((props.postlikecount===undefined) ? 0 : props.postlikecount);
-        setpostCommentCount((props.postcommentcount===undefined) ? 0 : props.postlikecount);
+        setpostLikeCount((props.post.likecount===undefined) ? 0 : props.post.likecount);
+        setpostCommentCount((props.post.commentcount===undefined) ? 0 : props.post.commentcount);
+
+        isPostLikedByCurrUser();
     }, [props.post]);
 
     return (
-        <div className={'post '+( props.post.postnftflag ? 'isnft' : '' )}>
+        <div className={'post '+( props.post.nftflag ? 'isnft' : '' )}>
             <div className="post_avatar_container">
                 <img className="post_avatar" src={avatar} alt="avatar" />
             </div>
@@ -101,13 +130,13 @@ const Post = (props) => {
                     <p className="post_text">{props.post.posttext}</p>
                 </div>
                 { 
-                    ( props.post.postimagecid!=='' ) && 
-                    <img className="post_image" src={imagebasedomains[0]+props.post.postimagecid} />
+                    ( props.post.imagecid!=='' ) && 
+                    <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} />
                 }
                 <div className="post_interaction_container">
-                    <i class="fas fa-heart interact_button like_button" onClick={likePost} ></i>
+                    <i class={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>
                     <p className="interact_text like_text">{postLikeCount}</p>
-                    <i class="fas fa-comment-alt interact_button comment_button" onClick={commentPost} ></i>
+                    <i class="fas fa-comment interact_button comment_button" onClick={commentPost} ></i>
                     <p className="interact_text comment_text">{postCommentCount}</p>
                 </div>
             </div>

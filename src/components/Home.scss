@@ -36,7 +36,7 @@
         .all_posts_container {
             overflow-y: scroll;
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column;
         }
     }
 }
@@ -48,9 +48,9 @@
     height: 4pc;
     width: 4pc;
     border: 0px;
-    border-radius: 20%;
+    border-radius: 100%;
     line-height: 4pc;
-    font-size: 1.5rem;
+    font-size: 1rem;
     text-align: center;
     @include themed('color', 'text');
     @include themed('background-color', 'inputfield');
@@ -67,26 +67,11 @@
         .container {
             margin: 0 auto;
             width: 30pc;
-            min-height: 94vh;
+            min-height: 100vh;
 
             .all_posts_container {
-                height: 85vh;
-            }
-        }
-    }
-    .popup-overlay {
-        .popup-content {
-            width: 50%;
-        }
-        .modal {
-            padding: 2pc;
-            margin: 2pc;
-            border-radius: 0.5pc;
-    
-            .close {
-                border-radius: 0.5pc;
-                height: 4vh;
-                min-width: 3vw;
+                height: 100vh;
+                padding-top: 4.1pc;
             }
         }
     }
@@ -99,23 +84,8 @@
             min-height: 100vh;
 
             .all_posts_container {
-                height: 99vh;
-            }
-        }
-    }
-    .popup-overlay {
-        .popup-content {
-            width: 100%;
-        }
-        .modal {
-            padding: 2pc;
-            margin: 2pc;
-            border-radius: 0.5pc;
-    
-            .close {
-                border-radius: 0.5pc;
-                height: 4vh;
-                min-width: 7vw;
+                height: 100vh;
+                padding-top: 3.7pc;
             }
         }
     }

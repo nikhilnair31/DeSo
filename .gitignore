@@ -2,7 +2,9 @@
 
 .env
 cache/
-/src/artifacts
+src/artifacts/@openzeppelin
+src/artifacts/build-info
+src/artifacts/hardhat
 # dependencies
 /node_modules
 /.pnp

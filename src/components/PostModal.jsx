@@ -9,6 +9,7 @@ const PostModal = (props) => {
     const pushPostbuttonClicked = (isnftminted) => {
         console.log('pushPostbuttonClicked - ', isnftminted);
         props.sendOutPost(isnftminted);
+        props.setnewPostText('');
         props.close();
     };
     function handleSubmit(event) {
@@ -16,10 +17,16 @@ const PostModal = (props) => {
         console.log(`Selected file - ${inputElement.current.files[0].name}`);
         props.captureFile(event, inputElement.current.files[0].name);
     }
+    function closePostModal() {
+        console.log('closePostModal');
+        props.setfile();
+        props.setnewPostText('');
+        props.close();
+    }
 
     return (
         <div className="post_modal">
-            <button className="close" onClick={props.close}>&times;</button>
+            <button className="close" onClick={closePostModal}>&times;</button>
             <div className="header"> What do you wish to post? </div>
             <div className="content">
                 Type it out or upload it!

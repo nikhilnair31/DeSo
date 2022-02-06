@@ -48,7 +48,7 @@ const User = () => {
                 <i className="fa fa-chevron-left backbutton" onClick={backtohome}></i>
             </header>
             <header className="userdata">
-                <img src={`https://avatars.dicebear.com/api/initials/${state.currusername}.svg`} alt="avatar" width={150} className='userpfp' /> 
+                <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`} alt="avatar" width={150} className='userpfp' /> 
                 <p className='username' >{state.currusername}</p>
                 <button className="signout_button" onClick={signout} >Sign Out</button>
                 <button className={'connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button>

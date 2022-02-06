@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom';
 import reportWebVitals from './helpers/reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {user} from './helpers/user'
 import LogIn from './components/LogIn';
 import User from './components/User';
 import App from './App.jsx';

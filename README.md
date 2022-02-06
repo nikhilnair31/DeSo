@@ -26,10 +26,17 @@
 ## To-Do
 * General
     - [ ] Get liking and commenting working
+        - [x] Liking
+            - [x] Also allow unliking
+            - [x] Need to also include the the public key of the user that liked the post and use that to prevent multi liking
+            - [x] Like count increment works
+        - [x] Commenting
+            - [ ] Include the the public key of the user for comments to?
     - [ ] Find a way to upload text-only posts as NFT (Maybe by using an API to format the text into a picture?)
     - [ ] While the post data gets removed from GUN peers there may still remain images on Pinata
         - [x] Kinda fixed it by getting an unpin function built on API. Check why it isn't working.
     - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
+    - [ ] Also fix how the thing loads at the bottom of the feed instead of top
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
 * Login Component
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case

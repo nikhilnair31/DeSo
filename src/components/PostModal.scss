@@ -89,16 +89,17 @@
     .popup-overlay {
         .post_modal {
             padding: 2pc;
-            margin: 2pc;
+            margin: 2pc auto;
             border-radius: 0.5pc;
+            width: 55%;
     
             .close {
                 border-radius: 0.5pc;
-                height: 4vh;
-                min-width: 3vw;
+                height: 2pc;
+                min-width: 2pc;
             }
             .post_input {
-                width: 92%;
+                width: 97%;
             }
             .post_post_button {
                 width: 100%;
@@ -115,13 +116,14 @@
     .popup-overlay {
         .post_modal {
             padding: 2pc;
-            margin: 2pc;
+            margin: 2pc auto;
             border-radius: 0.5pc;
+            width: 70%;
     
             .close {
                 border-radius: 0.5pc;
-                height: 4vh;
-                min-width: 7vw;
+                height: 2pc;
+                min-width: 2pc;
             }
             .post_input {
                 width: 92%;

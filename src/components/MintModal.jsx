@@ -12,7 +12,6 @@ const contract = new ethers.Contract(contractAddress, PostMint.abi, signer);
 const MintModal = (props) => {
     const [connectedtometamask, setconnectedtometamask] = useState(false);
     const [balance, setBalance] = useState();
-    const [metadataURI, setmetadataURI] = useState('');
 
     const connectToMetamask = async () => {
         const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -51,9 +50,6 @@ const MintModal = (props) => {
                 console.log('resp: ', resp);
                 let respcid = resp.IpfsHash ? resp.IpfsHash : '';
                 // console.log('respcid: ', respcid);
-                
-                props.setisnftflag(true);
-                setmetadataURI(respcid);
 
                 const signeraddr = await signer.getAddress();
                 console.log("signeraddr:", signeraddr);
@@ -87,9 +83,7 @@ const MintModal = (props) => {
         <div className="mint_modal">
             <button className="close" onClick={props.close}>&times;</button>
             <div className="header"> Minting And Posting </div>
-            <div className="content">
-                The following is NFT related stuff.
-            </div>
+            <div className="content"> The following is NFT related stuff. </div>
             <br />
             <button className={"connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={!connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected! Balance: '+balance : 'Connect to MetaMask')}</button>
             <button className="balance_button" onClick={mintToken}>Mint</button>
