@@ -5,6 +5,8 @@ import Popup from 'reactjs-popup';
 import PostModal from './PostModal';
 import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Home.scss';
 
 const initialState = {
@@ -86,6 +88,7 @@ const Home = (props) => {
             
             setnewPostText('');
         }
+        toast.success('Posted!');
     }
 
     useEffect(() => { 
@@ -135,6 +138,7 @@ const Home = (props) => {
             <Popup trigger={<i className="fas fa-plus post_button"></i>} modal nested >
                 { close => <PostModal close={close} currusername={props.currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} captureFile={captureFile} sendOutPost={sendOutPost} /> }
             </Popup>
+            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
             <div id="popup-root" />
         </div>
     );

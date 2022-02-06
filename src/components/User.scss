@@ -42,11 +42,11 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-top: 5pc;
-        padding: 3pc 3pc;
+        margin-top: 6pc;
+        padding: 2pc 2pc;
         border-radius: 0.5pc;
-        width: 80%;
-        max-width: 20pc;
+        width: 70%;
+        max-width: 12pc;
         @include themed('background-color', 'card');
 
         .userpfp {
@@ -54,12 +54,33 @@
             padding: 0.5pc;
         }
         .username {
+            font-weight: bolder;
+            font-size: 1rem;
+            margin: 1pc 0pc 0.2pc 0pc;
+            @include themed('color', 'text');
+        }
+        .fullname {
+            font-weight: 400;
+            font-size: 1rem;
+            margin: 0.2pc 0pc;
+            @include themed('color', 'text');
+        }
+        .email {
+            font-weight: 400;
+            font-size: 1rem;
+            margin: 0.2pc 0pc;
+            @include themed('color', 'text');
+        }
+        .bio {
+            font-weight: 400;
+            font-size: 1rem;
+            margin: 0.2pc 0pc 1pc 0pc;
             @include themed('color', 'text');
         }
         .edit_input {
             border: 0px;
             height: 5vh;
-            width: 100%;
+            width: 90%;
             padding: 0.5pc;
             margin: 0.1pc auto;
             border-radius: 0.5pc;
@@ -105,6 +126,16 @@
                 }
             }
         }
+    }
+
+    .Toastify__toast--success {
+        background: #1e1e1e;
+    }
+    .Toastify__toast-body {
+        text-align: center;
+        margin: auto 0;
+        flex: 1 1 auto;
+        padding: 6px;
     }
 }
 

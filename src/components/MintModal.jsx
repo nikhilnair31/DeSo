@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { pinFileToIPFS, pinJSONToIPFS } from '../helpers/pinata'
+import Spinner from './Spinner';
 import './MintModal.scss';
 
 const contractabi = {
@@ -469,7 +470,8 @@ const contract = new ethers.Contract(contractAddress, contractabi.abi, signer);
 
 const MintModal = (props) => {
     const [connectedtometamask, setconnectedtometamask] = useState(false);
-    const [balance, setBalance] = useState();
+    const [posting, setposting] = useState(false);
+    const [balance, setBalance] = useState('');
 
     const connectToMetamask = async () => {
         const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -484,6 +486,7 @@ const MintModal = (props) => {
         setBalance(ethers.utils.formatEther(balance));
     };
     const mintToken = async () => {
+        setposting(true);
         pinFileToIPFS(props.file).then( async (resp) => {
             console.log('resp: ', resp);
             let respcid = resp.IpfsHash ? resp.IpfsHash : '';
@@ -520,6 +523,7 @@ const MintModal = (props) => {
                 getMintedStatus(respcid);
 
                 console.log('pinJSONToIPFS - ', true);
+                setposting(false);
                 props.pushPostbuttonClicked(true);
                 // getCount();
             });
@@ -541,11 +545,13 @@ const MintModal = (props) => {
         <div className="mint_modal">
             {/* <button className="close" onClick={props.close}>&times;</button> */}
             <div className="header"> Minting And Posting </div>
-            <div className="content"> The following is NFT related stuff. </div>
+            <div className="content"> On pressing 'Mint' wait for the process to complete please. </div>
             <br />
             <button className={"button connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 13) : 'Connect to MetaMask')}</button>
+            {/* <button className="button balance_button" onClick={tester}>tester</button> */}
             <button className="button balance_button" onClick={mintToken}>Mint</button>
             <button className="button cancel_button" onClick ={props.close}>Cancel</button>
+            { posting && <Spinner /> }
         </div>
     );
 }

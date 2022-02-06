@@ -28,8 +28,10 @@ const Header = (props) => {
         };
         const users = db.get('users');
         users.map(match).once(async (data, id) => {
-            console.log('getfulluserdata id: ', id, ' - data: ', data);
-            setfulluserdata(data);
+            if(data.userpub === user.is.pub){
+                console.log('getfulluserdata id: ', id, ' - data: ', data);
+                setfulluserdata(data);
+            }
         });
     }
 

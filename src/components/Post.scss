@@ -26,8 +26,26 @@
         grid-gap: 0.1pc;
         width: 100%;
 
-        .post_alias {
+        .alias_container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            grid-gap: 0.1pc;
+            justify-items: center;
+            align-items: center;
             @include themed('color', 'text');
+            .post_alias {
+                font-weight: bolder;
+                margin: 0.4pc 0pc;
+            }
+            .post_sep {
+                margin: 0.4pc 0.6pc;
+            }
+            .post_time {
+                font-weight: lighter;
+                font-size: 0.8rem;
+                margin: 0.4pc 0pc;
+            }
         }
         .post_text {
             @include themed('color', 'text');

@@ -53,11 +53,11 @@ const Post = (props) => {
             setpostLikeUserPubsArr(props.post.likeduserpubs);
             if( props.post.likeduserpubs.includes(user.is.pub) ) {
                 setpostLikedByCurrUser(true);
-                console.log('post already liked');
+                // console.log('post already liked');
             }
             else {
                 setpostLikedByCurrUser(false);
-                console.log('post not liked');
+                // console.log('post not liked');
             }
         }
     }
@@ -107,7 +107,7 @@ const Post = (props) => {
     }
 
     useEffect(() => {
-        console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
+        // console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
         
         setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
         setavatar(`https://avatars.dicebear.com/api/big-ears-neutral/${props.post.posteralias}.svg`);
@@ -124,7 +124,11 @@ const Post = (props) => {
                 <img className="post_avatar" src={avatar} alt="avatar" />
             </div>
             <div className="post_text_image_container">
-                <p className="post_alias">{props.post.posteralias} · {timeDifference(ts)}</p>
+                <div className="alias_container">
+                    <p className="post_alias">{props.post.posteralias}</p>
+                    <p className="post_sep"> · </p>
+                    <p className="post_time">{timeDifference(ts)}</p>
+                </div>
                 {/* <div className="post_text_container"></div> */}
                 {/* <p className="post_text">{props.post.postid}</p> */}
                 <p className="post_text">{props.post.posttext}</p>

@@ -4,9 +4,11 @@ import { db } from '../helpers/user'
 import { user } from '../helpers/user'
 import { ethers } from 'ethers';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './User.scss';
 
 const User = () => {
+    const navigate = useNavigate();
     const { state } = useLocation();
     const [connectedtometamask, setconnectedtometamask] = useState(false);
     const [ineditingmode, setineditingmode] = useState(false);
@@ -15,8 +17,6 @@ const User = () => {
     const [email, setemail] = useState('');
     const [bio, setbio] = useState('');
     const [balance, setBalance] = useState();
-    
-    const navigate = useNavigate();
 
     const connectToMetamask = async () => {
         const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -58,15 +58,7 @@ const User = () => {
         });
         users.set(curruser);
         setineditingmode(!ineditingmode);
-        toast.success('🦄 Wow so easy!', {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        toast.success('Edits saved!');
     }
     function getfulluserdata() {
         console.log('getfulluserdata');
@@ -105,12 +97,12 @@ const User = () => {
                 <i className="fa fa-chevron-left backbutton" onClick={backtohome}></i>
             </header>
             <div className="userdata">
-                <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`} alt="avatar" width={150} className='userpfp' /> 
+                <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`} alt="avatar" width={100} className='userpfp' /> 
                 <p className='username' >{state.currusername}</p>
                 {/* { fulluserdata && <p className='username' >{fulluserdata.userpub}</p> } */}
-                { fulluserdata && <p className='username' >{fulluserdata.userfullname}</p> }
-                { fulluserdata && <p className='username' >{fulluserdata.useremail}</p> }
-                { fulluserdata && <p className='username' >{fulluserdata.userbio}</p> }
+                { fulluserdata && <p className='fullname' >{fulluserdata.userfullname}</p> }
+                { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
+                { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }
                 <button className="button edit_button" onClick={editonoff} >Edit</button>
                 {
                     ineditingmode &&
@@ -129,7 +121,7 @@ const User = () => {
                 { !ineditingmode && <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button> }
                 {/* <button className="button balance_button" onClick={getBalance}>{(!balance ? 'Show My Balance' : 'Wallet Balance: '+balance.slice(0, 13))}</button> */}
             </div>
-            <ToastContainer position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
         </div>
     )
 }

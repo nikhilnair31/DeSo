@@ -25,10 +25,7 @@
 }
 
 .home {
-    // display: flex;
-    // flex-direction: column;
     min-height: 100vh;
-
     .container {
         display: flex;
         flex-direction: column;
@@ -41,7 +38,6 @@
             flex-direction: column;
         }
     }
-
     .post_button {
         position: absolute;
         border: 0px;
@@ -57,6 +53,16 @@
             @include themed('color', 'accent');
             @include themed('background-color', 'postbuttonhover');
         }
+    }
+    
+    .Toastify__toast--success {
+        background: #1e1e1e;
+    }
+    .Toastify__toast-body {
+        text-align: center;
+        margin: auto 0;
+        flex: 1 1 auto;
+        padding: 6px;
     }
 }
 

@@ -1,0 +1,55 @@
+@import "../color-themes";
+
+.spinner_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+
+    .title {
+        margin: 3pc;
+        font-size: 3pc;
+        @include themed('color', 'text');
+    }
+
+    .spinner {
+        width: 2pc;
+        height: 2pc;
+        margin-top: 1pc;
+        border: 0.5pc solid #fe2b5d;
+        @include themed('border-left-color', 'accentplus');
+        border-radius: 50%;
+        background: transparent;
+        animation-name: rotate-s-loader;
+        animation-iteration-count: infinite;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        position: relative;
+    }
+      
+    @keyframes rotate-s-loader {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    .logo_img {
+        width: 10%;
+    }
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+    .logo_img {
+        width: 25%;
+    }
+}
