@@ -25,9 +25,11 @@
         https://medium.com/ethereum-developers/the-ultimate-end-to-end-tutorial-to-create-and-deploy-a-fully-descentralized-dapp-in-ethereum-18f0cf6d7e0e
 ## To-Do
 * General
-    - [ ] Get liking and commenting working
+    - [ ] Get liking, commenting and deleting working
         - [x] Commenting
             - [ ] Include the the public key of the user for comments to?
+        - [ ] Deleting
+            - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
     - [ ] Find a way to upload text-only posts as NFT (Maybe by using an API to format the text into a picture?)
     - [ ] While the post data gets removed from GUN peers there may still remain images on Pinata
         - [x] Kinda fixed it by getting an unpin function built on API. Check why it isn't working.
@@ -36,14 +38,14 @@
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
 * Login Component
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
-    - [ ] Include additional data like user's name, email-id and bio. (Make it editable)
+    - [ ] Show react toast to confirm the edits were completed
     - [ ] Allow upload of new pfp
     - [ ] Streamline
-* Styling
-    - [ ] Check why SCSS mixins aren't working in Popups
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Include additional data like user's name, email-id and bio. (Make it editable)
+    - [x] Check why SCSS mixins aren't working in Popups
     - [x] Liking
         - [x] Also allow unliking
         - [x] Need to also include the the public key of the user that liked the post and use that to prevent multi liking

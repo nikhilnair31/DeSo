@@ -3,6 +3,7 @@
 #root {
     min-height: 100%;
 }
+
 .userpage {
     display: flex;
     flex-direction: column;
@@ -12,7 +13,6 @@
     .header {
         position: absolute;
         top: 0;
-        // bottom: 0px;
         z-index: 9;
         display: flex;
         flex-direction: row;
@@ -22,11 +22,10 @@
         align-items: center;
         backdrop-filter: blur(10px);
         justify-content: flex-start;
-        background-color: #1e1e1e75;
-        // @include themed('background-color', 'card');
+        @include themed('background-color', 'card');
         
         .backbutton {
-            color: rgb(255, 255, 255);
+            @include themed('color', 'text');
             font-size: 1rem;
             padding-left: 1pc;
         }
@@ -35,8 +34,7 @@
             padding: 0.5pc;
         }
         .title {
-            color: rgb(255, 255, 255);
-            // @include themed('color', 'text');
+            @include themed('color', 'text');
         }
     }
     .userdata {
@@ -44,56 +42,68 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding-top: 7pc;
+        margin-top: 5pc;
+        padding: 3pc 3pc;
+        border-radius: 0.5pc;
+        width: 80%;
+        max-width: 20pc;
+        @include themed('background-color', 'card');
 
         .userpfp {
             border-radius: 100%;
             padding: 0.5pc;
         }
         .username {
-            color: antiquewhite;
-            // @include themed('color', 'text');
-        }
-        .button {
-            border: 0px;
-            height: 9pc;
             @include themed('color', 'text');
+        }
+        .edit_input {
+            border: 0px;
+            height: 5vh;
+            width: 100%;
+            padding: 0.5pc;
+            margin: 0.1pc auto;
+            border-radius: 0.5pc;
+            @include themed('color', 'inputtext');
             @include themed('background-color', 'inputfield');
         }
-        .signout_button {
+        .button {
             border: 0px;
             width: 9pc;
             height: 6vh;
             border-radius: 0.5pc;
             margin: 0.3pc auto;
-            color: #ffffff;
-            background-color: rgb(30, 30, 30);
-        }
-        .connect_button {
-            border: 0px;
-            height: 7vh;
-            width: 9pc;
-            margin: 0.3pc auto;
-            padding: 1pc;
-            border-radius: 0.5pc;
             @include themed('color', 'text');
-            @include themed('background-color', 'walletbutton');
-
-            &:disabled {
-                color: #85ff7a !important;
-                @include themed('background-color', 'walletbuttonoff');
+            @include themed('background-color', 'inputfield');
+            @include all_transition_durations;
+            &:hover:enabled {
+                @include themed('color', 'textplus');
+                @include themed('background-color', 'inputfieldoff');
             }
-        }
-        .balance_button {
-            border: 0px;
-            height: 7vh;
-            width: 9pc;
-            margin: 0.3pc auto;
-            padding: 1pc;
-            border-radius: 0.5pc;
-            white-space: pre-wrap;
-            color: #ffffff;
-            background-color: rgb(30, 30, 30);
+
+            &.signout_button {
+                @include themed('color', 'text');
+                @include themed('background-color', 'inputfield');
+            }
+            &.connect_button {
+                &:disabled {
+                    color: #85ff7a;
+                    @include themed('background-color', 'inputfieldoff');
+                }
+            }
+            &.balance_button {
+                &:disabled {
+                    color: #85ff7a !important;
+                    @include themed('background-color', 'inputfieldoff');
+                }
+            }
+            &.savedits_button {
+                @include themed('color', 'text');
+                @include themed('background-color', 'accent');
+                &:hover {
+                    @include themed('color', 'accent');
+                    @include themed('background-color', 'inputfieldoff');
+                }
+            }
         }
     }
 }

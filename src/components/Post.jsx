@@ -133,14 +133,14 @@ const Post = (props) => {
                     <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} />
                 }
                 <div className="post_interaction_container">
-                    <i class={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>
+                    <i className={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>
                     <p className="interact_text like_text">{postLikeCount}</p>
-                    <i class="fas fa-comment interact_button comment_button" onClick={commentPost} ></i>
+                    <i className="fas fa-comment interact_button comment_button" onClick={commentPost} ></i>
                     <p className="interact_text comment_text">{postCommentCount}</p>
                 </div>
             </div>
             <div className="post_menu_container">
-                <Popup trigger={<i class="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
+                <Popup trigger={<i className="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
                     { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} /> }
                 </Popup>
             </div>

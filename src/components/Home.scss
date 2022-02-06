@@ -25,17 +25,18 @@
 }
 
 .home {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     min-height: 100vh;
 
     .container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        // justify-content: center;
+        padding: 1pc;
 
         .all_posts_container {
-            overflow-y: scroll;
+            // overflow-y: scroll;
             display: flex;
             flex-direction: column;
         }
@@ -64,13 +65,14 @@
 @media only screen and (min-width: 600px) {
     .home {
         .container {
-            margin: 0 auto;
-            width: 30pc;
-            min-height: 100vh;
+            // margin: 0 auto;
+            // width: 30pc;
+            // min-height: 100vh;
 
             .all_posts_container {
-                height: 100vh;
-                padding-top: 4.1pc;
+                // height: 100vh;
+                grid-row-gap: 0.5pc;
+                padding-top: 3.5pc;
             }
         }
         .post_button {
@@ -90,6 +92,7 @@
 
             .all_posts_container {
                 height: 100vh;
+                grid-row-gap: 0.5pc;
                 padding-top: 3.7pc;
             }
         }
