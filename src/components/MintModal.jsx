@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { pinFileToIPFS, pinJSONToIPFS } from '../helpers/pinata'
-import PostMint from '../artifacts/contracts/PostMint.sol/PostMint.json';
+import PostMint from 'src/artifacts/contracts/PostMint.sol/PostMint.json';
 import './MintModal.scss';
 
 const contractAddress = '0x5a951603fDaaBab6e9bC9149c2eCc15b1917E96c';
