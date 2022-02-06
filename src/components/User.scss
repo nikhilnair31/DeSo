@@ -38,13 +38,6 @@
             color: rgb(255, 255, 255);
             // @include themed('color', 'text');
         }
-    
-        .signout_button {
-            border: 0px;
-            height: 7vh;
-            @include themed('color', 'text');
-            @include themed('background-color', 'inputfield');
-        }
     }
     .userdata {
         display: flex;
@@ -61,9 +54,15 @@
             color: antiquewhite;
             // @include themed('color', 'text');
         }
+        .button {
+            border: 0px;
+            height: 9pc;
+            @include themed('color', 'text');
+            @include themed('background-color', 'inputfield');
+        }
         .signout_button {
             border: 0px;
-            min-width: 33vw;
+            width: 9pc;
             height: 6vh;
             border-radius: 0.5pc;
             margin: 0.3pc auto;
@@ -73,28 +72,22 @@
         .connect_button {
             border: 0px;
             height: 7vh;
-            min-width: 7vw;
+            width: 9pc;
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            // @include themed('color', 'text');
-            // @include themed('background-color', 'inputfield');
-            color: #ffffff;
-            background-color: rgb(30, 30, 30);
+            @include themed('color', 'text');
+            @include themed('background-color', 'walletbutton');
 
             &:disabled {
-                background-color: #1e1e1e;
-                // @include themed('color', 'textplus');
-                // @include themed('background-color', 'inputfieldoff');
+                color: #85ff7a !important;
+                @include themed('background-color', 'walletbuttonoff');
             }
-        }
-        .connected {
-            color: #85ff7a;
         }
         .balance_button {
             border: 0px;
             height: 7vh;
-            min-width: 7vw;
+            width: 9pc;
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;

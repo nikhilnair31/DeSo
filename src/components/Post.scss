@@ -25,21 +25,10 @@
         width: 20pc;
 
         .post_alias {
-            margin: 0pc;
-            padding-left: 1pc;
             @include themed('color', 'text');
         }
-        .post_text_container {
-            padding: 0pc 0pc 0pc 1pc;
-            .post_text {
-                margin: 0.2pc auto;
-            }
-        }
-        .post_image {
-            width: 17pc;
-            margin-left: 1pc;
-            margin-top: 1pc;
-            border-radius: 5%;
+        .post_text {
+            @include themed('color', 'text');
         }
         .post_interaction_container {
             display: flex;
@@ -82,11 +71,11 @@
 }
 .isnft {
     @include themed('background-color', 'cardnft');
-    .post_alias {
-        margin: 0.5pc auto;
-        padding-left: 1pc;
-        @include themed('color', 'text');
-    }
+    // .post_alias {
+    //     margin: 0.5pc auto;
+    //     padding-left: 1pc;
+    //     @include themed('color', 'text');
+    // }
 }
 
 .post_text {
@@ -101,5 +90,48 @@
     p {
         padding: 0.1pc;
         margin: 0.1pc;
+    }
+}
+
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    .post_avatar {
+        margin: 0pc 0.5pc 0pc 0pc;
+    }
+    .post_alias {
+        margin: 0.4pc 0pc;
+    }
+    .post_text {
+        margin: 0.4pc 0pc;
+    }
+    .post_image {
+        width: 18vw;
+        margin: 1pc;
+        border-radius: 5%;
+    }
+    .post_interaction_container {
+        margin-bottom: 0.5pc;
+    }
+}
+
+//Mobile
+@media only screen and (max-width: 600px) {
+    .post_avatar {
+        margin: 0pc 1pc 0pc 0pc;
+    }
+    .post_alias {
+        margin: 0.4pc 0pc;
+    }
+    .post_text {
+        margin: 0.4pc 0pc;
+    }
+    .post_image {
+        width: 55vw;
+        margin: 1pc;
+        border-radius: 5%;
+    }
+    .post_interaction_container {
+        margin-bottom: 0.5pc;
     }
 }

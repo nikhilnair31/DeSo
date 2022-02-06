@@ -1,11 +1,13 @@
 @import "../color-themes";
 
 .popup-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    @include themed('background-color', 'overlay');
+    @include all_transition_durations;
     
     .mint_modal {
-        color: #ffffff;
-        background-color: #1e1e1e;
+        @include themed('color', 'text');
+        @include themed('background-color', 'cardmodal');
+        @include all_transition_durations;
 
         .header {
             font-weight: bolder;
@@ -13,12 +15,6 @@
         }
         .content {
             margin: 0pc 0pc 1pc 0pc;
-        }
-        .close {
-            float: right;
-            border: 0pc;
-            color: #ffffff;
-            background-color: #3f3f3f;
         }
         .post_input {
             border: 0px;
@@ -45,35 +41,35 @@
                 @include themed('background-color', 'inputfieldoff');
             }
         }
-        .connect_button {
+        .button {
             border: 0px;
-            height: 7vh;
             min-width: 7vw;
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            color: #000000;
-            background-color: #ffffff;
-
-            &:disabled {
-                background-color: #1e1e1e;
-                // @include themed('color', 'textplus');
-                // @include themed('background-color', 'inputfieldoff');
-            }
-        }
-        .connected {
-            color: #85ff7a;
-            background-color: #1a1a1a;
-        }
-        .balance_button {
-            border: 0px;
-            height: 7vh;
-            min-width: 7vw;
-            margin: 0.3pc auto;
-            padding: 1pc;
-            border-radius: 0.5pc;
-            @include themed('color', 'accentplus');
+            @include themed('color', 'text');
             @include themed('background-color', 'inputfield');
+            @include all_transition_durations;
+            &:hover:enabled {
+                @include themed('color', 'text');
+                @include themed('background-color', 'inputfieldoff');
+            }
+
+            &.connect_button {
+                white-space: pre-wrap;
+                color: #85ff7a !important;
+                @include themed('background-color', 'inputfieldoff');
+                &:disabled {
+                    background-color: #1e1e1e;
+                }
+            }
+            &.balance_button {
+                @include themed('color', 'text');
+                @include themed('background-color', 'inputfield');
+            }
+            &.cancel_button {
+                @include themed('color', 'text');
+            }
         }
     }
 }
@@ -86,16 +82,9 @@
             border-radius: 0.5pc;
             margin: 2pc auto;
             width: 60%;
-    
-            .close {
-                border-radius: 0.5pc;
-                height: 2pc;
-                min-width: 2pc;
-            }
-            .connect_button {
-                width: 100%;
-            }
-            .balance_button {
+
+            .button {
+                height: 7vh;
                 width: 100%;
             }
         }
@@ -110,16 +99,9 @@
             margin: 2pc auto;
             border-radius: 0.5pc;
             width: 70%;
-    
-            .close {
-                border-radius: 0.5pc;
-                height: 2pc;
-                min-width: 2pc;
-            }
-            .connect_button {
-                width: 100%;
-            }
-            .balance_button {
+
+            .button {
+                height: 8vh;
                 width: 100%;
             }
         }

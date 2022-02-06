@@ -11,9 +11,9 @@ const MenuModal = (props) => {
         <div className="menu_modal">
             <div className="header"> What do you wish to do? </div>
             {/* <div className="content"> Type it out or upload it! </div>             */}
-            {props.canDeletePost && <button className="menu_button delete_button"  onClick ={deleteButtonOnClick}>Delete</button>}
-            <button className="menu_button share_button" onClick ={props.close}>Share</button>
-            <button className="menu_button cancel_button" onClick ={props.close}>Cancel</button>
+            {props.canDeletePost && <button className="button delete_button"  onClick ={deleteButtonOnClick}>Delete</button>}
+            <button className="button share_button" onClick ={props.close}>Share</button>
+            <button className="button cancel_button" onClick ={props.close}>Cancel</button>
         </div>
     );
 }

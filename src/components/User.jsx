@@ -50,9 +50,9 @@ const User = () => {
             <header className="userdata">
                 <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`} alt="avatar" width={150} className='userpfp' /> 
                 <p className='username' >{state.currusername}</p>
-                <button className="signout_button" onClick={signout} >Sign Out</button>
-                <button className={'connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button>
-                <button className="balance_button" onClick={getBalance}>{(!balance ? 'Show My Balance' : 'Wallet Balance: '+balance)}</button>
+                <button className="button signout_button" onClick={signout} >Sign Out</button>
+                <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button>
+                <button className="button balance_button" onClick={getBalance}>{(!balance ? 'Show My Balance' : 'Wallet Balance: '+balance.slice(0, 13))}</button>
             </header>
         </div>
     )

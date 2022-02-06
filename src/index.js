@@ -7,6 +7,8 @@ import User from './components/User';
 import App from './App.jsx';
 import './index.scss';
 
+document.getElementById("root").classList.add('theme-dark');
+// document.getElementById("popup-root").classList.add('theme-dark');
 
 ReactDOM.render(
     <BrowserRouter>

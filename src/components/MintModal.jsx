@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { pinFileToIPFS, pinJSONToIPFS } from '../helpers/pinata'
-import PostMint from '../artifacts/contracts/PostMint.sol/PostMint.json';
 import './MintModal.scss';
 
 const contractabi = {
@@ -540,12 +539,13 @@ const MintModal = (props) => {
 
     return (
         <div className="mint_modal">
-            <button className="close" onClick={props.close}>&times;</button>
+            {/* <button className="close" onClick={props.close}>&times;</button> */}
             <div className="header"> Minting And Posting </div>
             <div className="content"> The following is NFT related stuff. </div>
             <br />
-            <button className={"connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={!connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected! Balance: '+balance : 'Connect to MetaMask')}</button>
-            <button className="balance_button" onClick={mintToken}>Mint</button>
+            <button className={"button connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 13) : 'Connect to MetaMask')}</button>
+            <button className="button balance_button" onClick={mintToken}>Mint</button>
+            <button className="button cancel_button" onClick ={props.close}>Cancel</button>
         </div>
     );
 }

@@ -1,11 +1,13 @@
 @import "../color-themes";
 
 .popup-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    @include themed('background-color', 'overlay');
+    @include all_transition_durations;
     
     .post_modal {
-        color: #ffffff;
-        background-color: #1e1e1e;
+        @include themed('color', 'text');
+        @include themed('background-color', 'cardmodal');
+        @include all_transition_durations;
 
         .close {
             float: right;
@@ -32,34 +34,34 @@
         .post_attach_button {
             padding: 0.5pc;
         }
-        .post_post_button {
+        .button{
             border: 0px;
             height: 7vh;
-            min-width: 7vw;
-            margin: 0.3pc auto;
+            margin: 0.15pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            @include themed('color', 'textplus');
+            @include themed('color', 'text');
             @include themed('background-color', 'inputfield');
-
-            &:disabled {
-                color: #686868;
-                background-color: #1a1a1a;
+            @include all_transition_durations;
+            &:hover:enabled  {
+                @include themed('color', 'textplus');
+                @include themed('background-color', 'inputfieldoff');
             }
-        }
-        .mint_button {
-            border: 0px;
-            height: 7vh;
-            min-width: 7vw;
-            margin: 0.3pc auto;
-            padding: 1pc;
-            border-radius: 0.5pc;
-            @include themed('color', 'textplus');
-            @include themed('background-color', 'inputfield');
 
-            &:disabled {
-                color: #686868;
-                background-color: #1a1a1a;
+            &.post_post_button {
+                &:disabled {
+                    @include themed('color', 'textplus');
+                    @include themed('background-color', 'inputfieldoff');
+                }
+            }
+            &.mint_button {
+                &:disabled {
+                    @include themed('color', 'textplus');
+                    @include themed('background-color', 'inputfieldoff');
+                }
+            }
+            &.cancel_button {
+                @include themed('color', 'text');
             }
         }
     }
@@ -107,6 +109,9 @@
             .mint_button {
                 width: 100%;
             }
+            .cancel_button {
+                width: 100%;
+            }
         }
     }
 }
@@ -135,6 +140,9 @@
                 width: 100%;
             }
             .mint_button {
+                width: 100%;
+            }
+            .cancel_button {
                 width: 100%;
             }
         }

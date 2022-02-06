@@ -9,7 +9,7 @@ const App = () => {
     const [currusername, setcurrusername] = useState('')
     const [initialload, setinitialload] = useState(false)
 
-    document.getElementById("root").classList.add('theme-dark');
+    // document.getElementById("root").classList.add('theme-dark');
 
     useEffect(() => {
         if(user && currusername === '' && !initialload) {

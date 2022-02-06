@@ -26,10 +26,6 @@
 ## To-Do
 * General
     - [ ] Get liking and commenting working
-        - [x] Liking
-            - [x] Also allow unliking
-            - [x] Need to also include the the public key of the user that liked the post and use that to prevent multi liking
-            - [x] Like count increment works
         - [x] Commenting
             - [ ] Include the the public key of the user for comments to?
     - [ ] Find a way to upload text-only posts as NFT (Maybe by using an API to format the text into a picture?)
@@ -48,6 +44,10 @@
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Liking
+        - [x] Also allow unliking
+        - [x] Need to also include the the public key of the user that liked the post and use that to prevent multi liking
+        - [x] Like count increment works
     - [x] Put delete and share buttons into a popup menu
 	- [x] Check why NFT's images aren't loading on MetaMask/OpenSea
 	- [x] Setup meta data sctructure according to OpenSea guidelines

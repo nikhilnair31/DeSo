@@ -3,18 +3,16 @@
 .user_bio {
     position: absolute;
     top: 0;
-    // bottom: 0px;
     z-index: 9;
-    display: flex;
-    flex-direction: row;
     grid-gap: 1pc;
     width: 100%;
     height: 7vh;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     backdrop-filter: blur(10px);
     justify-content: flex-start;
-    background-color: #1e1e1e75;
-    // @include themed('background-color', 'card');
+    @include themed('background-color', 'header');
     
     .userpfp {
         border-radius: 100%;
@@ -22,13 +20,6 @@
     }
     .title {
         @include themed('color', 'text');
-    }
-
-    .signout_button {
-        border: 0px;
-        height: 7vh;
-        @include themed('color', 'text');
-        @include themed('background-color', 'inputfield');
     }
 }
 

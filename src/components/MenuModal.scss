@@ -1,35 +1,42 @@
 @import "../color-themes";
 
 .popup-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    @include themed('background-color', 'overlay');
+    @include all_transition_durations;
     
     .menu_modal {
-        color: #ffffff;
-        background-color: #1e1e1e;
+        @include themed('color', 'text');
+        @include themed('background-color', 'cardmodal');
+        @include all_transition_durations;
 
         .header {
             font-weight: bold;
         }
-        .content {
-        }
-        .menu_button {
+        .button {
             border: 0px;
             height: 7vh;
-            // min-width: 7vw;
             margin: 0.15pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
-            @include themed('color', 'textplus');
+            @include themed('color', 'text');
             @include themed('background-color', 'inputfield');
-        }
-        .delete_button {
-            color: #ffffff;
-            font-weight: bold;
-            background-color: rgb(182, 92, 104);
-        }
-        .share_button {
-        }
-        .cancel_button {
+            @include all_transition_durations;
+            &:hover {
+                @include themed('color', 'textplus');
+                @include themed('background-color', 'inputfieldoff');
+            }
+
+            &.delete_button {
+                font-weight: bold;
+                @include themed('color', 'text');
+                @include themed('background-color', 'accent');
+            }
+            &.share_button {
+                @include themed('color', 'text');
+            }
+            &.cancel_button {
+                @include themed('color', 'text');
+            }
         }
     }
 }
@@ -50,7 +57,7 @@
                 font-size: 1rem;
                 margin: 0pc 0pc 1pc 0pc;
             }
-            .menu_button {
+            .button {
                 width: 100%;
             }
         }
@@ -73,7 +80,7 @@
                 font-size: 1rem;
                 margin: 0pc 0pc 1pc 0pc;
             }
-            .menu_button {
+            .button {
                 width: 100%;
             }
         }

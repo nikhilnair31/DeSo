@@ -135,6 +135,7 @@ const Home = (props) => {
             <Popup trigger={<i class="fas fa-plus post_button"></i>} modal nested >
                 { close => <PostModal close={close} currusername={props.currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} captureFile={captureFile} sendOutPost={sendOutPost} /> }
             </Popup>
+            <div id="popup-root" />
         </div>
     );
 }

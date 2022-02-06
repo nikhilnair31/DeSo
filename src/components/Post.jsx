@@ -125,10 +125,9 @@ const Post = (props) => {
             </div>
             <div className="post_text_image_container">
                 <p className="post_alias">{props.post.posteralias} · {timeDifference(ts)}</p>
-                <div className="post_text_container">
-                    {/* <p className="post_text">{props.post.postid}</p> */}
-                    <p className="post_text">{props.post.posttext}</p>
-                </div>
+                {/* <div className="post_text_container"></div> */}
+                {/* <p className="post_text">{props.post.postid}</p> */}
+                <p className="post_text">{props.post.posttext}</p>
                 { 
                     ( props.post.imagecid!=='' ) && 
                     <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} />

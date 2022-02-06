@@ -26,7 +26,7 @@ const PostModal = (props) => {
 
     return (
         <div className="post_modal">
-            <button className="close" onClick={closePostModal}>&times;</button>
+            {/* <button className="close" onClick={closePostModal}>&times;</button> */}
             <div className="header"> What do you wish to post? </div>
             <div className="content">
                 Type it out or upload it!
@@ -40,11 +40,11 @@ const PostModal = (props) => {
                 <label htmlFor="file-1"> <span>Choose a file..</span> </label>
             </div> */}
             
-            <button className="post_post_button" type="submit" disabled={((!props.newPostText) ? true: false)} onClick ={()=>pushPostbuttonClicked(false)}>Post</button>
-            
-            <Popup trigger={<button className="mint_button" disabled={((!props.file) ? true: false)} > Mint and Post </button>} modal nested>
+            <button className="button post_post_button" type="submit" disabled={((!props.newPostText) ? true: false)} onClick ={()=>pushPostbuttonClicked(false)}>Post</button>
+            <Popup trigger={<button className="button mint_button" disabled={((!props.file) ? true: false)} > Mint and Post </button>} modal nested>
                 { close => (<MintModal close={close} currusername={props.currusername} file={props.file} filename={props.filename} setisnftflag={props.setisnftflag} newPostText={props.newPostText} pushPostbuttonClicked={pushPostbuttonClicked} />) }
             </Popup>
+            <button className="button cancel_button" onClick ={closePostModal}>Cancel</button>
         </div>
     );
 }

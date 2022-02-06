@@ -35,18 +35,18 @@ const LogIn = (props) => {
     return (
         <div className="login_wrapper">
             <div className="login">
-                <h1 className='login_text'>DeSo</h1>
+                <h1 className='text login_title_text'>DeSo</h1>
                 <div className="login_inputs">
-                    <h3 className='login_text'>Username</h3>
-                    <input name="username" onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
-                    <h3 className='login_text'>Password</h3>
-                    <input name="password" onChange={e => setpassword(e.target.value)} />
+                    <h3 className='text input_title_text'>Username</h3>
+                    <input className='input' name="username" onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
+                    <h3 className='text input_title_text'>Password</h3>
+                    <input className='input' name="password" onChange={e => setpassword(e.target.value)} />
                 </div>
                 <div className="login_button_container">
-                    <button className="login_button" onClick={login}>
+                    <button className="button login_button" onClick={login}>
                         <h5 className="button_text" >Login</h5>
                     </button>
-                    <button className="login_button" onClick={signup}>
+                    <button className="button signup_button" onClick={signup}>
                         <h5 className="button_text" >Signup</h5>
                     </button>
                 </div>

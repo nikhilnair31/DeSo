@@ -6,18 +6,19 @@
 }
 
 ::-webkit-scrollbar {
-    width: 3px;
+    width: 5px;
+    @include all_transition_durations;
     &:hover {
         width: 6px;
     }
 }
 ::-webkit-scrollbar-track {
     @include themed('background-color', 'card');
-    // background: rgb(255, 255, 255);
+    @include all_transition_durations;
 }
 ::-webkit-scrollbar-thumb {
     @include themed('background-color', 'card');
-    // background: rgb(255, 255, 255);
+    @include all_transition_durations;
     &:hover {
         @include themed('background-color', 'accent');
     }
@@ -39,27 +40,25 @@
             flex-direction: column;
         }
     }
-}
 
-.post_button {
-    position: absolute;
-    bottom: 1.5pc;
-    right: 1.5pc;
-    height: 4pc;
-    width: 4pc;
-    border: 0px;
-    border-radius: 100%;
-    line-height: 4pc;
-    font-size: 1rem;
-    text-align: center;
-    @include themed('color', 'text');
-    @include themed('background-color', 'inputfield');
-
-    &:disabled {
-        @include themed('color', 'textplus');
-        @include themed('background-color', 'inputfieldoff');
+    .post_button {
+        position: absolute;
+        border: 0px;
+        border-radius: 100%;
+        line-height: 4pc;
+        font-size: 1rem;
+        text-align: center;
+        @include themed('color', 'text');
+        @include themed('background-color', 'postbutton');
+        @include all_transition_durations;
+    
+        &:hover {
+            @include themed('color', 'accent');
+            @include themed('background-color', 'postbuttonhover');
+        }
     }
 }
+
 
 //Desktop
 @media only screen and (min-width: 600px) {
@@ -74,6 +73,12 @@
                 padding-top: 4.1pc;
             }
         }
+        .post_button {
+            bottom: 2pc;
+            right: 3pc;
+            height: 4pc;
+            width: 4pc;
+        }
     }
 }
 
@@ -87,6 +92,12 @@
                 height: 100vh;
                 padding-top: 3.7pc;
             }
+        }
+        .post_button {
+            bottom: 1.5pc;
+            right: 1.5pc;
+            height: 4pc;
+            width: 4pc;
         }
     }
 }
