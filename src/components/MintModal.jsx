@@ -599,13 +599,11 @@ const MintModal = (props) => {
 
     return (
         <div className="mint_modal">
-            {/* <button className="close" onClick={props.close}>&times;</button> */}
             <div className="header"> Minting And Posting </div>
             <div className="content"> On pressing 'Mint' wait for the process to complete please. </div>
             <br />
             <button className={"button connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 13) : 'Connect to MetaMask')}</button>
-            {/* <button className="button balance_button" onClick={tester}>tester</button> */}
-            <button className="button balance_button" onClick={mintToken}>Mint</button>
+            <button className="button mint_button" onClick={mintToken}>Mint</button>
             <button className="button cancel_button" onClick ={props.close}>Cancel</button>
             { posting && <Spinner /> }
         </div>

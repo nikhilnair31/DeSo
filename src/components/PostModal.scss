@@ -50,12 +50,14 @@
             }
 
             &.post_post_button {
+                @include themed('background-color', 'accent');
                 &:disabled {
                     @include themed('color', 'textplus');
                     @include themed('background-color', 'inputfieldoff');
                 }
             }
             &.mint_button {
+                @include themed('background-color', 'buttonconnected');
                 &:disabled {
                     @include themed('color', 'textplus');
                     @include themed('background-color', 'inputfieldoff');

@@ -51,22 +51,26 @@
             @include themed('color', 'text');
             @include themed('background-color', 'inputfield');
             @include all_transition_durations;
-            &:hover:enabled {
+            &:hover {
                 @include themed('color', 'text');
                 @include themed('background-color', 'inputfieldoff');
             }
 
             &.connect_button {
                 white-space: pre-wrap;
-                color: #85ff7a !important;
-                @include themed('background-color', 'inputfieldoff');
+                @include themed('background-color', 'buttonconnected');
                 &:disabled {
-                    background-color: #1e1e1e;
+                    @include themed('background-color', 'buttonoff');
                 }
             }
             &.balance_button {
                 @include themed('color', 'text');
                 @include themed('background-color', 'inputfield');
+            }
+            &.mint_button {
+                font-weight: bolder;
+                @include themed('color', 'text');
+                @include themed('background-color', 'accent');
             }
             &.cancel_button {
                 @include themed('color', 'text');

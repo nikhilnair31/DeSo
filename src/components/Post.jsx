@@ -66,8 +66,8 @@ const Post = (props) => {
         const posts = db.get('posts');
         posts.get(props.post.postid).put(null);
 
-        if(props.postimagecid){
-            unpinFile(props.postimagecid).then( async (resp) => {
+        if(props.post.imagecid){
+            unpinFile(props.post.imagecid).then( async (resp) => {
                 console.log('deletePost resp: ', resp);
             });
         }

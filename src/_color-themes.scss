@@ -2,23 +2,24 @@ $transition_duration: 300ms;
 
 $themes: (
     light: (
-        accent: #58ABAE,
+        accent: #ff567d,
         accentplus: #85e4e7,
+        accentalt: rgb(155, 255, 124),
         bg: rgb(255, 255, 255),
-		card: #f1f1f1,
-		cardnft: #ffe8e8,
+		card: #ffffff,
+		cardnft: #ffdbe4,
 		cardmodal: #ffffff,
 		inputfield: rgb(235, 235, 235),
 		inputfieldoff: rgb(190, 190, 190),
 		footer: rgb(235, 235, 235),
-        
-		scrollbartrack: rgb(138, 73, 73),
-		scrollbarthumb: rgb(150, 73, 73),
-		scrollbarthumb_hover: rgb(173, 120, 120),
 
 		overlay: rgba(0, 0, 0, 0.7),
         
 		header: rgb(241 241 241 / 50%),
+
+		button: rgb(255, 255, 255),
+		buttonoff: rgb(245, 245, 245),
+		buttonconnected: rgb(155, 255, 124),
         
 		postbutton: rgb(255, 255, 255),
         postbuttonshadow: -4px 6px 6px 1px rgb(0 0 0 / 10%),
@@ -45,10 +46,6 @@ $themes: (
 		inputfield: #2d2d2d,
 		inputfieldoff: #141414,
 		footer: #ff567d,
-        
-		scrollbartrack: rgb(255, 14, 14),
-		scrollbarthumb: rgb(150, 73, 73),
-		scrollbarthumb_hover: rgb(173, 120, 120),
 
 		overlay: rgba(0, 0, 0, 0.7),
         

@@ -7,15 +7,6 @@ export async function textToImage (posttext) {
         .get(`https://carbon-api-31.herokuapp.com/?code=${posttext}&theme=darcula&backgroundColor=rgba(255, 255, 255, 100)`, {
             responseType: 'arraybuffer'
         })
-        // .then(response => {
-        //     console.log('textToImage response: ', response);
-        //     // let blob = new Blob(
-        //     //     [response.data], 
-        //     //     { type: response.headers['content-type'] }
-        //     // )
-        //     // console.log('textToImage blob: ', blob);
-        //     // return blob
-        // })
         return response
     }
     catch (error) {
@@ -63,6 +54,7 @@ export async function pinJSONToIPFS (JSONBody) {
 };
 export async function unpinFile (hashToUnpin) {
     try {
+        // console.log('unpinFile hashToUnpin: ', hashToUnpin);
         const {data:response} = await axios.delete(`https://api.pinata.cloud/pinning/unpin/${hashToUnpin}`,
             {
                 headers: {
@@ -71,6 +63,7 @@ export async function unpinFile (hashToUnpin) {
                 }
             }
         )
+        // console.log('deletePost response: ', response);
         return response
     }
     catch (error) {

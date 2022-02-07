@@ -52,7 +52,7 @@
     
         &:hover {
             animation: spin_forward 1s ease-in-out forwards;
-            @include themed('color', 'accent');
+            @include themed('color', 'accentalt');
             @include themed('background-color', 'postbuttonhover');
             @include themed('box-shadow', 'postbuttonhovershadow');
             
@@ -68,7 +68,8 @@
     }
     
     .Toastify__toast--success {
-        background: #1e1e1e;
+        @include themed('color', 'text');
+        @include themed('background-color', 'card');
     }
     .Toastify__toast-body {
         text-align: center;

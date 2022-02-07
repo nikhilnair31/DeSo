@@ -92,7 +92,12 @@ const Home = (props) => {
             setnewPostText('');
         }
 
-        toast.success('Posted!');
+        if(isnftminted) {
+            toast.success('Post Minted!');
+        }
+        else {
+            toast.success('Posted!');
+        }
     }
 
     useEffect(() => { 

@@ -111,8 +111,7 @@
             }
             &.connect_button {
                 &:disabled {
-                    color: #85ff7a;
-                    @include themed('background-color', 'inputfieldoff');
+                    @include themed('background-color', 'buttonconnected');
                 }
             }
             &.balance_button {
