@@ -1,25 +1,55 @@
 @import "../color-themes";
 
 .text {
-    color: white;
+    @include themed('color', 'text');
 }
 .button {
-    color: white;
-    background-color: #2d2d2d;
+    @include themed('color', 'text');
+    @include themed('background-color', 'inputfield');
 }
 
 .login_wrapper {
-    position: relative;
     text-align: center;
+
+    .login_bg {
+        // position: absolute;
+        // top: 50%; 
+        // left: 50%;
+        transform: translate(-50%, -50%);
+        .circle {
+            position: absolute;
+            width: 20pc;
+            height: 20pc;
+            left: 3pc;
+            top: 0pc;
+            border-radius: 100%;
+            background: #D2B7FF;
+            transform: rotate( 27deg);
+            mix-blend-mode: normal;
+            filter: blur(1pc);
+        }
+        .line {
+            position: absolute;
+            width: 134px;
+            height: 1225px;
+            left: 407px;
+            top: -29.18px;
+            background: #7BFFB8;
+            filter: blur(125px);
+            border-radius: 39px;
+            transform: rotate(27deg);
+        }
+    }
 
     .login {
         position: absolute;
         top: 50%; left: 50%;
         border-radius: 0.7pc;
-        @include themed('background-color', 'card');
         @include all_transition_durations;
 
         .login_title_text {
+            margin-top: 1pc;
+            margin-bottom: 3pc;
             @include themed('color', 'text');
             @include all_transition_durations;
             &:hover{
@@ -28,22 +58,21 @@
         }
         
         .input_title_text {
-            @include themed('color', 'text');
             margin-bottom: 0.5pc;
+            @include themed('color', 'text');
         }
         .input {
-            // background-color: #2d2d2d;
-            @include themed('background-color', 'inputfield');
-            @include themed('color', 'inputtext');
-            color: #c9c9c9;
             border: 0pc;
-            padding: 0.5pc;
-            width: 11pc;
+            padding: 1pc;
+            width: 10pc;
+            height: 1pc;
             border-radius: 0.3pc;
+            @include themed('color', 'inputtext');
+            @include themed('background-color', 'inputfield');
         }
 
         .login_button_container {
-            margin-top: 1pc;
+            margin-top: 3pc;
             margin-bottom: 1pc;
 
             .button {
@@ -54,12 +83,10 @@
                 align-items: center;
             }
             .login_button {
-                @include themed('color', 'text');
-                @include themed('background-color', 'accent');
                 @include all_transition_durations;
                 &:hover{
                     @include themed('color', 'accent');
-                    @include themed('background-color', 'inputfield');
+                    @include themed('background-color', 'accentplus');
                 }
             }
             .signup_button {
@@ -86,7 +113,11 @@
             padding: 2pc;
             width: 40vw;
             max-width: 15pc;
-            transform: translate(-50%, 50%);
+            transform: translate(-50%, 20%);
+
+            .logo_img {
+                width: 70%;
+            }
 
             .login_text {
                 margin-bottom: 2pc;
@@ -114,10 +145,16 @@
 @media only screen and (max-width: 600px) {
     .login_wrapper {
         .login{
+            margin: 0pc auto;
             padding: 2pc;
             width: 60vw;
             max-width: 20pc;
-            transform: translate(-50%, 45%);
+            transform: translate(-50%, -50%);
+            
+            .logo_img {
+                width: 70%;
+            }
+
             .login_text {
                 font-size: 3rem;
                 margin-bottom: 1pc;
@@ -125,7 +162,7 @@
             .login_button {
                 border-radius: 0.5pc;
                 padding: 0pc;
-                margin: 0.3pc auto;
+                // margin: 0.3pc auto;
                 height: 3pc;
                 width: 12pc;
             }

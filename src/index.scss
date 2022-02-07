@@ -1,10 +1,31 @@
-@import "color-themes";
+@import "./color-themes";
 
 @font-face {
-    font-family: GothamLight;
+    font-family: "FonsecaBold";
     font-style: normal;
-    src: url('assets/fonts/GothamLight.otf') format("opentype");
-    font-display: swap;
+    src: local("FonsecaBold"), url("./assets/fonts/FonsecaBold.otf") format("opentype");
+}
+@font-face {
+    font-family: "GothamLight";
+    font-style: normal;
+    src: local("GothamLight"), url("./assets/fonts/GothamLight.otf") format("opentype");
+}
+@font-face {
+    font-family: "Marvin 400";
+    font-style: normal;
+    src: local("Marvin 400"), url("./assets/fonts/Marvin 400.otf") format("opentype");
+}
+@font-face {
+    font-family: "MontserratAlternates-Regular";
+    font-style: normal;
+    src: local("MontserratAlternates-Regular"), url("./assets/fonts/MontserratAlternates-Regular.woff");
+}
+@font-face {
+    font-family: "RousseauDeco";
+    font-style: normal;
+    // font-weight: bold;
+    // font-display: swap;
+    src: local("RousseauDeco"), url("./assets/fonts/RousseauDeco.ttf") format("truetype");
 }
 
 $scroll_track_color: rgba(35, 35, 35, 0.5);
@@ -12,25 +33,19 @@ $scroll_thumb_color: rgba(50, 50, 50, 0.5);
 $scroll_accent_color: rgba(60, 60, 60, 0.5);
 $scroll_width: 1rem;
 
-* {
-    //outline: 1px solid #f00 !important;
-}
-
 html, body {
 	height: 100%;
 	width: 100%;
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
-}
-
-body {
-    font-family: GothamLight, Helvetica, Arial, Sans-Serif;
-    background-color: rgb(20, 20, 20);
+    font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
+    // background-color: rgb(128, 128, 128);
+    @include themed('background-color', 'bg');
 }
 
 #root {
-    //height: 100%;
+    height: 100%;
 }
 
 //Desktop

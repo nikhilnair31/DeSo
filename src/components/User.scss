@@ -28,6 +28,10 @@
             @include themed('color', 'text');
             font-size: 1rem;
             padding-left: 1pc;
+            // padding-right: 1pc;
+        }
+        .title {
+            font-weight: bolder;
         }
         .userpfp {
             border-radius: 50%;

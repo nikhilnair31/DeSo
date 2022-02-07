@@ -6,8 +6,13 @@ import LogIn from './components/LogIn';
 import User from './components/User';
 import App from './App.jsx';
 import './index.scss';
+import './assets/fonts/FonsecaBold.otf'; 
+import './assets/fonts/GothamLight.otf'; 
+import './assets/fonts/Marvin 400.otf'; 
+import './assets/fonts/MontserratAlternates-Regular.woff'; 
+import './assets/fonts/RousseauDeco.ttf'; 
 
-document.getElementById("root").classList.add('theme-dark');
+document.getElementsByTagName("BODY")[0].classList.add('theme-light');
 
 ReactDOM.render(
     <BrowserRouter>

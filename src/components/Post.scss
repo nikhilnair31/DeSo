@@ -5,8 +5,8 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 1pc;
-    // margin: 0 auto;
     border-radius: 0.5pc;
+    box-shadow: 0px 0px 10px 2px rgb(0 0 0 / 20%);
     @include themed('background-color', 'card');
 
     .post_avatar_container {
@@ -59,25 +59,25 @@
             justify-content: center;
             grid-gap: 0.2pc;
             .interact_button {
-                color: white;
+                @include themed('color', 'textplus');
                 padding: 0.5pc 0pc 0pc 0pc;
                 margin: 0pc 0.5pc;
+                &.liked {
+                    @include themed('color', 'accent');
+                }
             }
             .interact_text {
-                color: white;
+                @include themed('color', 'textplus');
                 padding: 0.5pc 0pc 0pc 0pc;
                 margin: 0pc 0.5pc;
-            }
-            .liked {
-                color: rgb(206, 98, 98);
             }
         }
     }
     .post_menu_container {
         display: flex;
         flex-direction: column;
-        // margin-left: auto;
         grid-gap: 0.1pc;
+
         .post_menu_button {
             border: 0px;
             line-height: 40px;
@@ -87,18 +87,15 @@
             font-size: 1rem;
             vertical-align: bottom;
             text-align: center;
-            @include themed('color', 'text');
-            // @include themed('background-color', 'inputfield');
+            @include themed('color', 'textplus');
         }
     }
-}
-.isnft {
-    @include themed('background-color', 'cardnft');
-    // .post_alias {
-    //     margin: 0.5pc auto;
-    //     padding-left: 1pc;
-    //     @include themed('color', 'text');
-    // }
+
+    &.isnft {
+        box-shadow: 0px 0px 10px 2px rgb(0 0 0 / 20%);
+        background-image: url("../assets/holo.png");
+        @include themed('background-color', 'cardnft');
+    }
 }
 
 .post_text {

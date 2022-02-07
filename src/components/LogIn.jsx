@@ -34,13 +34,18 @@ const LogIn = (props) => {
 
     return (
         <div className="login_wrapper">
+            {/* <div className="login_bg">
+                <div className="circle"></div>
+                <div className="line"></div>
+            </div> */}
             <div className="login">
-                <h1 className='text login_title_text'>DeSo</h1>
+                <img className='logo_img' src='./images/Logo.png' />
+                {/* <h1 className='text login_title_text'>DeSo</h1> */}
                 <div className="login_inputs">
                     <h3 className='text input_title_text'>Username</h3>
-                    <input className='input' name="username" onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
+                    <input className='input' name="username" placeholder='username...' onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
                     <h3 className='text input_title_text'>Password</h3>
-                    <input className='input' name="password" onChange={e => setpassword(e.target.value)} />
+                    <input className='input' name="password"placeholder='password...'  onChange={e => setpassword(e.target.value)} />
                 </div>
                 <div className="login_button_container">
                     <button className="button login_button" onClick={login}>

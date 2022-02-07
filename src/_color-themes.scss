@@ -5,16 +5,26 @@ $themes: (
         accent: #58ABAE,
         accentplus: #85e4e7,
         bg: rgb(255, 255, 255),
-		card: rgb(250, 250, 250),
-		cardnft: rgb(250, 250, 250),
+		card: #f1f1f1,
+		cardnft: #ffe8e8,
+		cardmodal: #ffffff,
 		inputfield: rgb(235, 235, 235),
-		inputfieldoff: rgb(225, 225, 225),
+		inputfieldoff: rgb(190, 190, 190),
 		footer: rgb(235, 235, 235),
         
 		scrollbartrack: rgb(255, 14, 14),
 		scrollbarthumb: rgb(150, 73, 73),
 		scrollbarthumb_hover: rgb(173, 120, 120),
+
+		overlay: rgba(0, 0, 0, 0.7),
         
+		header: rgb(241 241 241 / 50%),
+        
+		postbutton: rgb(219, 219, 219),
+		postbuttonhover: rgb(245, 245, 245),
+
+		walletbutton: rgb(41, 41, 41),
+		walletbuttonoff: rgb(30, 30, 30),
 		mintbutton: rgb(41, 41, 41),
 		mintbuttonoff: rgb(20, 20, 20),
 
@@ -24,8 +34,8 @@ $themes: (
 		inputtext: rgb(15, 15, 15),
     ),
     dark: (
-        accent: #fe2b5d,
-        accentplus: #ff567d,
+        accent: #9794c8,
+        accentplus: #f9c7d4,
         bg: rgb(20, 20, 20),
 		card: rgb(30, 30, 30),
 		cardnft: rgb(10, 10, 10),

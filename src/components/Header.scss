@@ -19,7 +19,39 @@
         padding: 0.5pc;
     }
     .title {
+        font-weight: bolder;
         @include themed('color', 'text');
+    }
+    .themeicon {
+        margin-left: auto;
+        margin-right: 1pc;
+        font-size: 1.5rem;
+        animation-name: spin;
+        @include themed('color', 'text');
+        @include all_transition_durations;
+
+        &.spin_forward {
+            animation: spin_forward 1s ease-in-out forwards;
+        }
+        @keyframes spin_forward {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to { 
+                transform: rotate(360deg); 
+            }
+        }
+        &.spin_backward {
+            animation: spin_backward 1s ease-in-out forwards;
+        }
+        @keyframes spin_backward {
+            from {
+                transform: rotate(360deg); 
+            }
+            to { 
+                transform: rotate(0deg); 
+            }
+        }
     }
 }
 

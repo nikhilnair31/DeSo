@@ -47,16 +47,18 @@ const User = () => {
     }
     function saveedits() {
         console.log('saveedits');
-        const users = db.get('users');
-        const curruser = db.get('curruser'+state.userpub);
-        curruser.put({ 
+        let data = {
             userpub: state.userpub, 
             useralias: state.currusername, 
             userfullname: fullname, 
             useremail: email, 
             userbio: bio, 
-        });
+        }
+        const users = db.get('users');
+        const curruser = db.get('curruser'+state.userpub);
+        curruser.put(data);
         users.set(curruser);
+        setfulluserdata(data);
         setineditingmode(!ineditingmode);
         toast.success('Edits saved!');
     }
@@ -95,6 +97,7 @@ const User = () => {
         <div className="userpage">
             <header className="header">
                 <i className="fa fa-chevron-left backbutton" onClick={backtohome}></i>
+                <p className='title' >Profile</p>
             </header>
             <div className="userdata">
                 <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`} alt="avatar" width={100} className='userpfp' /> 
