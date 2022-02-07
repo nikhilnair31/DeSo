@@ -3,7 +3,7 @@ import Post from './Post'
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
 import PostModal from './PostModal';
-import { pinFileToIPFS, textToImage } from '../helpers/pinata'
+import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -112,7 +112,7 @@ const Home = (props) => {
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
-                console.log('data: ', data, 'id: ', id);
+                // console.log('data: ', data, 'id: ', id);
                 const key = '#foo';
                 var post = {
                     postid: id, 
@@ -127,7 +127,7 @@ const Home = (props) => {
                     commentcount: data.commentcount,
                     comments: data.comments
                 };
-                console.log('post: ', post);
+                // console.log('post: ', post);
                 dispatch(post);
             }
         });

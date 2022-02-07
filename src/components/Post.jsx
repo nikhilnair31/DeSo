@@ -8,8 +8,8 @@ import './Post.scss';
 let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
 
 const Post = (props) => {
+    const [posteravatarurl, setposteravatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${props.post.posteralias}.svg`);
     const [canDeletePost, setcanDeletePost] = useState(false);
-    const [avatar, setavatar] = useState('');
     const [postLikeCount, setpostLikeCount] = useState(0);
     const [postLikeUserPubsArr, setpostLikeUserPubsArr] = useState('');
     const [postLikedByCurrUser, setpostLikedByCurrUser] = useState(false);
@@ -61,6 +61,14 @@ const Post = (props) => {
             }
         }
     }
+    function getfullposteruserdata() {
+        const users = db.get('users').get('curruser'+props.post.posterpub);
+        users.once(async (data, id) => {
+            if(data.userpub === props.post.posterpub && (data.pfpcid!==undefined && data.pfpcid!==null)) {
+                setposteravatarurl(imagebasedomains[0]+data.pfpcid);
+            }
+        });
+    }
     function deletePost() {
         console.log('deletePost');
         const posts = db.get('posts');
@@ -107,21 +115,20 @@ const Post = (props) => {
     }
 
     useEffect(() => {
-        // console.log('props.post: ', props.post, '\n props.curruseralias: ', props.curruseralias); 
-        
-        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
-        setavatar(`https://avatars.dicebear.com/api/big-ears-neutral/${props.post.posteralias}.svg`);
         setts(new Date(props.post.posttime));
+        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
         setpostLikeCount((props.post.likecount===undefined) ? 0 : props.post.likecount);
         setpostCommentCount((props.post.commentcount===undefined) ? 0 : props.post.commentcount);
 
+        // console.log('useEffect !initialload props.post: ', props.post, ' - props.post.posteralias: ', props.post.posteralias, ' - posteravatarurl: ', posteravatarurl);
+        getfullposteruserdata();
         isPostLikedByCurrUser();
     }, [props.post]);
 
     return (
         <div className={'post '+( props.post.nftflag ? 'isnft' : '' )}>
             <div className="post_avatar_container">
-                <img className="post_avatar" src={avatar} alt="avatar" />
+                <img className="post_avatar" src={posteravatarurl.includes('undefined')?`https://avatars.dicebear.com/api/big-ears-neutral/${props.post.posteralias}.svg`:posteravatarurl} alt="avatar" />
             </div>
             <div className="post_text_image_container">
                 <div className="alias_container">

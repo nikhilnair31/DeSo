@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate , useLocation } from "react-router-dom";
 import { db } from '../helpers/user'
 import { user } from '../helpers/user'
 import { ethers } from 'ethers';
+import { pinFileToIPFS } from '../helpers/pinata'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './User.scss';
 
+let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
+
 const User = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
+    const inputElement = useRef();
+    const [isHovered, setHover] = useState(false);
     const [connectedtometamask, setconnectedtometamask] = useState(false);
     const [ineditingmode, setineditingmode] = useState(false);
+    const [avatarurl, setavatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`);
     const [fulluserdata, setfulluserdata] = useState({});
     const [fullname, setfullname] = useState('');
     const [email, setemail] = useState('');
@@ -35,6 +41,24 @@ const User = () => {
         user.leave();
         // state.setcurrusername('');
         navigate('/');
+    }
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(`Selected file - ${inputElement.current.files[0].name}`);
+
+        pinFileToIPFS(inputElement.current.files[0]).then( async (resp) => {
+            console.log('resp: ', resp);
+            let respcid = resp.IpfsHash ? resp.IpfsHash : '';
+            console.log('respcid: ', respcid);
+
+            const users = db.get('users');
+            const curruser = db.get('curruser'+state.userpub);
+            curruser.put({
+                pfpcid: respcid
+            });
+            users.set(curruser);
+            toast.success('Profile picture updated!');
+        });
     }
     function editonoff() {
         console.log('editonoff');
@@ -62,6 +86,18 @@ const User = () => {
         setineditingmode(!ineditingmode);
         toast.success('Edits saved!');
     }
+    function removepfp() {
+        console.log('removepfp');
+        const users = db.get('users');
+        const curruser = db.get('curruser'+state.userpub);
+        curruser.put({pfpcid: null});
+        users.set(curruser);
+        let fulluserdatanew = fulluserdata;
+        fulluserdatanew['pfpcid'] = null;
+        setfulluserdata(fulluserdatanew);
+        setineditingmode(!ineditingmode);
+        toast.success('removepfp!');
+    }
     function getfulluserdata() {
         console.log('getfulluserdata');
         var match = {
@@ -74,9 +110,10 @@ const User = () => {
         };
         const users = db.get('users');
         users.map(match).once(async (data, id) => {
-            if(data.userpub === state.userpub){
+            if(data.userpub === state.userpub && (data.pfpcid!==undefined && data.pfpcid!==null)){
                 console.log('getfulluserdata id: ', id, ' - data: ', data);
                 setfulluserdata(data);
+                setavatarurl(imagebasedomains[0]+data.pfpcid);
             }
         });
     }
@@ -96,17 +133,32 @@ const User = () => {
     return (
         <div className="userpage">
             <header className="header">
-                <i className="fa fa-chevron-left backbutton" onClick={backtohome}></i>
+                <i className="fa fa-chevron-left backbutton" onClick={backtohome} ></i>
                 <p className='title' >Profile</p>
             </header>
-            <div className="userdata">
-                <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`} alt="avatar" width={100} className='userpfp' /> 
+            <div className="userdata"> 
+                <div className="container" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} >
+                {/* src={imagebasedomains[0]+props.post.imagecid}  */}
+                    <img src={avatarurl} alt="avatar" width={100} className='userpfp' />
+                    {isHovered &&
+                    <div className="middle">
+                        <label htmlFor="fileInput"> 
+                            <i type="file" className="pfpupdate far fa-edit" ></i>
+                        </label>
+                        <input id="fileInput" type="file" ref={inputElement} onChange ={handleSubmit} />
+                    </div>}
+                </div>
+
                 <p className='username' >{state.currusername}</p>
                 {/* { fulluserdata && <p className='username' >{fulluserdata.userpub}</p> } */}
                 { fulluserdata && <p className='fullname' >{fulluserdata.userfullname}</p> }
                 { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
                 { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }
                 <button className="button edit_button" onClick={editonoff} >Edit</button>
+                {
+                    ineditingmode &&
+                    <button className="button remove_pfp_button" onClick={removepfp} >Remove Profile Picture</button>
+                }
                 {
                     ineditingmode &&
                     <input className="edit_input" type="text" placeholder="Full Name..." value={fullname} onChange={e => setfullname(e.target.value)} />

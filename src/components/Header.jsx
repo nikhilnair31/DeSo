@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { user, db } from '../helpers/user'
 import './Header.scss';
 
+let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
+
 const Header = (props) => {
+    const [avatarurl, setavatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${props.currusername}.svg`);
     const [fulluserdata, setfulluserdata] = useState({});
     const [lighttheme, setlighttheme] = useState(false);
     let navigate = useNavigate();
@@ -45,9 +48,10 @@ const Header = (props) => {
         };
         const users = db.get('users');
         users.map(match).once(async (data, id) => {
-            if(data.userpub === user.is.pub){
-                console.log('getfulluserdata id: ', id, ' - data: ', data);
+            if(data.userpub === user.is.pub && (data.pfpcid!==undefined && data.pfpcid!==null)){
+                // console.log('getfulluserdata id: ', id, ' - data: ', data);
                 setfulluserdata(data);
+                setavatarurl(imagebasedomains[0]+data.pfpcid);
             }
         });
     }
@@ -59,9 +63,9 @@ const Header = (props) => {
 
     return (
         <header className="user_bio">
-            <img src={`https://avatars.dicebear.com/api/big-ears-neutral/${props.currusername}.svg`} alt="avatar" width={45} className='userpfp' onClick={handleClick}/> 
+            <img src={avatarurl} alt="avatar" width={45} className='userpfp' onClick={handleClick}/> 
             <span className='title' >hi {(fulluserdata.userfullname) ? fulluserdata.userfullname.toLowerCase().split(" ")[0] : props.currusername}</span>
-            <i class={lighttheme ? 'themeicon fas fa-adjust spin_backward' : 'themeicon fas fa-adjust spin_forward'} onClick={themeswitch} ></i>
+            <i className={lighttheme ? 'themeicon fas fa-adjust spin_backward' : 'themeicon fas fa-adjust spin_forward'} onClick={themeswitch} ></i>
         </header>
     );
 }

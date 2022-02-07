@@ -35,8 +35,9 @@
             - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
     - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
+* Post
+    - [ ] Fix how to pull the IPFS hash / API avatar from the data
 * User
-    - [ ] Allow upload of new pfp
     - [ ] Create a page that makes individual user's content accessible
     - [ ] Maybe use the common User page for the curr User too just including an 'Edit' button
     - [ ] Search for all posts and then filter depending on user's public key
@@ -46,6 +47,8 @@
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Allow removal of pfp
+    - [x] Allow upload of new pfp
     - [x] While the post data gets removed from GUN peers there may still remain images on Pinata
         -  [x] Kinda fixed it by getting an unpin function built on API. Check why it isn't working.
     - [x] Show react toast to confirm the edits were completed
