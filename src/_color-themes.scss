@@ -12,7 +12,7 @@ $themes: (
 		inputfieldoff: rgb(190, 190, 190),
 		footer: rgb(235, 235, 235),
         
-		scrollbartrack: rgb(255, 14, 14),
+		scrollbartrack: rgb(138, 73, 73),
 		scrollbarthumb: rgb(150, 73, 73),
 		scrollbarthumb_hover: rgb(173, 120, 120),
 
@@ -20,8 +20,10 @@ $themes: (
         
 		header: rgb(241 241 241 / 50%),
         
-		postbutton: rgb(219, 219, 219),
-		postbuttonhover: rgb(245, 245, 245),
+		postbutton: rgb(255, 255, 255),
+        postbuttonshadow: -4px 6px 6px 1px rgb(0 0 0 / 10%),
+		postbuttonhover: rgb(255, 255, 255),
+        postbuttonhovershadow: 0px 0px 10px 5px rgb(0 0 0 / 20%),
 
 		walletbutton: rgb(41, 41, 41),
 		walletbuttonoff: rgb(30, 30, 30),
@@ -52,8 +54,10 @@ $themes: (
         
 		header: rgba(30, 30, 30, 0.459),
         
-		postbutton: rgb(41, 41, 41),
-		postbuttonhover: rgb(51, 51, 51),
+		postbutton: rgb(255, 255, 255),
+        postbuttonshadow: rgb(0 0 0 / 20%) 0px 0px 10px 5px,
+		postbuttonhover: rgb(255, 255, 255),
+        postbuttonhovershadow: rgb(0 0 0 / 20%) 0px 0px 10px 5px,
 
 		walletbutton: rgb(41, 41, 41),
 		walletbuttonoff: rgb(30, 30, 30),

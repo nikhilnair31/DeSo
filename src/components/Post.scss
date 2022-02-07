@@ -6,7 +6,7 @@
     justify-content: space-between;
     padding: 1pc;
     border-radius: 0.5pc;
-    box-shadow: 0px 0px 10px 2px rgb(0 0 0 / 20%);
+    box-shadow: 0px 0px 10px 2px rgb(100 100 100 / 20%);
     @include themed('background-color', 'card');
 
     .post_avatar_container {
@@ -92,7 +92,7 @@
     }
 
     &.isnft {
-        box-shadow: 0px 0px 10px 2px rgb(0 0 0 / 20%);
+        box-shadow: inset 0px 0px 100px 20px white;
         background-image: url("../assets/holo.png");
         @include themed('background-color', 'cardnft');
     }

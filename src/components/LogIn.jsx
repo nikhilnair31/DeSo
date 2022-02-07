@@ -43,9 +43,9 @@ const LogIn = (props) => {
                 {/* <h1 className='text login_title_text'>DeSo</h1> */}
                 <div className="login_inputs">
                     <h3 className='text input_title_text'>Username</h3>
-                    <input className='input' name="username" placeholder='username...' onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
+                    <input className='input' name="username" placeholder='Username' onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
                     <h3 className='text input_title_text'>Password</h3>
-                    <input className='input' name="password"placeholder='password...'  onChange={e => setpassword(e.target.value)} />
+                    <input className='input' name="password" placeholder='Password' onChange={e => setpassword(e.target.value)} type="password" required />
                 </div>
                 <div className="login_button_container">
                     <button className="button login_button" onClick={login}>

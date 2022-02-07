@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { pinFileToIPFS, pinJSONToIPFS } from '../helpers/pinata'
+import { pinFileToIPFS, pinJSONToIPFS, textToImage } from '../helpers/pinata'
 import Spinner from './Spinner';
 import './MintModal.scss';
 
@@ -487,47 +487,103 @@ const MintModal = (props) => {
     };
     const mintToken = async () => {
         setposting(true);
-        pinFileToIPFS(props.file).then( async (resp) => {
-            console.log('resp: ', resp);
-            let respcid = resp.IpfsHash ? resp.IpfsHash : '';
-            // console.log('respcid: ', respcid);
-            
-            let metadatajson = {
-                'pinataMetadata': {
-                    'name': `metadata-${props.filename}.json`
-                },
-                /* The contents of the "pinataContent" object will be added to IPFS */
-                /* The hash provided back will only represent the JSON contained in this object */
-                /* The JSON the returned hash links to will NOT contain the "pinataMetadata" object above */
-                /* The image URI include only the IPFS hash returned for the uploaded image */
-                'pinataContent': {
-                    "image": `ipfs://${respcid}`,
-                    "name": `${props.newPostText}`,
-                    "description": `This is the NFT of the post made by ${props.currusername} on DeSo.`
-                }
-            }
 
-            pinJSONToIPFS(metadatajson).then( async (resp) => {
+        if(!props.file) {
+            textToImage(props.newPostText).then( async (resp) => {
+                console.log('resp: ', resp);
+                let blob = new Blob(
+                    [resp.data], 
+                    { type: resp.headers['content-type'] }
+                )
+                console.log('textToImage blob: ', blob);
+                props.setfile(blob);
+                
+                pinFileToIPFS(blob).then( async (resp) => {
+                    console.log('resp: ', resp);
+                    let respcid = resp.IpfsHash ? resp.IpfsHash : '';
+                    // console.log('respcid: ', respcid);
+                    
+                    let metadatajson = {
+                        'pinataMetadata': {
+                            'name': `metadata-${props.newPostText}.json`
+                        },
+                        /* The contents of the "pinataContent" object will be added to IPFS */
+                        /* The hash provided back will only represent the JSON contained in this object */
+                        /* The JSON the returned hash links to will NOT contain the "pinataMetadata" object above */
+                        /* The image URI include only the IPFS hash returned for the uploaded image */
+                        'pinataContent': {
+                            "image": `ipfs://${respcid}`,
+                            "name": `${props.newPostText}`,
+                            "description": `This is the NFT of the post made by ${props.currusername} on DeSo.`
+                        }
+                    }
+    
+                    pinJSONToIPFS(metadatajson).then( async (resp) => {
+                        console.log('resp: ', resp);
+                        let respcid = resp.IpfsHash ? resp.IpfsHash : '';
+                        // console.log('respcid: ', respcid);
+    
+                        const signeraddr = await signer.getAddress();
+                        console.log("signeraddr:", signeraddr);
+    
+                        const result = await contract.payToMint(signeraddr, respcid, {
+                            value: ethers.utils.parseEther('0.01'),
+                        });
+                    
+                        await result.wait();
+                        getMintedStatus(respcid);
+    
+                        console.log('pinJSONToIPFS - ', true);
+                        setposting(false);
+                        props.pushPostbuttonClicked(true);
+                        // getCount();
+                    });
+                });
+            });
+        }
+        else {
+            pinFileToIPFS(props.file).then( async (resp) => {
                 console.log('resp: ', resp);
                 let respcid = resp.IpfsHash ? resp.IpfsHash : '';
                 // console.log('respcid: ', respcid);
+                
+                let metadatajson = {
+                    'pinataMetadata': {
+                        'name': `metadata-${props.filename}.json`
+                    },
+                    /* The contents of the "pinataContent" object will be added to IPFS */
+                    /* The hash provided back will only represent the JSON contained in this object */
+                    /* The JSON the returned hash links to will NOT contain the "pinataMetadata" object above */
+                    /* The image URI include only the IPFS hash returned for the uploaded image */
+                    'pinataContent': {
+                        "image": `ipfs://${respcid}`,
+                        "name": `${props.newPostText}`,
+                        "description": `This is the NFT of the post made by ${props.currusername} on DeSo.`
+                    }
+                }
 
-                const signeraddr = await signer.getAddress();
-                console.log("signeraddr:", signeraddr);
+                pinJSONToIPFS(metadatajson).then( async (resp) => {
+                    console.log('resp: ', resp);
+                    let respcid = resp.IpfsHash ? resp.IpfsHash : '';
+                    // console.log('respcid: ', respcid);
 
-                const result = await contract.payToMint(signeraddr, respcid, {
-                    value: ethers.utils.parseEther('0.01'),
+                    const signeraddr = await signer.getAddress();
+                    console.log("signeraddr:", signeraddr);
+
+                    const result = await contract.payToMint(signeraddr, respcid, {
+                        value: ethers.utils.parseEther('0.01'),
+                    });
+                
+                    await result.wait();
+                    getMintedStatus(respcid);
+
+                    console.log('pinJSONToIPFS - ', true);
+                    setposting(false);
+                    props.pushPostbuttonClicked(true);
+                    // getCount();
                 });
-            
-                await result.wait();
-                getMintedStatus(respcid);
-
-                console.log('pinJSONToIPFS - ', true);
-                setposting(false);
-                props.pushPostbuttonClicked(true);
-                // getCount();
             });
-        });
+        }
     };
     const getMintedStatus = async (respmetadataURI) => {
         const result = await contract.isContentOwned(respmetadataURI);

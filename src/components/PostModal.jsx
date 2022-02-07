@@ -41,8 +41,8 @@ const PostModal = (props) => {
             </div> */}
             
             <button className="button post_post_button" type="submit" disabled={((!props.newPostText) ? true: false)} onClick ={()=>pushPostbuttonClicked(false)}>Post</button>
-            <Popup trigger={<button className="button mint_button" disabled={((!props.file) ? true: false)} > Mint and Post </button>} modal nested>
-                { close => (<MintModal close={close} currusername={props.currusername} file={props.file} filename={props.filename} setisnftflag={props.setisnftflag} newPostText={props.newPostText} pushPostbuttonClicked={pushPostbuttonClicked} />) }
+            <Popup trigger={<button className="button mint_button" disabled={((!props.newPostText) ? true: false)} > Mint and Post </button>} modal nested>
+                { close => (<MintModal close={close} currusername={props.currusername} file={props.file} setfile={props.setfile} filename={props.filename} setisnftflag={props.setisnftflag} newPostText={props.newPostText} pushPostbuttonClicked={pushPostbuttonClicked} />) }
             </Popup>
             <button className="button cancel_button" onClick ={closePostModal}>Cancel</button>
         </div>

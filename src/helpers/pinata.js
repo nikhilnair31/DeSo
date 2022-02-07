@@ -1,6 +1,27 @@
 const axios = require('axios');
 const FormData = require('form-data');
 
+export async function textToImage (posttext) {
+    try {
+        const response = await axios
+        .get(`https://carbon-api-31.herokuapp.com/?code=${posttext}&theme=darcula&backgroundColor=rgba(255, 255, 255, 100)`, {
+            responseType: 'arraybuffer'
+        })
+        // .then(response => {
+        //     console.log('textToImage response: ', response);
+        //     // let blob = new Blob(
+        //     //     [response.data], 
+        //     //     { type: response.headers['content-type'] }
+        //     // )
+        //     // console.log('textToImage blob: ', blob);
+        //     // return blob
+        // })
+        return response
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
 export async function pinFileToIPFS (file) {
     try {
         let data = new FormData();

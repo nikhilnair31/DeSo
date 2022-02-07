@@ -3,7 +3,7 @@ import Post from './Post'
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
 import PostModal from './PostModal';
-import { pinFileToIPFS } from '../helpers/pinata'
+import { pinFileToIPFS, textToImage } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,8 +34,10 @@ const Home = (props) => {
     }
     async function sendOutPost(isnftminted) {
         console.log('sendOutPost - ', isnftminted);
+
         if(file){
             console.log('file');
+
             pinFileToIPFS(file).then( async (resp) => {
                 console.log('resp: ', resp);
                 let respcid = resp.IpfsHash ? resp.IpfsHash : '';
@@ -66,6 +68,7 @@ const Home = (props) => {
         }
         else{
             console.log('!file');
+
             const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
             console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText, ' - user.is.pub: ', user.is.pub);
 
@@ -88,6 +91,7 @@ const Home = (props) => {
             
             setnewPostText('');
         }
+
         toast.success('Posted!');
     }
 

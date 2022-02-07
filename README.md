@@ -30,20 +30,20 @@
             - [ ] Include the the public key of the user for comments to?
         - [ ] Deleting
             - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
-    - [ ] Find a way to upload text-only posts as NFT (Maybe by using an API to format the text into a picture?)
     - [ ] While the post data gets removed from GUN peers there may still remain images on Pinata
         - [x] Kinda fixed it by getting an unpin function built on API. Check why it isn't working.
     - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
-    - [ ] Also fix how the thing loads at the bottom of the feed instead of top
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
 * Login Component
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
-    - [ ] Show react toast to confirm the edits were completed
     - [ ] Allow upload of new pfp
     - [ ] Streamline
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Show react toast to confirm the edits were completed
+    - [x] Also fix how the thing loads at the bottom of the feed instead of top
+    - [x] Find a way to upload text-only posts as NFT (Maybe by using an API to format the text into a picture?)
     - [x] Include additional data like user's name, email-id and bio. (Make it editable)
     - [x] Check why SCSS mixins aren't working in Popups
     - [x] Liking

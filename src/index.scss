@@ -28,10 +28,10 @@
     src: local("RousseauDeco"), url("./assets/fonts/RousseauDeco.ttf") format("truetype");
 }
 
-$scroll_track_color: rgba(35, 35, 35, 0.5);
-$scroll_thumb_color: rgba(50, 50, 50, 0.5);
-$scroll_accent_color: rgba(60, 60, 60, 0.5);
 $scroll_width: 1rem;
+$scroll_track_color: rgba(210, 210, 210, 0.5);
+$scroll_thumb_color: rgba(180, 180, 180, 0.5);
+$scroll_accent_color: rgba(140, 140, 140, 0.5);
 
 html, body {
 	height: 100%;
@@ -52,6 +52,7 @@ html, body {
 @media only screen and (min-width: 600px) {
     body::-webkit-scrollbar {
         width: $scroll_width;
+        @include all_transition_durations;
     }
     
     body::-webkit-scrollbar-track {
@@ -60,6 +61,7 @@ html, body {
     
     body::-webkit-scrollbar-thumb {
         background: $scroll_thumb_color;
+        @include all_transition_durations;
         &:hover {
             background: $scroll_accent_color;
         }

@@ -47,6 +47,7 @@
             margin: 0.3pc auto;
             padding: 1pc;
             border-radius: 0.5pc;
+            font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
             @include themed('color', 'text');
             @include themed('background-color', 'inputfield');
             @include all_transition_durations;

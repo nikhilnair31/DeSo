@@ -30,6 +30,10 @@
         @include themed('color', 'text');
         @include all_transition_durations;
 
+        // &:hover {
+        //     font-size: 1.6rem;
+        // }
+
         &.spin_forward {
             animation: spin_forward 1s ease-in-out forwards;
         }

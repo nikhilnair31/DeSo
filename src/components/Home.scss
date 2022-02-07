@@ -45,13 +45,25 @@
         line-height: 4pc;
         font-size: 1rem;
         text-align: center;
-        @include themed('color', 'text');
-        @include themed('background-color', 'postbutton');
+        @include themed('color', 'postbutton');
+        @include themed('background-color', 'accent');
+        @include themed('box-shadow', 'postbuttonshadow');
         @include all_transition_durations;
     
         &:hover {
+            animation: spin_forward 1s ease-in-out forwards;
             @include themed('color', 'accent');
             @include themed('background-color', 'postbuttonhover');
+            @include themed('box-shadow', 'postbuttonhovershadow');
+            
+            @keyframes spin_forward {
+                from { 
+                    transform: rotate(0deg); 
+                }
+                to { 
+                    transform: rotate(360deg); 
+                }
+            }
         }
     }
     
