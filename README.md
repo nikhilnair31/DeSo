@@ -1,5 +1,6 @@
 ## DeSo
-![IMG](./public/images/Logo.png)
+![Logo](./public/images/Logo.png  | width=100)
+<!-- <img src="./images/Objy-InfiniteGraph-doc.png" alt="InfiniteGraph Logo" width="320" /> -->
 ## What to Run?
 - Run command to compile the smart contracts into ABIs
     `npx hardhat compile`
