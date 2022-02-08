@@ -262,13 +262,13 @@ const User = () => {
                     <div className="container" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} >
                     {/* src={imagebasedomains[0]+props.post.imagecid}  */}
                         <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
-                        {isHovered &&
+                        { isHovered &&
                         <div className="middle">
                             <label htmlFor="fileInput"> 
                                 <i type="file" className="pfpupdate far fa-edit" ></i>
                             </label>
                             <input id="fileInput" type="file" ref={inputElement} onChange ={uploadNewPFP} />
-                        </div>}
+                        </div> }
                     </div>
 
                     <p className='username' >{'@'+fulluserdata.useralias}</p>
@@ -276,9 +276,10 @@ const User = () => {
                     { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
                     { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }
                 </div>
-
-                <p className='posts_title' >Posts</p>
+                
+                { arrstate &&
                 <div className="user_home">
+                    <p className='posts_title' >Posts</p>
                     <div className="user_container">
                         <div className="user_posts_container">
                             {
@@ -289,7 +290,7 @@ const User = () => {
                         </div>
                     </div>
                     <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
-                </div>
+                </div> }
             </div>
         )
     }
