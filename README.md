@@ -1,4 +1,5 @@
 ## DeSo
+![IMG](./public/images/Logo.png)
 ## What to Run?
 - Run command to compile the smart contracts into ABIs
     `npx hardhat compile`

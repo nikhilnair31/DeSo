@@ -69,7 +69,7 @@ const User = (props) => {
     }
     function editOnOff() {
         console.log('editonoff');
-        
+
         setineditingmode(!ineditingmode);
         if(fulluserdata) {
             setfullname(fulluserdata.userfullname);
@@ -168,7 +168,7 @@ const User = (props) => {
                         </div>}
                     </div>
 
-                    <p className='username' >{props.username}</p>
+                    <p className='username' >{'@'+fulluserdata.useralias}</p>
                     { fulluserdata && <p className='fullname' >{fulluserdata.userfullname}</p> }
                     { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
                     { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }
@@ -207,7 +207,7 @@ const User = (props) => {
                         </div>}
                     </div>
 
-                    <p className='username' >{props.username}</p>
+                    <p className='username' >{'@'+fulluserdata.useralias}</p>
                     { fulluserdata && <p className='fullname' >{fulluserdata.userfullname}</p> }
                     { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
                     { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }

@@ -157,7 +157,7 @@ const Post = (props) => {
                 <p className="post_text">{props.post.posttext}</p>
                 { 
                     ( props.post.imagecid!=='' ) && 
-                    <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} />
+                    <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} alt='postimage' />
                 }
                 <div className="post_interaction_container">
                     <i className={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>

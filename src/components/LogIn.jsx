@@ -38,7 +38,7 @@ const LogIn = () => {
     return (
         <div className="login_container">
             <div className="login">
-                <img className='logo_img' src='./images/Logo.png' />
+                <img className='logo_img' src='./images/Logo.png' alt='logo'/>
                     
                 <div className="login_inputs">
                     <h3 className='text input_title_text'>Username</h3>
@@ -46,7 +46,7 @@ const LogIn = () => {
                     <h3 className='text input_title_text'>Password</h3>
                     <input className='input' name="password" placeholder='Password' onChange={e => setpassword(e.target.value)} type="password" required />
                 </div>
-                
+
                 <div className="login_button_container">
                     <button className="button login_button" onClick={login}>
                         <h5 className="button_text" >Login</h5>
