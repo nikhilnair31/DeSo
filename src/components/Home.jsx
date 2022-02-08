@@ -131,9 +131,10 @@ const Home = (props) => {
                     likecount: data.likecount,
                     likeduserpubs: data.likeduserpubs, 
                     commentcount: data.commentcount,
-                    comments: data.comments
+                    comments: data.comments,
+                    reportcount: data.reportcount
                 };
-                // console.log('post: ', post);
+                console.log('post: ', post);
                 dispatch(post);
             }
         });

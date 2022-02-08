@@ -72,11 +72,20 @@ const Post = (props) => {
             }
         });
     }
+    function reportPost() {
+        console.log('reportPost');
+
+        const posts = db.get('posts').get(props.post.postid);
+        posts.once(async (data, id) => {
+            console.log('data: ', data, 'id: ', id);
+            posts.get(props.post.postid).put({reportcount: (data.reportcount ? data.reportcount+1 : 1)});
+        });
+    }
     function deletePost() {
         console.log('deletePost');
+
         const posts = db.get('posts');
         posts.get(props.post.postid).put(null);
-
         if(props.post.imagecid){
             unpinFile(props.post.imagecid).then( async (resp) => {
                 console.log('deletePost resp: ', resp);
@@ -85,6 +94,7 @@ const Post = (props) => {
     }
     function likePost() {
         console.log('likePost');
+        
         const posts = db.get('posts');
         if(postLikedByCurrUser) {
             console.log('postLikedByCurrUser');
@@ -160,7 +170,7 @@ const Post = (props) => {
             </div>
             <div className="post_menu_container">
                 <Popup trigger={<i className="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
-                    { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} /> }
+                    { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} reportPost={reportPost} /> }
                 </Popup>
             </div>
         </div>

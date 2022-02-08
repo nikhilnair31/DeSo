@@ -32,6 +32,11 @@
                 @include themed('color', 'text');
                 @include themed('background-color', 'accent');
             }
+            &.report_button {
+                font-weight: bold;
+                @include themed('color', 'text');
+                @include themed('background-color', 'accent');
+            }
             &.share_button {
                 @include themed('color', 'text');
             }

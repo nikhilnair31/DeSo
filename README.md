@@ -15,10 +15,18 @@
 ## Link
 - Use link below to validate the NFT with the contract adress `0x5a951603fDaaBab6e9bC9149c2eCc15b1917E96c` and tokenID `5`
     https://testnets-api.opensea.io/asset/0x5a951603fdaabab6e9bc9149c2ecc15b1917e96c/5/validate/
+    https://testnets.opensea.io/niknair31898
 - Use link below to see transactions related to your contract `0x5a951603fDaaBab6e9bC9149c2eCc15b1917E96c`
     https://rinkeby.etherscan.io/token/0x5a951603fdaabab6e9bc9149c2ecc15b1917e96c
+    https://mumbai.polygonscan.com/address/0x5a951603fdaabab6e9bc9149c2ecc15b1917e96c
 - Use link below to test stuff
     https://admin.moralis.io/web3Api
+- Fleek for deployment
+    https://app.fleek.co/#/sites/dry-resonance-3793/deploys?accountId=cc4c5575-5a65-43f7-961f-d386a9dbcf14
+- Alchemy for smart contract deployment to network
+    https://dashboard.alchemyapi.io/
+- Pinata for file distribution
+    https://app.pinata.cloud/pinmanager
 ## To-Do
 * Home
     - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
@@ -27,9 +35,13 @@
         - [ ] Include the the public key of the user for comments to?
     - [ ] Deleting
         - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
+            - [ ] While adding to reportcount consider the user's trust status to influence reportcount weight
+            - [ ] Remove the post automatically if the report count is X% of the total interactions on the post (including likecount, commentcount etc.)
+            - [ ] Calculate trust score for each user on each interaction and give priority to those in the top 80%th
 * Login Component
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
 * NFT
+	- [ ] Update the smart contract to make the paytomint cost flexible (ALSO MAKE IT SO YOU GET PAYED ON PAYTOMINT COMPLETING)
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
     - [x] Search for all of a User's posts and then filter depending on user's public key
