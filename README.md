@@ -19,30 +19,26 @@
     https://rinkeby.etherscan.io/token/0x5a951603fdaabab6e9bc9149c2ecc15b1917e96c
 - Use link below to test stuff
     https://admin.moralis.io/web3Api
-## Next Steps
--   [ ] Check out below link to see potential APIs that can be used to convert text-only posts into images
-        https://github.com/petersolopov/carbonara
-        https://github.com/cyberboysumanjay/Carbon-API
--   [ ] Check out below link to see how to deploy the site on IPFS
-        https://medium.com/ethereum-developers/the-ultimate-end-to-end-tutorial-to-create-and-deploy-a-fully-descentralized-dapp-in-ethereum-18f0cf6d7e0e
 ## To-Do
 * Home
     - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
-    - [ ] Get liking, commenting and deleting working
-        - [x] Commenting
-            - [ ] Include the the public key of the user for comments to?
-        - [ ] Deleting
-            - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
-* Post
-    - [ ] Fix how to pull the IPFS hash / API avatar from the data
-* User
-    - [ ] Search for all of a User's posts and then filter depending on user's public key
+    - [x] Commenting
+        - [ ] Include the the public key of the user for comments to?
+    - [ ] Deleting
+        - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
 * Login Component
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Search for all of a User's posts and then filter depending on user's public key
+    - [x] Fix how to pull the IPFS hash / API avatar from the data
+    - [x] Check out below link to see potential APIs that can be used to convert text-only posts into images
+        https://github.com/petersolopov/carbonara
+        https://github.com/cyberboysumanjay/Carbon-API
+    - [x] Check out below link to see how to deploy the site on IPFS
+        https://medium.com/ethereum-developers/the-ultimate-end-to-end-tutorial-to-create-and-deploy-a-fully-descentralized-dapp-in-ethereum-18f0cf6d7e0e
     - [x] Create a page that makes individual user's content accessible
     - [x] Maybe use the common User page for the curr User too just including an 'Edit' button
     - [x] Figure out better way to route the screens

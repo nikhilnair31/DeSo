@@ -17,9 +17,9 @@ document.body.classList.add('theme-light');
 ReactDOM.render(
     <BrowserRouter>
         <Routes>
-            <Route path="LogIn" element={<LogIn />} />
-            <Route path="Home" element={<Home />} />
-            <Route path="User" element={<User />} />
+            <Route path="/" element={<LogIn />} />
+            <Route path="/Home" element={<Home />} />
+            <Route path="/User" element={<User />} />
         </Routes>
     </BrowserRouter>, 
     document.body

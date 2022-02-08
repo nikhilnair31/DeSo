@@ -10,7 +10,7 @@ let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/i
 
 const Post = (props) => {
     let navigate = useNavigate();
-    const [posteravatarurl, setposteravatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${props.post.posteralias}.svg`);
+    const [posteravatarurl, setposteravatarurl] = useState('');
     const [canDeletePost, setcanDeletePost] = useState(false);
     const [postLikeCount, setpostLikeCount] = useState(0);
     const [postLikeUserPubsArr, setpostLikeUserPubsArr] = useState('');
@@ -72,18 +72,6 @@ const Post = (props) => {
             }
         });
     }
-    // function getfullposteruserdata() {
-    //     const users = db.get('users');
-    //     users.once((data, id) => {
-    //         if(data.userpub === props.post.posterpub) {
-    //             console.log('getfullposteruserdata props.post: ', props.post, ' - data.pfpcid: ', data.pfpcid);
-    //             setposteravatarurl(data.pfpcid);
-    //         }
-    //         else {
-    //             console.log('getfullposteruserdata USER NOT FOUND data: ', data);
-    //         }
-    //     });
-    // }
     function deletePost() {
         console.log('deletePost');
         const posts = db.get('posts');
@@ -134,10 +122,14 @@ const Post = (props) => {
         setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
         setpostLikeCount((props.post.likecount===undefined) ? 0 : props.post.likecount);
         setpostCommentCount((props.post.commentcount===undefined) ? 0 : props.post.commentcount);
-        // setposteravatarurl(getfullposteruserdata());
 
-        console.log('useEffect !initialload props.post: ', props.post, ' - props.post.posteralias: ', props.post.posteralias, ' - posteravatarurl: ', posteravatarurl);
-        // getfullposteruserdata();
+        const users = db.get('users').get('curruser'+props.post.posterpub);
+        users.once(async (data, id) => {
+            // console.log('id: ', id, ' - data: ', data);
+            if(data.userpub === props.post.posterpub)
+                setposteravatarurl((data.pfpcid!==undefined && data.pfpcid!==null) ? imagebasedomains[0]+data.pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${data.useralias}.svg`);
+        });
+        
         isPostLikedByCurrUser();
     }, [props.post]);
 

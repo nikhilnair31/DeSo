@@ -12,7 +12,7 @@ const PostModal = (props) => {
         props.setnewPostText('');
         props.close();
     };
-    function handleSubmit(event) {
+    function attachMedia(event) {
         event.preventDefault();
         console.log(`Selected file - ${inputElement.current.files[0].name}`);
         props.captureFile(event, inputElement.current.files[0].name);
@@ -29,7 +29,7 @@ const PostModal = (props) => {
             <div className="header"> What do you wish to post? </div>
             <div className="content"> Type it out or upload it! </div>
             <input className="post_input" type="text" placeholder="Type a post..." value={props.newPostText} onChange={e => props.setnewPostText(e.target.value)} maxLength={100} />
-            <input type="file" className="post_attach_button" ref={inputElement} onChange ={handleSubmit} />
+            <input type="file" className="post_attach_button" ref={inputElement} onChange ={attachMedia} />
             {/* <div className="box">
                 <input type="file" className="inputfile inputfile-1" onChange ={props.captureFile} />
                 <label htmlFor="file-1"> <span>Choose a file..</span> </label>

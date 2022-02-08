@@ -1,10 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { useNavigate , useLocation } from "react-router-dom";
 import { db } from '../helpers/user'
 import { user } from '../helpers/user'
 import { ethers } from 'ethers';
 import { pinFileToIPFS } from '../helpers/pinata'
 import { ToastContainer, toast } from 'react-toastify';
+import Post from './Post'
+import GUN from 'gun';
+import Popup from 'reactjs-popup';
+import PostModal from './PostModal';
 import 'react-toastify/dist/ReactToastify.css';
 import './User.scss';
 
@@ -17,20 +21,30 @@ var match = {
     '-': 1, // filter in reverse
 };
 let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
+const initialState = {
+    posts: []
+}
+function reducer(state, post) {
+    // console.log('reducer posts: ', [post, ...state.posts].sort((a, b) => b.posttime - a.posttime));
+    return {
+        posts: [post, ...state.posts].sort((a, b) => b.posttime - a.posttime)
+    }
+}
 
-const User = (props) => {
+const User = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const inputElement = useRef();
     const [isHovered, setHover] = useState(false);
     const [connectedtometamask, setconnectedtometamask] = useState(false);
     const [ineditingmode, setineditingmode] = useState(false);
-    const [avatarurl, setavatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${state.currusername}.svg`);
+    const [avatarurl, setavatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${state.username}.svg`);
     const [fulluserdata, setfulluserdata] = useState({});
     const [fullname, setfullname] = useState('');
     const [email, setemail] = useState('');
     const [bio, setbio] = useState('');
     const [balance, setBalance] = useState('0');
+    const [arrstate, dispatch] = useReducer(reducer, initialState);
 
     const connectToMetamask = async () => {
         const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -47,19 +61,19 @@ const User = (props) => {
     };
     function signOut() {
         user.leave();
-        navigate('/LogIn');
+        navigate('/');
     }
     function uploadNewPFP(event) {
         event.preventDefault();
-        console.log(`Selected file - ${inputElement.current.files[0].name}`);
+        // console.log(`Selected file - ${inputElement.current.files[0].name}`);
 
         pinFileToIPFS(inputElement.current.files[0]).then( async (resp) => {
-            console.log('resp: ', resp);
+            // console.log('resp: ', resp);
             let respcid = resp.IpfsHash ? resp.IpfsHash : '';
-            console.log('respcid: ', respcid);
+            // console.log('respcid: ', respcid);
 
             const users = db.get('users');
-            const curruser = db.get('curruser'+props.userpub);
+            const curruser = db.get('curruser'+state.userpub);
             curruser.put({
                 pfpcid: respcid
             });
@@ -81,14 +95,14 @@ const User = (props) => {
         console.log('saveedits');
 
         let data = {
-            userpub: props.userpub, 
-            useralias: props.currusername, 
+            userpub: state.userpub, 
+            useralias: state.username, 
             userfullname: fullname, 
             useremail: email, 
             userbio: bio, 
         }
         const users = db.get('users');
-        const curruser = db.get('curruser'+props.userpub);
+        const curruser = db.get('curruser'+state.userpub);
         curruser.put(data);
         users.set(curruser);
         setfulluserdata(data);
@@ -99,7 +113,7 @@ const User = (props) => {
         console.log('removepfp');
 
         const users = db.get('users');
-        const curruser = db.get('curruser'+props.userpub);
+        const curruser = db.get('curruser'+state.userpub);
         curruser.put({pfpcid: null});
         users.set(curruser);
         let fulluserdatanew = fulluserdata;
@@ -113,11 +127,45 @@ const User = (props) => {
     }
 
     useEffect(() => { 
-        // console.log('user useEffect props: ', props, ' - state: ', state , ' - user.is.pub: ', user.is.pub );
         if(state.userpub === user.is.pub) {
             if(connectedtometamask) getBalance();
             else connectToMetamask();
+        }
+        else {
+            setavatarurl(`https://avatars.dicebear.com/api/big-ears-neutral/${state.username}.svg`);
+        }
+    }, [connectedtometamask]);
 
+    useEffect(() => { 
+        console.log('user useEffect state: ', state , ' - user.is.pub: ', user.is.pub );
+
+        const posts = db.get('posts');
+        posts.map(match).once(async (data, id) => {
+            if (data) {
+                // console.log('data: ', data, 'id: ', id);
+                const key = '#foo';
+                var post = {
+                    postid: id, 
+                    posterpub: data.posterpub, 
+                    posteralias: data.posteralias,
+                    posttext: await GUN.SEA.decrypt(data.posttext, key) + '',
+                    posttime: data.posttime,
+                    imagecid: data.imagecid,
+                    nftflag: data.nftflag,
+                    likecount: data.likecount,
+                    likeduserpubs: data.likeduserpubs, 
+                    commentcount: data.commentcount,
+                    comments: data.comments
+                };
+                console.log('post.posttext: ', post.posttext, ' - data.posterpub: ', data.posterpub, ' - state.userpub: ', state.userpub);
+                if(data.posterpub === state.userpub) {
+                    // console.log('dispatch');
+                    dispatch(post);
+                }
+            }
+        });
+
+        if(state.userpub === user.is.pub) {
             user.get('pub').once(curruserpub => {
                 // console.log('curruserpub: ', curruserpub);
                 const users = db.get('users');
@@ -126,7 +174,7 @@ const User = (props) => {
                         // console.log('id: ', id, ' - data: ', data);
                         setfulluserdata(data);
                         if(data.pfpcid!==undefined && data.pfpcid!==null) {
-                            // console.log('data.pfpcid!==undefined');
+                            // console.log('user pub data: ', data, ' - state: ', state , ' - curruserpub: ', curruserpub );
                             setavatarurl(imagebasedomains[0]+data.pfpcid);
                         }
                     }
@@ -146,7 +194,7 @@ const User = (props) => {
                 }
             });
         }
-    }, [connectedtometamask]);
+    }, []);
 
     if(state.userpub === user.is.pub) {
         return (
@@ -155,10 +203,11 @@ const User = (props) => {
                     <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
                     <p className='title' >Profile</p>
                 </header>
+
                 <div className="userdata"> 
                     <div className="container" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} >
                     {/* src={imagebasedomains[0]+props.post.imagecid}  */}
-                        <img src={avatarurl} alt="avatar" width={100} className='userpfp' />
+                        <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
                         {isHovered &&
                         <div className="middle">
                             <label htmlFor="fileInput"> 
@@ -183,6 +232,20 @@ const User = (props) => {
                     { !ineditingmode && <button className="button signout_button" onClick={signOut} >Sign Out</button> }
                     { !ineditingmode && <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 10) : 'Connect to MetaMask')}</button> }
                 </div>
+
+                <p className='posts_title' >Posts</p>
+                <div className="user_home">
+                    <div className="user_container">
+                        <div className="user_posts_container">
+                            {
+                                arrstate.posts.map((post, index) => (
+                                    <Post key={index} post={post} curruseralias={state.useralias} />
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                </div>
                 <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
             </div>
         )
@@ -194,10 +257,11 @@ const User = (props) => {
                     <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
                     <p className='title' >Profile</p>
                 </header>
+
                 <div className="userdata"> 
                     <div className="container" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} >
                     {/* src={imagebasedomains[0]+props.post.imagecid}  */}
-                        <img src={avatarurl} alt="avatar" width={100} className='userpfp' />
+                        <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
                         {isHovered &&
                         <div className="middle">
                             <label htmlFor="fileInput"> 
@@ -212,7 +276,20 @@ const User = (props) => {
                     { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
                     { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }
                 </div>
-                <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+
+                <p className='posts_title' >Posts</p>
+                <div className="user_home">
+                    <div className="user_container">
+                        <div className="user_posts_container">
+                            {
+                                arrstate.posts.map((post, index) => (
+                                    <Post key={index} post={post} curruseralias={state.useralias} />
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                </div>
             </div>
         )
     }

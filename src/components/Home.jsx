@@ -62,7 +62,7 @@ const Home = (props) => {
                 const thispost = db.get('singlepost'+indexkey);
                 thispost.put({ 
                     posterpub: user.is.pub, 
-                    posteralias: props.currusername, 
+                    posteralias: currusername, 
                     posttext: secretnewPostText, 
                     posttime: indexkey, 
                     imagecid: respcid, 
@@ -84,11 +84,9 @@ const Home = (props) => {
             console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText, ' - user.is.pub: ', user.is.pub);
 
             const indexkey = new Date().toISOString();
-            const posts = db.get('posts');
-            const thispost = db.get('singlepost'+indexkey);
-            thispost.put({ 
+            let data = { 
                 posterpub: user.is.pub, 
-                posteralias: props.currusername, 
+                posteralias: currusername, 
                 posttext: secretnewPostText, 
                 posttime: indexkey, 
                 imagecid: '', 
@@ -97,8 +95,12 @@ const Home = (props) => {
                 likeduserpubs: '', 
                 commentcount: 0, 
                 // comments: {},
-            });
+            }
+            const posts = db.get('posts');
+            const thispost = db.get('singlepost'+indexkey);
+            thispost.put(data);
             posts.set(thispost);
+            console.log('data: ', data);
             
             setnewPostText('');
         }
@@ -144,13 +146,13 @@ const Home = (props) => {
                 <div className="all_posts_container">
                     {
                         state.posts.map((post, index) => (
-                            <Post key={index} post={post} curruseralias={props.currusername} />
+                            <Post key={index} post={post} curruseralias={currusername} />
                         ))
                     }
                 </div>
             </div>
             <Popup trigger={<i className="fas fa-plus post_button"></i>} modal nested >
-                { close => <PostModal close={close} currusername={props.currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} captureFile={captureFile} sendOutPost={sendOutPost} /> }
+                { close => <PostModal close={close} currusername={currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} captureFile={captureFile} sendOutPost={sendOutPost} /> }
             </Popup>
             <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
             <div id="popup-root" />

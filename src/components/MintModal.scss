@@ -58,9 +58,9 @@
 
             &.connect_button {
                 white-space: pre-wrap;
-                @include themed('background-color', 'buttonconnected');
                 &:disabled {
-                    @include themed('background-color', 'buttonoff');
+                    font-weight: bolder;
+                    @include themed('background-color', 'buttonconnected');
                 }
             }
             &.balance_button {
