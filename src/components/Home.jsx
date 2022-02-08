@@ -1,14 +1,23 @@
 import React, { useEffect, useState, useReducer } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { pinFileToIPFS } from '../helpers/pinata'
+import { db, user } from '../helpers/user'
 import Post from './Post'
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
 import PostModal from './PostModal';
-import { pinFileToIPFS } from '../helpers/pinata'
-import { db, user } from '../helpers/user'
-import { ToastContainer, toast } from 'react-toastify';
+import Header from './Header';
 import 'react-toastify/dist/ReactToastify.css';
 import './Home.scss';
 
+var match = {
+    // lexical queries are kind of like a limited RegEx or Glob.
+    '.': {
+    // property selector
+    '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
+    },
+    '-': 1, // filter in reverse
+};
 const initialState = {
     posts: []
 }
@@ -21,13 +30,15 @@ function reducer(state, post) {
 
 const Home = (props) => {
     const [newPostText, setnewPostText] = useState('');
+    const [currusername, setcurrusername] = useState('')
     const [file, setfile] = useState();
     const [filename, setfilename] = useState();
     const [state, dispatch] = useReducer(reducer, initialState);
 
     function captureFile(event, filename) {
-        event.preventDefault();
         console.log('captureFile');
+
+        event.preventDefault();
         const pickedfile = event.target.files[0];
         setfile(pickedfile);
         setfilename(filename);
@@ -101,14 +112,7 @@ const Home = (props) => {
     }
 
     useEffect(() => { 
-        var match = {
-            // lexical queries are kind of like a limited RegEx or Glob.
-            '.': {
-            // property selector
-            '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
-            },
-            '-': 1, // filter in reverse
-        };
+        user.get('alias').on(currunam => setcurrusername(currunam));
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
@@ -135,6 +139,7 @@ const Home = (props) => {
 
     return (
         <div className="home">
+            <Header setcurrusername={setcurrusername} currusername={currusername} />
             <div className="container">
                 <div className="all_posts_container">
                     {

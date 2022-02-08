@@ -1,8 +1,10 @@
-import React, {useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import './LogIn.scss';
-import {user} from '../helpers/user'
+import { user } from '../helpers/user'
 
-const LogIn = (props) => {
+const LogIn = () => {
+    let navigate = useNavigate();
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
 
@@ -14,7 +16,8 @@ const LogIn = (props) => {
                 alert(err);
             }
             else{
-                props.setcurrusername(username);
+                console.log('login in');
+                navigate('/Home');
             }
         });
     }
@@ -33,20 +36,17 @@ const LogIn = (props) => {
     }
 
     return (
-        <div className="login_wrapper">
-            {/* <div className="login_bg">
-                <div className="circle"></div>
-                <div className="line"></div>
-            </div> */}
+        <div className="login_container">
             <div className="login">
                 <img className='logo_img' src='./images/Logo.png' />
-                {/* <h1 className='text login_title_text'>DeSo</h1> */}
+                    
                 <div className="login_inputs">
                     <h3 className='text input_title_text'>Username</h3>
                     <input className='input' name="username" placeholder='Username' onChange={e => setusername(e.target.value)} minLength={3} maxLength={16} />
                     <h3 className='text input_title_text'>Password</h3>
                     <input className='input' name="password" placeholder='Password' onChange={e => setpassword(e.target.value)} type="password" required />
                 </div>
+                
                 <div className="login_button_container">
                     <button className="button login_button" onClick={login}>
                         <h5 className="button_text" >Login</h5>

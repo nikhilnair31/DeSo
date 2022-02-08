@@ -1,14 +1,6 @@
 @import "../color-themes";
 
-.text {
-    @include themed('color', 'text');
-}
-.button {
-    @include themed('color', 'text');
-    @include themed('background-color', 'inputfield');
-}
-
-.login_wrapper {
+.login_container {
     text-align: center;
 
     .login_bg {
@@ -43,32 +35,29 @@
 
     .login {
         position: absolute;
-        top: 50%; left: 50%;
         border-radius: 0.7pc;
         @include all_transition_durations;
 
-        .login_title_text {
-            margin-top: 1pc;
-            margin-bottom: 3pc;
-            @include themed('color', 'text');
-            @include all_transition_durations;
-            &:hover{
-                @include themed('color', 'accent');
-            }
+        .logo_img {
         }
         
-        .input_title_text {
-            margin-bottom: 0.5pc;
-            @include themed('color', 'text');
-        }
-        .input {
-            border: 0pc;
-            padding: 1pc;
-            width: 10pc;
-            height: 1pc;
-            border-radius: 0.3pc;
-            @include themed('color', 'inputtext');
-            @include themed('background-color', 'inputfield');
+        .login_inputs {
+            .text {
+                @include themed('color', 'text');
+            }
+            .input_title_text {
+                margin-bottom: 0.5pc;
+                @include themed('color', 'text');
+            }
+            .input {
+                border: 0pc;
+                padding: 1pc;
+                width: 10pc;
+                height: 1pc;
+                border-radius: 0.3pc;
+                @include themed('color', 'inputtext');
+                @include themed('background-color', 'inputfield');
+            }
         }
 
         .login_button_container {
@@ -81,6 +70,13 @@
                 display: inline-flex;
                 justify-content: center;
                 align-items: center;
+                @include themed('color', 'text');
+                @include themed('background-color', 'inputfield');
+            }
+            .button_text {
+                font-weight: 400;
+                font-size: 1rem;
+                @include themed('color', 'text');
             }
             .login_button {
                 @include all_transition_durations;
@@ -97,82 +93,68 @@
                     @include themed('background-color', 'accent');
                 }
             }
-            .button_text {
-                font-weight: 400;
-                font-size: 1rem;
-                @include themed('color', 'text');
-            }
-        }
-    }
-}
-
-//Desktop
-@media only screen and (min-width: 600px) {
-    .login_wrapper {
-        .login{
-            padding: 2pc;
-            width: 40vw;
-            max-width: 15pc;
-            transform: translate(-50%, -50%);
-
-            .logo_img {
-                width: 70%;
-            }
-
-            .login_text {
-                margin-bottom: 2pc;
-            }
-            
-            .login_button {
-                border-radius: 0.5pc;
-                padding: 0pc;
-                margin: 0.3pc auto;
-                height: 3pc;
-                width: 12pc;
-            }
-            .signup_button {
-                border-radius: 0.5pc;
-                padding: 0pc;
-                margin: 0.3pc auto;
-                height: 3pc;
-                width: 12pc;
-            }
         }
     }
 }
 
 //Mobile
 @media only screen and (max-width: 600px) {
-    .login_wrapper {
-        .login{
-            margin: 0pc auto;
-            padding: 2pc;
-            width: 60vw;
-            max-width: 20pc;
-            transform: translate(-50%, -50%);
-            
-            .logo_img {
-                width: 70%;
-            }
+    .login{
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        
+        .logo_img {
+            width: 70%;
+        }
 
-            .login_text {
-                font-size: 3rem;
-                margin-bottom: 1pc;
-            }
-            .login_button {
-                border-radius: 0.5pc;
-                padding: 0pc;
-                // margin: 0.3pc auto;
-                height: 3pc;
-                width: 12pc;
-            }
-            .signup_button {
-                border-radius: 0.5pc;
-                padding: 0pc;
-                margin: 0.3pc auto;
-                height: 3pc;
-                width: 12pc;
-            }
+        .login_button {
+            border-radius: 0.5pc;
+            padding: 0pc;
+            // margin: 0.3pc auto;
+            height: 3pc;
+            width: 12pc;
+        }
+        .signup_button {
+            border-radius: 0.5pc;
+            padding: 0pc;
+            margin: 0.3pc auto;
+            height: 3pc;
+            width: 12pc;
+        }
+    }
+}
+
+//Desktop
+@media only screen and (min-width: 600px) {
+    .login{
+        margin: 0pc auto;
+        padding: 2pc;
+        width: 40vw;
+        max-width: 15pc;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+
+        .logo_img {
+            width: 70%;
+        }
+
+        .login_text {
+            margin-bottom: 2pc;
+        }
+        
+        .login_button {
+            border-radius: 0.5pc;
+            padding: 0pc;
+            margin: 0.3pc auto;
+            height: 3pc;
+            width: 12pc;
+        }
+        .signup_button {
+            border-radius: 0.5pc;
+            padding: 0pc;
+            margin: 0.3pc auto;
+            height: 3pc;
+            width: 12pc;
         }
     }
 }

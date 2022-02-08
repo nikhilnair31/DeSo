@@ -24,29 +24,27 @@
 -   [ ] Check out below link to see how to deploy the site on IPFS
         https://medium.com/ethereum-developers/the-ultimate-end-to-end-tutorial-to-create-and-deploy-a-fully-descentralized-dapp-in-ethereum-18f0cf6d7e0e
 ## To-Do
-* General
-    - [ ] Figure out better way to route the screens
-    - [ ] Streamline how the flow works on sign out and sending to '/' path
 * Home
+    - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
+    - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
     - [ ] Get liking, commenting and deleting working
         - [x] Commenting
             - [ ] Include the the public key of the user for comments to?
         - [ ] Deleting
             - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
-    - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
-    - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
 * Post
     - [ ] Fix how to pull the IPFS hash / API avatar from the data
 * User
-    - [ ] Create a page that makes individual user's content accessible
-    - [ ] Maybe use the common User page for the curr User too just including an 'Edit' button
-    - [ ] Search for all posts and then filter depending on user's public key
+    - [ ] Search for all of a User's posts and then filter depending on user's public key
 * Login Component
     - [ ] Can't seem to generate duplicate users with the same username so just ensure that that's the case
-    - [ ] Streamline
 * NFT
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Create a page that makes individual user's content accessible
+    - [x] Maybe use the common User page for the curr User too just including an 'Edit' button
+    - [x] Figure out better way to route the screens
+    - [x] Streamline how the flow works on sign out and sending to '/' path
     - [x] Allow removal of pfp
     - [x] Allow upload of new pfp
     - [x] While the post data gets removed from GUN peers there may still remain images on Pinata

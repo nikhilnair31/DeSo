@@ -130,8 +130,8 @@
         }
         .button {
             border: 0px;
-            width: 9pc;
-            height: 6vh;
+            width: 11pc;
+            height: 7vh;
             border-radius: 0.5pc;
             margin: 0.3pc auto;
             @include themed('color', 'text');
@@ -141,12 +141,19 @@
                 @include themed('color', 'textplus');
                 @include themed('background-color', 'inputfieldoff');
             }
-
+            
+            &.remove_pfp_button {
+                width: 100%;
+                margin: 0.1pc auto;
+                @include themed('color', 'text');
+                @include themed('background-color', 'inputfield');
+            }
             &.signout_button {
                 @include themed('color', 'text');
                 @include themed('background-color', 'inputfield');
             }
             &.connect_button {
+                white-space: pre-wrap;
                 &:disabled {
                     @include themed('background-color', 'buttonconnected');
                 }

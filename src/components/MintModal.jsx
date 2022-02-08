@@ -602,7 +602,7 @@ const MintModal = (props) => {
             <div className="header"> Minting And Posting </div>
             <div className="content"> On pressing 'Mint' wait for the process to complete please. </div>
             <br />
-            <button className={"button connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 13) : 'Connect to MetaMask')}</button>
+            <button className={"button connect_button "+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectToMetamask} onClick={connectToMetamask} >{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 10) : 'Connect to MetaMask')}</button>
             <button className="button mint_button" onClick={mintToken}>Mint</button>
             <button className="button cancel_button" onClick ={props.close}>Cancel</button>
             { posting && <Spinner /> }

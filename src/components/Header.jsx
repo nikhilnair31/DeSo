@@ -4,66 +4,69 @@ import { user, db } from '../helpers/user'
 import './Header.scss';
 
 let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
+let match = {
+    // lexical queries are kind of like a limited RegEx or Glob.
+    '.': {
+    // property selector
+    '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
+    },
+    '-': 1, // filter in reverse
+};
 
 const Header = (props) => {
+    let navigate = useNavigate();
     const [avatarurl, setavatarurl] = useState(`https://avatars.dicebear.com/api/big-ears-neutral/${props.currusername}.svg`);
     const [fulluserdata, setfulluserdata] = useState({});
     const [lighttheme, setlighttheme] = useState(false);
-    let navigate = useNavigate();
 
     function themeswitch() {
-        console.log('themeswitch');
-        setlighttheme(!lighttheme);
-        if(lighttheme) {
-            // document.getElementById("root").classList.remove('theme-light');
-            // document.getElementById("root").classList.add('theme-dark');
-            document.getElementsByTagName("BODY")[0].classList.remove('theme-light');
-            document.getElementsByTagName("BODY")[0].classList.add('theme-dark');
+        console.log('themeswitch: ', lighttheme);
+
+        let currtheme = lighttheme;
+        currtheme = !currtheme;
+        setlighttheme(currtheme);
+        if(currtheme) {
+            document.body.classList.remove('theme-light');
+            document.body.classList.add('theme-dark');
         }
         else {
-            // document.getElementById("root").classList.remove('theme-dark');
-            // document.getElementById("root").classList.add('theme-light');
-            document.getElementsByTagName("BODY")[0].classList.remove('theme-dark');
-            document.getElementsByTagName("BODY")[0].classList.add('theme-light');
+            document.body.classList.remove('theme-dark');
+            document.body.classList.add('theme-light');
         }
     }
-    function handleClick() {
+    function goToUserPage() {
         navigate('/User',
         {
             state: {
-                currusername: props.currusername,
+                username: props.currusername,
                 userpub: user.is.pub,
             }
         });
     }
     function getfulluserdata() {
         console.log('getfulluserdata');
-        var match = {
-            // lexical queries are kind of like a limited RegEx or Glob.
-            '.': {
-            // property selector
-            '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
-            },
-            '-': 1, // filter in reverse
-        };
+        
         const users = db.get('users');
         users.map(match).once(async (data, id) => {
-            if(data.userpub === user.is.pub && (data.pfpcid!==undefined && data.pfpcid!==null)){
-                // console.log('getfulluserdata id: ', id, ' - data: ', data);
+            if(data.userpub === user.is.pub){
                 setfulluserdata(data);
-                setavatarurl(imagebasedomains[0]+data.pfpcid);
+                if(data.pfpcid!==undefined && data.pfpcid!==null) {
+                    setavatarurl(imagebasedomains[0]+data.pfpcid);
+                }
+                else {
+                    setavatarurl(`https://avatars.dicebear.com/api/big-ears-neutral/${props.currusername}.svg`);
+                }
             }
         });
     }
 
     useEffect(() => { 
-        themeswitch();
         getfulluserdata();
-    }, []);
+    }, [fulluserdata]);
 
     return (
         <header className="user_bio">
-            <img src={avatarurl} alt="avatar" width={45} className='userpfp' onClick={handleClick}/> 
+            <img src={avatarurl} alt="avatar" width={45} className='userpfp' onClick={goToUserPage}/> 
             <span className='title' >hi {(fulluserdata.userfullname) ? fulluserdata.userfullname.toLowerCase().split(" ")[0] : props.currusername}</span>
             <i className={lighttheme ? 'themeicon fas fa-adjust spin_backward' : 'themeicon fas fa-adjust spin_forward'} onClick={themeswitch} ></i>
         </header>

@@ -7,8 +7,9 @@ import {user} from './helpers/user'
 import './App.scss';
 
 const App = () => {
-    const [currusername, setcurrusername] = useState('')
     const [initialload, setinitialload] = useState(false)
+    const [userLoggedIn, setuserLoggedIn] = useState(false)
+    const [currusername, setcurrusername] = useState('')
 
     useEffect(() => {
         if(user && currusername === '' && !initialload) {
@@ -17,7 +18,7 @@ const App = () => {
         }
     }, [currusername])
 
-    if(currusername!=='') {
+    if(userLoggedIn) {
         return (
             <div className="root_child">
                 <Header setcurrusername={setcurrusername} currusername={currusername} />
@@ -26,10 +27,10 @@ const App = () => {
             </div>
         );
     }
-    else {
+    if(!userLoggedIn) {
         return (
             <div className="root_child">
-                <LogIn setcurrusername={setcurrusername} />
+                <LogIn setcurrusername={setcurrusername} setuserLoggedIn={setuserLoggedIn} />
                 {/* <Footer /> */}
             </div>
         );
