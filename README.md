@@ -1,5 +1,5 @@
 ## DeSo
-!<img src="./public/images/Logo.png" width="200" height="200">
+<img src="./public/images/Logo.png" width="200" height="200" />
 <!-- <img src="./images/Objy-InfiniteGraph-doc.png" alt="InfiniteGraph Logo" width="320" /> -->
 ## What to Run?
 - Run command to compile the smart contracts into ABIs
