@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LogIn from './components/LogIn';
 import Home from './components/Home';
 import User from './components/User';
+import PostPage from './components/PostPage';
 import './index.scss';
 import './assets/fonts/FonsecaBold.otf'; 
 import './assets/fonts/GothamLight.otf'; 
@@ -20,6 +21,7 @@ ReactDOM.render(
             <Route path="/" element={<LogIn />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/User" element={<User />} />
+            <Route path="/Post" element={<PostPage />} />
         </Routes>
     </BrowserRouter>, 
     document.body

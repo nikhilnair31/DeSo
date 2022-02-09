@@ -5,22 +5,13 @@ import { user } from '../helpers/user'
 import { ethers } from 'ethers';
 import { pinFileToIPFS } from '../helpers/pinata'
 import { ToastContainer, toast } from 'react-toastify';
+import { imagebasedomains, match } from '../helpers/functions';
 import Post from './Post'
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
-import PostModal from './PostModal';
 import 'react-toastify/dist/ReactToastify.css';
 import './User.scss';
 
-var match = {
-    // lexical queries are kind of like a limited RegEx or Glob.
-    '.': {
-    // property selector
-    '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
-    },
-    '-': 1, // filter in reverse
-};
-let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
 const initialState = {
     posts: []
 }
@@ -123,7 +114,7 @@ const User = () => {
         toast.success('removepfp!');
     }
     function backToHome() {
-        navigate('/Home');
+        navigate(-1);
     }
 
     useEffect(() => { 

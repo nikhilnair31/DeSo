@@ -27,6 +27,7 @@
             height: 5vh;
             padding: 0.5pc;
             margin: 0.3pc auto;
+            font-size: 1rem;
             border-radius: 0.5pc;
             @include themed('color', 'inputtext');
             @include themed('background-color', 'inputfield');
@@ -39,6 +40,7 @@
             height: 7vh;
             margin: 0.15pc auto;
             padding: 1pc;
+            font-size: 1rem;
             border-radius: 0.5pc;
             font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
             @include themed('color', 'text');
@@ -75,18 +77,17 @@
     z-index: -1;
 }
 .inputfile + label {
-    color: rgb(217, 196, 198);
-    background-color: rgb(158, 45, 59);
+    @include themed('color', 'text');
+    @include themed('background-color', 'inputfield');
     cursor: pointer;
-    font-weight: 700;
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: center;
+    vertical-align: middle;
+    line-height: 2.5;
     display: inline-block;
-    padding: 0.5pc;
-    width: 94%;
+    height: 5vh;
     border-radius: 0.5pc;
-    // height: 5vh;
 }
 
 //Desktop
@@ -97,22 +98,17 @@
             margin: 2pc auto;
             border-radius: 0.5pc;
             width: 55%;
-    
-            .close {
-                border-radius: 0.5pc;
-                height: 2pc;
-                min-width: 2pc;
-            }
+
             .post_input {
-                width: 97%;
+                width: 96%;
             }
-            .post_post_button {
-                width: 100%;
+            .inputfile + label {
+                padding: 0.5pc;
+                margin: 0.15pc auto;
+                width: 96%;
             }
-            .mint_button {
-                width: 100%;
-            }
-            .cancel_button {
+
+            .post_attach_button, .post_post_button, .mint_button, .cancel_button {
                 width: 100%;
             }
         }
@@ -127,25 +123,17 @@
             margin: 2pc auto;
             border-radius: 0.5pc;
             width: 70%;
-    
-            .close {
-                border-radius: 0.5pc;
-                height: 2pc;
-                min-width: 2pc;
-            }
+
             .post_input {
-                width: 92%;
+                width: 95%;
             }
-            .post_attach_button {
-                width: 100%;
+            .inputfile + label {
+                padding: 0.5pc;
+                margin: 0.15pc auto;
+                width: 95%;
             }
-            .post_post_button {
-                width: 100%;
-            }
-            .mint_button {
-                width: 100%;
-            }
-            .cancel_button {
+            
+            .post_attach_button, .post_post_button, .mint_button, .cancel_button {
                 width: 100%;
             }
         }

@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Popup from 'reactjs-popup';
 import MintModal from './MintModal';
 import './PostModal.scss';
 
 const PostModal = (props) => {
     const inputElement = useRef();
+    const [attachedfilename, setattachedfilename] = useState('Choose a file...');
 
     const pushPostbuttonClicked = (isnftminted) => {
         console.log('pushPostbuttonClicked - ', isnftminted);
@@ -15,6 +16,7 @@ const PostModal = (props) => {
     function attachMedia(event) {
         event.preventDefault();
         console.log(`Selected file - ${inputElement.current.files[0].name}`);
+        setattachedfilename(inputElement.current.files[0].name);
         props.captureFile(event, inputElement.current.files[0].name);
     }
     function closePostModal() {
@@ -29,9 +31,11 @@ const PostModal = (props) => {
             <div className="header"> What do you wish to post? </div>
             <div className="content"> Type it out or upload it! </div>
             <input className="post_input" type="text" placeholder="Type a post..." value={props.newPostText} onChange={e => props.setnewPostText(e.target.value)} maxLength={100} />
-            <input type="file" className="post_attach_button" ref={inputElement} onChange ={attachMedia} />
+            {/* <input type="file" className="post_attach_button" ref={inputElement} onChange ={attachMedia} /> */}
+            <input type="file" id='inputfile' className="inputfile inputfile-1" ref={inputElement} onChange ={attachMedia} />
+            <label htmlFor="inputfile">{attachedfilename}</label>
             {/* <div className="box">
-                <input type="file" className="inputfile inputfile-1" onChange ={props.captureFile} />
+                <input type="file" className="inputfile inputfile-1" onChange ={attachMedia} />
                 <label htmlFor="file-1"> <span>Choose a file..</span> </label>
             </div> */}
             <button className="button post_post_button" type="submit" disabled={((!props.newPostText) ? true: false)} onClick ={()=>pushPostbuttonClicked(false)}>Post</button>

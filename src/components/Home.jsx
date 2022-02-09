@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { match } from '../helpers/functions'
 import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import Post from './Post'
@@ -10,14 +11,6 @@ import Header from './Header';
 import 'react-toastify/dist/ReactToastify.css';
 import './Home.scss';
 
-var match = {
-    // lexical queries are kind of like a limited RegEx or Glob.
-    '.': {
-    // property selector
-    '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
-    },
-    '-': 1, // filter in reverse
-};
 const initialState = {
     posts: []
 }
@@ -28,7 +21,7 @@ function reducer(state, post) {
     }
 }
 
-const Home = (props) => {
+const Home = () => {
     const [newPostText, setnewPostText] = useState('');
     const [currusername, setcurrusername] = useState('')
     const [file, setfile] = useState();
@@ -118,7 +111,7 @@ const Home = (props) => {
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
-                // console.log('data: ', data, 'id: ', id);
+                console.log('data: ', data, 'id: ', id);
                 const key = '#foo';
                 var post = {
                     postid: id, 
@@ -134,7 +127,7 @@ const Home = (props) => {
                     comments: data.comments,
                     reportcount: data.reportcount
                 };
-                console.log('post: ', post);
+                // console.log('post: ', post);
                 dispatch(post);
             }
         });

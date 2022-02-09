@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { imagebasedomains, match } from '../helpers/functions';
 import { useNavigate } from "react-router-dom";
 import { user, db } from '../helpers/user'
 import './Header.scss';
-
-let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
-let match = {
-    // lexical queries are kind of like a limited RegEx or Glob.
-    '.': {
-    // property selector
-    '>': new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
-    },
-    '-': 1, // filter in reverse
-};
 
 const Header = (props) => {
     let navigate = useNavigate();
