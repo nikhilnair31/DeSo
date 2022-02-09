@@ -126,6 +126,11 @@ const PostPage = () => {
                             }
                             postcomments = [...postcomments, firscomment];
                             setallcomments(postcomments);
+
+                            db.get('posts').get(state.post.postid).put({
+                                commentcount: postcomments.length+1,
+                            });
+                            setpostCommentCount(postcomments.length+1);
                             console.log('id: ', id, 'data: ', data);
                         }
                     });
