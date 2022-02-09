@@ -6,7 +6,7 @@ import { unpinFile } from '../helpers/pinata';
 import { imagebasedomains, timeDifference } from '../helpers/functions';
 import Popup from 'reactjs-popup';
 import MenuModal from './MenuModal';
-import MyComment from './MyComment';
+import Comment from './Comment';
 import './PostPage.scss';
 
 const PostPage = () => {
@@ -19,6 +19,7 @@ const PostPage = () => {
     const [postLikedByCurrUser, setpostLikedByCurrUser] = useState(false);
     const [postCommentCount, setpostCommentCount] = useState(0);
     const [comment, setcomment] = useState('');
+    const [allcomments, setallcomments] = useState([]);
     const [ts, setts] = useState(new Date());
     
     function goToPostersUserPage() {
@@ -51,7 +52,7 @@ const PostPage = () => {
         }
     }
     function likePost() {
-        // console.log('likePost');
+        console.log('likePost');
 
         const posts = db.get('posts');
         if(postLikedByCurrUser) {
@@ -84,15 +85,21 @@ const PostPage = () => {
     function commentPost() {
         console.log('commentPost');
 
-        // const posts = db.get('posts');
-        // posts.get(state.post.postid).put({
-        //     comments: {
-        //         commenterpub: user.is.pub,
-        //         commenteralias: state.post.posteralias,
-        //         commentercomment: comment,
-        //         commentertime: new Date().toISOString(),
-        //     },
-        // });
+        const indexkey = new Date().toISOString();
+        const thiscomment = db.get('singlecomment'+indexkey);
+        thiscomment.put({
+            commenterpub: user.is.pub,
+            commenteralias: state.curruseralias,
+            commentercomment: comment,
+            commentertime: indexkey,
+        });
+        db.get('allcomments').set(thiscomment);
+        db.get('commentsof'+state.post.postid).set(thiscomment);
+
+        db.get('posts').get(state.post.postid).put({
+            commentcount: postCommentCount+1,
+        });
+        setpostCommentCount(postCommentCount+1);
     }
     function backToHome() {
         navigate(-1);
@@ -100,6 +107,31 @@ const PostPage = () => {
 
     useEffect(() => {
         console.log('PostPage state: ', state);
+
+        db.get('commentsof'+state.post.postid).once((data, id) => {
+            console.log('id: ', id, '- data: ', data);
+            if(data) {
+                let postcomments = []
+                let keysarr = Object.keys(data);
+                console.log('keysarr: ', keysarr);
+                keysarr.slice(1, keysarr.length).forEach(element => {
+                    console.log('element: ', element);
+                    db.get(element).once((data, id) => {
+                        if(data) {
+                            let firscomment = {
+                                commenterpub: data.commenterpub,
+                                commenteralias: data.commenteralias,
+                                commentercomment: data.commentercomment,
+                                commentertime: data.commentertime,
+                            }
+                            postcomments = [...postcomments, firscomment];
+                            setallcomments(postcomments);
+                            console.log('id: ', id, 'data: ', data);
+                        }
+                    });
+                });
+            }
+        });
 
         setts(state.ts);
         setcanDeletePost(state.canDeletePost);
@@ -140,13 +172,14 @@ const PostPage = () => {
                         { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} reportPost={reportPost} /> }
                     </Popup>
                 </div>
-                {/* <MyComment allComments={props.post.comments}/> */}
             </div>
             
             <header className="comment_in_container">
                 <input className="comment_in" type="text" placeholder="Comment..." value={comment} onChange={e => setcomment(e.target.value)} />
                 <button className="button pushcomment_button" onClick={commentPost} >Save</button>
             </header>
+
+            { allcomments.length>0 && <Comment allcomments={allcomments} /> }
         </div>
     );
 }

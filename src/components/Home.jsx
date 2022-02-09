@@ -111,7 +111,7 @@ const Home = () => {
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
-                console.log('data: ', data, 'id: ', id);
+                // console.log('data: ', data, 'id: ', id);
                 const key = '#foo';
                 var post = {
                     postid: id, 

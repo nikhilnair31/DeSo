@@ -5,7 +5,6 @@ import { unpinFile } from '../helpers/pinata';
 import { imagebasedomains, timeDifference } from '../helpers/functions';
 import Popup from 'reactjs-popup';
 import MenuModal from './MenuModal';
-import MyComment from './MyComment';
 import './Post.scss';
 
 const Post = (props) => {
@@ -45,6 +44,7 @@ const Post = (props) => {
         {
             state: {
                 post: props.post,
+                curruseralias: props.curruseralias,
                 posteravatarurl: posteravatarurl,
                 canDeletePost: canDeletePost,
                 postLikeCount: postLikeCount,
@@ -148,7 +148,7 @@ const Post = (props) => {
                     <p className="interact_text comment_text">{postCommentCount}</p>
                 </div>
             </div>
-            
+
             <div className="post_menu_container">
                 <Popup trigger={<i className="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
                     { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} reportPost={reportPost} /> }

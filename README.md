@@ -29,10 +29,11 @@
     https://app.pinata.cloud/pinmanager
 ## To-Do
 * Home
-    - [ ] Fix the sorting order of the posts (Kinda fixed by using reverse column but check why the sort code doesn't work)
+    - [ ] Fix the sorting order of the posts (Doesn't work sometimes?)
     - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
-    - [x] Commenting
-        - [ ] Include the the public key of the user for comments to?
+    - [ ] Commenting
+        - [ ] Allow for comment deletion
+        - [ ] Need to include nested comments
     - [ ] Deleting
         - [ ] Include a group consensus mechanism to delete posts if flagged by enough users
             - [ ] While adding to reportcount consider the user's trust status to influence reportcount weight
@@ -44,6 +45,7 @@
 	- [ ] Update the smart contract to make the paytomint cost flexible (ALSO MAKE IT SO YOU GET PAYED ON PAYTOMINT COMPLETING)
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Commenting
     - [x] Search for all of a User's posts and then filter depending on user's public key
     - [x] Fix how to pull the IPFS hash / API avatar from the data
     - [x] Check out below link to see potential APIs that can be used to convert text-only posts into images
