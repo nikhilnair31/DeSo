@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { db, user } from '../helpers/user';
 import { unpinFile } from '../helpers/pinata';
 import { imagebasedomains, timeDifference } from '../helpers/functions';
+import { ToastContainer, toast } from 'react-toastify';
 import Popup from 'reactjs-popup';
 import MenuModal from './MenuModal';
 import './Post.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Post = (props) => {
     let navigate = useNavigate();
@@ -17,7 +19,15 @@ const Post = (props) => {
     const [postLikedByCurrUser, setpostLikedByCurrUser] = useState(false);
     const [ts, setts] = useState(new Date());
     
-    const isPostLikedByCurrUser = () => {
+    function getUserAvatar() {
+        const users = db.get('users').get('curruser'+props.post.posterpub);
+        users.once( (data, id) => {
+            // console.log('id: ', id, ' - data: ', data);
+            if(data.userpub === props.post.posterpub)
+                setposteravatarurl((data.pfpcid!==undefined && data.pfpcid!==null) ? imagebasedomains[0]+data.pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${data.useralias}.svg`);
+        });
+    }
+    function isPostLikedByCurrUser() {
         if(props.post.likeduserpubs!==undefined) {
             setpostLikeUserPubsArr(props.post.likeduserpubs);
             if( props.post.likeduserpubs.includes(user.is.pub) ) {
@@ -29,6 +39,9 @@ const Post = (props) => {
                 // console.log('post not liked');
             }
         }
+    }
+    function isPostDeletableByCurrUser() {
+        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
     }
     function goToPostersUserPage() {
         navigate('/User',
@@ -54,26 +67,6 @@ const Post = (props) => {
                 ts: ts,
             }
         });
-    }
-    function reportPost() {
-        console.log('reportPost');
-
-        const posts = db.get('posts').get(props.post.postid);
-        posts.once(async (data, id) => {
-            console.log('data: ', data, 'id: ', id);
-            posts.get(props.post.postid).put({reportcount: (data.reportcount ? data.reportcount+1 : 1)});
-        });
-    }
-    function deletePost() {
-        console.log('deletePost');
-
-        const posts = db.get('posts');
-        posts.get(props.post.postid).put(null);
-        if(props.post.imagecid){
-            unpinFile(props.post.imagecid).then( async (resp) => {
-                console.log('deletePost resp: ', resp);
-            });
-        }
     }
     function likePost() {
         console.log('likePost');
@@ -106,25 +99,42 @@ const Post = (props) => {
             });
         }
     }
+    function reportPost() {
+        console.log('reportPost');
+
+        const posts = db.get('posts').get(props.post.postid);
+        posts.once(async (data, id) => {
+            console.log('data: ', data, 'id: ', id);
+            posts.get(props.post.postid).put({reportcount: (data.reportcount ? data.reportcount+1 : 1)});
+        });
+        toast.error('Post Reported.');
+    }
+    function deletePost() {
+        console.log('deletePost');
+        toast.error('Post Deleted.');
+
+        const posts = db.get('posts');
+        posts.get(props.post.postid).put(null);
+        if(props.post.imagecid){
+            unpinFile(props.post.imagecid).then( async (resp) => {
+                console.log('deletePost resp: ', resp);
+            });
+        }
+        props.removePostFromArr(props.post.postid);
+    }
 
     useEffect(() => {
         setts(new Date(props.post.posttime));
-        setcanDeletePost( props.post.posterpub === user.is.pub && !props.post.nftflag );
         setpostLikeCount((props.post.likecount===undefined) ? 0 : props.post.likecount);
         setpostCommentCount((props.post.commentcount===undefined) ? 0 : props.post.commentcount);
 
-        const users = db.get('users').get('curruser'+props.post.posterpub);
-        users.once(async (data, id) => {
-            // console.log('id: ', id, ' - data: ', data);
-            if(data.userpub === props.post.posterpub)
-                setposteravatarurl((data.pfpcid!==undefined && data.pfpcid!==null) ? imagebasedomains[0]+data.pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${data.useralias}.svg`);
-        });
-        
+        getUserAvatar();
         isPostLikedByCurrUser();
+        isPostDeletableByCurrUser();
     }, [props.post]);
 
     return (
-        <div className={'post '+( props.post.nftflag ? 'isnft' : '' )} >
+        <div className={'post '+( props.post.nftflag ? 'isnft' : '' )} >            
             <div className="post_avatar_container" onClick={goToPostersUserPage}>
                 <img className="post_avatar" src={posteravatarurl} alt="avatar" />
             </div>
@@ -135,12 +145,11 @@ const Post = (props) => {
                     <p className="post_sep"> · </p>
                     <p className="post_time">{timeDifference(ts)}</p>
                 </div>
-                {/* <p className="post_text">{props.post.postid}</p> */}
+
                 <p className="post_text" onClick={goToPostPage}>{props.post.posttext}</p>
-                { 
-                    ( props.post.imagecid!=='' ) && 
-                    <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} alt='postimage' />
-                }
+
+                { ( props.post.imagecid!=='' ) && <img className="post_image" src={imagebasedomains[0]+props.post.imagecid} alt='postimage' /> }
+                
                 <div className="post_interaction_container">
                     <i className={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>
                     <p className="interact_text like_text">{postLikeCount}</p>
@@ -153,7 +162,7 @@ const Post = (props) => {
                 <Popup trigger={<i className="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
                     { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} reportPost={reportPost} /> }
                 </Popup>
-            </div>
+            </div>            
         </div>
     );
 }

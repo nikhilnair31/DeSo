@@ -1,4 +1,7 @@
-// TIme diff
+// Encryption key
+export const key = '#foo';
+
+// Something IDK
 export var match = {
     // lexical queries are kind of like a limited RegEx or Glob.
     '.': {
@@ -7,10 +10,11 @@ export var match = {
     },
     '-': 1, // filter in reverse
 };
-// TIme diff
+
+// Domains for image and avatars
 export let imagebasedomains = ['https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs']
 
-// TIme diff
+// Time diff calculator
 export const timeDifference = (utc) => {
     // dayjs(item.utc).format("YYYY-MM-DD")
     var msPerMinute = 60 * 1000;

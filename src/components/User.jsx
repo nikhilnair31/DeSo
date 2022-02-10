@@ -5,7 +5,7 @@ import { user } from '../helpers/user'
 import { ethers } from 'ethers';
 import { pinFileToIPFS } from '../helpers/pinata'
 import { ToastContainer, toast } from 'react-toastify';
-import { imagebasedomains, match } from '../helpers/functions';
+import { key, imagebasedomains, match } from '../helpers/functions';
 import Post from './Post'
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
@@ -111,7 +111,7 @@ const User = () => {
         fulluserdatanew['pfpcid'] = null;
         setfulluserdata(fulluserdatanew);
         setineditingmode(!ineditingmode);
-        toast.success('removepfp!');
+        toast.error('removepfp!');
     }
     function backToHome() {
         navigate(-1);
@@ -134,7 +134,6 @@ const User = () => {
         posts.map(match).once(async (data, id) => {
             if (data) {
                 // console.log('data: ', data, 'id: ', id);
-                const key = '#foo';
                 var post = {
                     postid: id, 
                     posterpub: data.posterpub, 
@@ -237,7 +236,7 @@ const User = () => {
                     </div>
                     <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
                 </div>
-                <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                {/* <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/> */}
             </div>
         )
     }
@@ -280,7 +279,7 @@ const User = () => {
                             }
                         </div>
                     </div>
-                    <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                    {/* <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/> */}
                 </div> }
             </div>
         )

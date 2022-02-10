@@ -157,7 +157,7 @@
         .button{
             border: 0px;
             height: 7vh;
-            width: 20%;
+            width: 30%;
             padding: 0.5pc;
             font-size: 1rem;
             border-radius: 0.5pc;
@@ -178,6 +178,32 @@
                 }
             }
         }
+    }
+    
+    .allcomments_container {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.5pc;
+        box-shadow: 0px 0px 6px 1px rgb(100 100 100 / 20%);
+    }
+    
+    .Toastify__toast-body {
+        text-align: center;
+        margin: auto 0;
+        flex: 1 1 auto;
+        padding: 6px;
+    }
+    .Toastify__toast--success {
+        @include themed('color', 'text');
+        @include themed('background-color', 'accentalt');
+    }
+    .Toastify__toast--warning {
+        @include themed('color', 'text');
+        @include themed('background-color', 'card');
+    }
+    .Toastify__toast--error {
+        @include themed('color', 'text');
+        @include themed('background-color', 'accent');
     }
 }
 
@@ -203,6 +229,10 @@
     }
     .comment_in_container {
         margin: 0.5pc 1pc;
+    }
+    .allcomments_container {
+        margin: auto 1pc;
+        // width: 31pc;
     }
 
     .post_avatar {
@@ -231,6 +261,10 @@
     }
     .comment_in_container {
         margin: 1pc auto;
+        width: 31pc;
+    }
+    .allcomments_container {
+        margin: auto;
         width: 31pc;
     }
 

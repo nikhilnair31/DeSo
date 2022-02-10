@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { match } from '../helpers/functions'
+import { key, match } from '../helpers/functions'
 import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import Post from './Post'
@@ -14,10 +14,12 @@ import './Home.scss';
 const initialState = {
     posts: []
 }
-function reducer(state, post) {
-    // console.log('reducer posts: ', [post, ...state.posts].sort((a, b) => b.posttime - a.posttime));
-    return {
-        posts: [post, ...state.posts].sort((a, b) => b.posttime - a.posttime)
+function reducer(state, action) {
+    switch (action.type) {
+        case 'append':
+            return { posts: [action.payload, ...state.posts] }
+        case 'reset':
+            return { posts: [] };
     }
 }
 
@@ -28,8 +30,44 @@ const Home = () => {
     const [filename, setfilename] = useState();
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    function captureFile(event, filename) {
-        console.log('captureFile');
+    function getCurrUsernameAlias() {
+        console.log('getCurrUsernameAlias');
+        user.get('alias').on(currunam => setcurrusername(currunam));
+    }
+    function getAllPostsData() {
+        console.log('getAllPostsData');
+        const posts = db.get('posts');
+        posts.map(match).once(async (data, id) => {
+            if (data) {
+                // console.log('data: ', data, 'id: ', id);
+                var post = {
+                    postid: id, 
+                    posterpub: data.posterpub, 
+                    posteralias: data.posteralias,
+                    posttext: await GUN.SEA.decrypt(data.posttext, key) + '',
+                    posttime: data.posttime,
+                    imagecid: data.imagecid,
+                    nftflag: data.nftflag,
+                    likecount: data.likecount,
+                    likeduserpubs: data.likeduserpubs, 
+                    commentcount: data.commentcount,
+                    reportcount: data.reportcount
+                };
+                // console.log('post: ', post);
+                dispatch({ type: 'append', payload: post })
+            }
+        });
+    }
+    function removePostFromArr(removepostid) {
+        const newcommentarr = state.posts.filter((post) => post.postid !== removepostid);
+        // console.log('Home state.posts: ', state.posts, ' - removePostFromArr: ', removepostid, ' - newcommentarr: ', newcommentarr);
+        dispatch({ type: "reset" });
+        newcommentarr.forEach(indivpostelement => {
+            dispatch({ type: 'append', payload: indivpostelement })
+        });
+    }
+    function attachedFile(event, filename) {
+        console.log('attachedFile');
 
         event.preventDefault();
         const pickedfile = event.target.files[0];
@@ -47,16 +85,11 @@ const Home = () => {
                 let respcid = resp.IpfsHash ? resp.IpfsHash : '';
                 console.log('respcid: ', respcid);
 
-                const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
-                console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText, ' - user.is.pub: ', user.is.pub); 
-
                 const indexkey = new Date().toISOString();
-                const posts = db.get('posts');
-                const thispost = db.get('singlepost'+indexkey);
-                thispost.put({ 
+                let data = { 
                     posterpub: user.is.pub, 
                     posteralias: currusername, 
-                    posttext: secretnewPostText, 
+                    posttext: await GUN.SEA.encrypt(newPostText, '#foo'), 
                     posttime: indexkey, 
                     imagecid: respcid, 
                     nftflag: isnftminted, 
@@ -64,23 +97,21 @@ const Home = () => {
                     likeduserpubs: '', 
                     commentcount: 0, 
                     // comments: {} 
-                });
+                }
+                const posts = db.get('posts');
+                const thispost = db.get('singlepost'+indexkey);
+                thispost.put(data);
                 posts.set(thispost);
-
-                setnewPostText('');
             });
         }
         else{
             console.log('!file');
 
-            const secretnewPostText = await GUN.SEA.encrypt(newPostText, '#foo');
-            console.log('newPostText: ', newPostText, '- secretnewPostText: ', secretnewPostText, ' - user.is.pub: ', user.is.pub);
-
             const indexkey = new Date().toISOString();
             let data = { 
                 posterpub: user.is.pub, 
                 posteralias: currusername, 
-                posttext: secretnewPostText, 
+                posttext: await GUN.SEA.encrypt(newPostText, '#foo'), 
                 posttime: indexkey, 
                 imagecid: '', 
                 nftflag: isnftminted, 
@@ -93,62 +124,38 @@ const Home = () => {
             const thispost = db.get('singlepost'+indexkey);
             thispost.put(data);
             posts.set(thispost);
-            console.log('data: ', data);
-            
-            setnewPostText('');
         }
+        setnewPostText('');
 
-        if(isnftminted) {
-            toast.success('Post Minted!');
-        }
-        else {
-            toast.success('Posted!');
-        }
+        toast.clearWaitingQueue();
+        if(isnftminted) toast.success('Post Minted!');
+        else toast.success('Posted!');
     }
 
     useEffect(() => { 
-        user.get('alias').on(currunam => setcurrusername(currunam));
-        const posts = db.get('posts');
-        posts.map(match).once(async (data, id) => {
-            if (data) {
-                // console.log('data: ', data, 'id: ', id);
-                const key = '#foo';
-                var post = {
-                    postid: id, 
-                    posterpub: data.posterpub, 
-                    posteralias: data.posteralias,
-                    posttext: await GUN.SEA.decrypt(data.posttext, key) + '',
-                    posttime: data.posttime,
-                    imagecid: data.imagecid,
-                    nftflag: data.nftflag,
-                    likecount: data.likecount,
-                    likeduserpubs: data.likeduserpubs, 
-                    commentcount: data.commentcount,
-                    comments: data.comments,
-                    reportcount: data.reportcount
-                };
-                // console.log('post: ', post);
-                dispatch(post);
-            }
-        });
+        getCurrUsernameAlias();
+        getAllPostsData();
     }, []);
 
     return (
         <div className="home">
             <Header setcurrusername={setcurrusername} currusername={currusername} />
+
             <div className="container">
                 <div className="all_posts_container">
                     {
                         state.posts.map((post, index) => (
-                            <Post key={index} post={post} curruseralias={currusername} />
+                            <Post key={index} post={post} curruseralias={currusername} removePostFromArr={removePostFromArr} />
                         ))
                     }
                 </div>
             </div>
+
             <Popup trigger={<i className="fas fa-plus post_button"></i>} modal nested >
-                { close => <PostModal close={close} currusername={currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} captureFile={captureFile} sendOutPost={sendOutPost} /> }
+                { close => <PostModal close={close} currusername={currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} attachedFile={attachedFile} sendOutPost={sendOutPost} /> }
             </Popup>
-            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+
+            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false} limit={1}/>
             <div id="popup-root" />
         </div>
     );

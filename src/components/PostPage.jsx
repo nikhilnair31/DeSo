@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { db, user } from '../helpers/user';
 import { unpinFile } from '../helpers/pinata';
 import { imagebasedomains, timeDifference } from '../helpers/functions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
 import MenuModal from './MenuModal';
 import Comment from './Comment';
@@ -22,6 +24,19 @@ const PostPage = () => {
     const [allcomments, setallcomments] = useState([]);
     const [ts, setts] = useState(new Date());
     
+    function isPostLikedByCurrUser() {
+        if(postLikeUserPubsArr!==undefined) {
+            // console.log('isPostLikedByCurrUser postLikeUserPubsArr: ', postLikeUserPubsArr , 'user.is.pub: ', user.is.pub);
+            if( postLikeUserPubsArr.includes(user.is.pub) ) {
+                setpostLikedByCurrUser(true);
+                // console.log('post already liked');
+            }
+            else {
+                setpostLikedByCurrUser(false);
+                // console.log('post not liked');
+            }
+        }
+    }
     function goToPostersUserPage() {
         navigate('/User',
         {
@@ -31,8 +46,64 @@ const PostPage = () => {
             }
         });
     }
+    function getPostComments() {
+        console.log('getPostComments');
+
+        db.get('commentsof'+state.post.postid).once((data, id) => {
+            console.log('id: ', id, '- data: ', data);
+            if(data) {
+                let postcomments = []
+                let finalkeysarr = [];
+                let keysarr = Object.keys(data);
+                console.log('keysarr: ', keysarr);
+                keysarr.forEach(element => {
+                    console.log('data[element]: ', data[element]);
+                    if(data[element]) finalkeysarr.push(element);
+                });
+                finalkeysarr.slice(1, finalkeysarr.length).forEach(element => {
+                    console.log('element: ', element);
+                    db.get(element).once((data, id) => {
+                        if(data) {
+                            let firscomment = {
+                                commentid: id,
+                                commenterpub: data.commenterpub,
+                                commenteralias: data.commenteralias,
+                                commentercomment: data.commentercomment,
+                                commentertime: data.commentertime,
+                            }
+                            postcomments = [...postcomments, firscomment];
+                            setallcomments(postcomments);
+
+                            db.get('posts').get(state.post.postid).put({
+                                commentcount: postcomments.length+1,
+                            });
+                            setpostCommentCount(postcomments.length+1);
+                            // console.log('id: ', id, 'data: ', data);
+                        }
+                    });
+                });
+            }
+        });
+    }
+    function getLatestPostData() {
+        const posts = db.get('posts');
+        posts.get(state.post.postid).once( (data, id) => {
+            if (data) {
+                // console.log('getLatestPostData id: ', id , 'data: ', data);
+                setpostLikeCount(data.likecount);
+                setpostCommentCount(data.commentcount);
+                setpostLikeUserPubsArr(data.likeduserpubs);
+            }
+        });
+    }
+    function removeCommentFromArr(removecommentid) {
+        console.log('PostPage removeCommentFromArr: ', removecommentid);
+        const newcommentarr = allcomments.filter((comment) => comment.commentid !== removecommentid);
+        setallcomments(newcommentarr);
+    }
     function reportPost() {
         console.log('reportPost');
+        toast.error('Post Reported.');
 
         const posts = db.get('posts').get(state.post.postid);
         posts.once(async (data, id) => {
@@ -42,6 +113,7 @@ const PostPage = () => {
     }
     function deletePost() {
         console.log('deletePost');
+        toast.error('Post Deleted.');
 
         const posts = db.get('posts');
         posts.get(state.post.postid).put(null);
@@ -55,11 +127,11 @@ const PostPage = () => {
         console.log('likePost');
 
         const posts = db.get('posts');
-        if(postLikedByCurrUser) {
+        if(postLikeUserPubsArr.includes(user.is.pub)) {
             // console.log('postLikedByCurrUser');
             let str = postLikeUserPubsArr;
             str = str.replace(user.is.pub, '');
-            console.log('postLikedByCurrUser user.is.pub: ', user.is.pub, ' - str: ', str);
+            // console.log('postLikedByCurrUser user.is.pub: ', user.is.pub, ' - str: ', str);
             setpostLikedByCurrUser(false);
             setpostLikeUserPubsArr(str);
             setpostLikeCount(postLikeCount-1);
@@ -72,7 +144,7 @@ const PostPage = () => {
             // console.log('not postLikedByCurrUser');
             let str = postLikeUserPubsArr;
             str = str + ' ' + user.is.pub;
-            console.log('not postLikedByCurrUser user.is.pub: ', user.is.pub, ' - str: ', str);
+            // console.log('not postLikedByCurrUser user.is.pub: ', user.is.pub, ' - str: ', str);
             setpostLikedByCurrUser(true);
             setpostLikeUserPubsArr(str);
             setpostLikeCount(postLikeCount+1);
@@ -96,10 +168,16 @@ const PostPage = () => {
         db.get('allcomments').set(thiscomment);
         db.get('commentsof'+state.post.postid).set(thiscomment);
 
-        db.get('posts').get(state.post.postid).put({
+        setcomment('');
+        toast.success('Commented!');
+
+        const posts = db.get('posts');
+        posts.get(state.post.postid).put({
             commentcount: postCommentCount+1,
         });
         setpostCommentCount(postCommentCount+1);
+
+        getPostComments();
     }
     function backToHome() {
         navigate(-1);
@@ -108,43 +186,14 @@ const PostPage = () => {
     useEffect(() => {
         console.log('PostPage state: ', state);
 
-        db.get('commentsof'+state.post.postid).once((data, id) => {
-            console.log('id: ', id, '- data: ', data);
-            if(data) {
-                let postcomments = []
-                let keysarr = Object.keys(data);
-                console.log('keysarr: ', keysarr);
-                keysarr.slice(1, keysarr.length).forEach(element => {
-                    console.log('element: ', element);
-                    db.get(element).once((data, id) => {
-                        if(data) {
-                            let firscomment = {
-                                commenterpub: data.commenterpub,
-                                commenteralias: data.commenteralias,
-                                commentercomment: data.commentercomment,
-                                commentertime: data.commentertime,
-                            }
-                            postcomments = [...postcomments, firscomment];
-                            setallcomments(postcomments);
-
-                            db.get('posts').get(state.post.postid).put({
-                                commentcount: postcomments.length+1,
-                            });
-                            setpostCommentCount(postcomments.length+1);
-                            console.log('id: ', id, 'data: ', data);
-                        }
-                    });
-                });
-            }
-        });
+        getLatestPostData();
+        isPostLikedByCurrUser();
+        getPostComments();
 
         setts(state.ts);
         setcanDeletePost(state.canDeletePost);
-        setpostLikeCount(state.postLikeCount);
-        setpostCommentCount(state.postCommentCount);
         setposteravatarurl(state.posteravatarurl);
-        setpostLikedByCurrUser(state.postLikedByCurrUser);
-    }, [state.post]);
+    }, [postLikeUserPubsArr, state.post]);
 
     return (
         <div className={'postpage'}>
@@ -184,7 +233,18 @@ const PostPage = () => {
                 <button className="button pushcomment_button" onClick={commentPost} >Save</button>
             </header>
 
-            { allcomments.length>0 && <Comment allcomments={allcomments} /> }
+            { 
+                allcomments.length>0 && 
+                <div className="allcomments_container" >
+                {   
+                    allcomments.map(c => (
+                        <Comment key={c.commentid} comment={c} postid={state.post.postid} removeCommentFromArr={removeCommentFromArr} />
+                    ))
+                }
+                </div>
+            }
+            
+            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
         </div>
     );
 }

@@ -40,6 +40,7 @@ $themes: (
     dark: (
         accent: #9794c8,
         accentplus: #f9c7d4,
+        accentalt: rgb(155, 255, 124),
         bg: rgb(20, 20, 20),
 		card: rgb(30, 30, 30),
 		cardnft: rgb(10, 10, 10),
@@ -52,6 +53,10 @@ $themes: (
         
 		header: rgba(30, 30, 30, 0.459),
         themeicon: #ffffff,
+
+		button: rgb(255, 255, 255),
+		buttonoff: rgb(245, 245, 245),
+		buttonconnected: rgb(155, 255, 124),
         
 		postbutton: rgb(255, 255, 255),
         postbuttonshadow: rgb(0 0 0 / 20%) 0px 0px 10px 5px,
