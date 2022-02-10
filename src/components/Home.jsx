@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { key, match } from '../helpers/functions'
+import { match } from '../helpers/functions'
 import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import Post from './Post'
@@ -32,35 +32,50 @@ const Home = () => {
 
     function getCurrUsernameAlias() {
         console.log('getCurrUsernameAlias');
-        user.get('alias').on(currunam => setcurrusername(currunam));
+        user.get('alias').on(currunam => {
+            console.log('currunam: ', currunam);
+            setcurrusername(currunam)
+        });
     }
     function getAllPostsData() {
         console.log('getAllPostsData');
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
-                // console.log('data: ', data, 'id: ', id);
+                console.log('data: ', data, 'id: ', id);
+                // var post = {
+                //     postid: id, 
+                //     posterpub: data.posterpub, 
+                //     posteralias: data.posteralias,
+                //     posttext: await GUN.SEA.decrypt(data.posttext, process.env.REACT_APP_ENCRYPTION_KEY) + '',
+                //     posttime: data.posttime,
+                //     imagecid: data.imagecid,
+                //     nftflag: data.nftflag,
+                //     likecount: data.likecount,
+                //     likeduserpubs: data.likeduserpubs, 
+                //     commentcount: data.commentcount,
+                //     reportcount: data.reportcount
+                // };
                 var post = {
                     postid: id, 
-                    posterpub: data.posterpub, 
-                    posteralias: data.posteralias,
-                    posttext: await GUN.SEA.decrypt(data.posttext, key) + '',
-                    posttime: data.posttime,
-                    imagecid: data.imagecid,
-                    nftflag: data.nftflag,
-                    likecount: data.likecount,
-                    likeduserpubs: data.likeduserpubs, 
-                    commentcount: data.commentcount,
-                    reportcount: data.reportcount
+                    posterpub: await GUN.SEA.decrypt(data.posterpub, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    posteralias: await GUN.SEA.decrypt(data.posteralias, process.env.REACT_APP_ENCRYPTION_KEY),
+                    posttext: await GUN.SEA.decrypt(data.posttext, process.env.REACT_APP_ENCRYPTION_KEY) + '',
+                    posttime: await GUN.SEA.decrypt(data.posttime, process.env.REACT_APP_ENCRYPTION_KEY),
+                    imagecid: await GUN.SEA.decrypt(data.imagecid, process.env.REACT_APP_ENCRYPTION_KEY),
+                    nftflag: await GUN.SEA.decrypt(data.nftflag, process.env.REACT_APP_ENCRYPTION_KEY),
+                    likecount: await GUN.SEA.decrypt(data.likecount, process.env.REACT_APP_ENCRYPTION_KEY),
+                    likeduserpubs: await GUN.SEA.decrypt(data.likeduserpubs, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    commentcount: await GUN.SEA.decrypt(data.commentcount, process.env.REACT_APP_ENCRYPTION_KEY),
+                    reportcount: await GUN.SEA.decrypt(data.reportcount , process.env.REACT_APP_ENCRYPTION_KEY)
                 };
-                // console.log('post: ', post);
+                console.log('post: ', post);
                 dispatch({ type: 'append', payload: post })
             }
         });
     }
     function removePostFromArr(removepostid) {
         const newcommentarr = state.posts.filter((post) => post.postid !== removepostid);
-        // console.log('Home state.posts: ', state.posts, ' - removePostFromArr: ', removepostid, ' - newcommentarr: ', newcommentarr);
         dispatch({ type: "reset" });
         newcommentarr.forEach(indivpostelement => {
             dispatch({ type: 'append', payload: indivpostelement })
@@ -86,17 +101,28 @@ const Home = () => {
                 console.log('respcid: ', respcid);
 
                 const indexkey = new Date().toISOString();
+                // let data = { 
+                //     posterpub: user.is.pub, 
+                //     posteralias: currusername, 
+                //     posttext: await GUN.SEA.encrypt(newPostText, process.env.REACT_APP_ENCRYPTION_KEY), 
+                //     posttime: indexkey, 
+                //     nftflag: isnftminted, 
+                //     imagecid: respcid, 
+                //     likeduserpubs: '', 
+                //     likecount: 0, 
+                //     commentcount: 0, 
+                // }
                 let data = { 
-                    posterpub: user.is.pub, 
-                    posteralias: currusername, 
-                    posttext: await GUN.SEA.encrypt(newPostText, '#foo'), 
-                    posttime: indexkey, 
-                    imagecid: respcid, 
-                    nftflag: isnftminted, 
-                    likecount: 0, 
-                    likeduserpubs: '', 
-                    commentcount: 0, 
-                    // comments: {} 
+                    posterpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    posteralias: await GUN.SEA.encrypt(currusername, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    posttext: await GUN.SEA.encrypt(newPostText, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    posttime: await GUN.SEA.encrypt(indexkey, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    nftflag: await GUN.SEA.encrypt(isnftminted, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    imagecid: await GUN.SEA.encrypt(respcid, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    likeduserpubs: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY), 
+                    likecount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    commentcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    reportcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
                 }
                 const posts = db.get('posts');
                 const thispost = db.get('singlepost'+indexkey);
@@ -106,19 +132,23 @@ const Home = () => {
         }
         else{
             console.log('!file');
+            
+            toast.clearWaitingQueue();
+            if(isnftminted) toast.success('Post Minted!');
+            else toast.success('Posted!');
 
             const indexkey = new Date().toISOString();
             let data = { 
-                posterpub: user.is.pub, 
-                posteralias: currusername, 
-                posttext: await GUN.SEA.encrypt(newPostText, '#foo'), 
-                posttime: indexkey, 
-                imagecid: '', 
-                nftflag: isnftminted, 
-                likecount: 0, 
-                likeduserpubs: '', 
-                commentcount: 0, 
-                // comments: {},
+                posterpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY), 
+                posteralias: await GUN.SEA.encrypt(currusername, process.env.REACT_APP_ENCRYPTION_KEY), 
+                posttext: await GUN.SEA.encrypt(newPostText, process.env.REACT_APP_ENCRYPTION_KEY), 
+                posttime: await GUN.SEA.encrypt(indexkey, process.env.REACT_APP_ENCRYPTION_KEY), 
+                nftflag: await GUN.SEA.encrypt(isnftminted, process.env.REACT_APP_ENCRYPTION_KEY), 
+                imagecid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY), 
+                likeduserpubs: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY), 
+                likecount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
+                commentcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
+                reportcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
             }
             const posts = db.get('posts');
             const thispost = db.get('singlepost'+indexkey);
@@ -126,10 +156,6 @@ const Home = () => {
             posts.set(thispost);
         }
         setnewPostText('');
-
-        toast.clearWaitingQueue();
-        if(isnftminted) toast.success('Post Minted!');
-        else toast.success('Posted!');
     }
 
     useEffect(() => { 

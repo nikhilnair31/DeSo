@@ -1,6 +1,3 @@
-// Encryption key
-export const key = '#foo';
-
 // Something IDK
 export var match = {
     // lexical queries are kind of like a limited RegEx or Glob.

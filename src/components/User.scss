@@ -63,19 +63,17 @@
             backface-visibility: hidden;
         }
         .middle {
-            transition: .5s ease;
-            opacity: 0;
+            opacity: 1;
             position: absolute;
-            top: 50%;
+            top: 25%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, 0%);
             text-align: center;
             @include all_transition_durations;
 
             .pfpupdate {
                 font-size: 2rem;
-                @include themed('color', 'alttext');
+                @include themed('color', 'text');
             }
             #fileInput{
                 display: none;

@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
+import { db, user } from '../helpers/user';
 import { useNavigate } from "react-router-dom";
+import GUN from 'gun';
 import './LogIn.scss';
-import { user } from '../helpers/user'
 
 const LogIn = () => {
     let navigate = useNavigate();
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
 
-    const login = () => {
+    function login () {
         console.log('login');
-        user.auth(username, password, ({ err }) => {
+        user.auth(username, password, async ({ err }) => {
             if (err){
                 console.log('login err');
                 alert(err);
             }
             else{
-                console.log('login in');
+                console.log('login');
+                console.log('user.is.pub: ', user.is.pub, ' - username: ', username);
+
+                let data = {
+                    userpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY),
+                    useralias: await GUN.SEA.encrypt(username, process.env.REACT_APP_ENCRYPTION_KEY),
+                    userfullname: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                    useremail: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                    userbio: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                    pfpcid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                }
+                const curruser = db.get('curruser'+user.is.pub);
+                curruser.put(data);
+                const users = db.get('users');
+                users.set(curruser);
+
                 navigate('/Home');
             }
         });
