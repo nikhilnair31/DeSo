@@ -82,10 +82,10 @@ const PostPage = () => {
                             postcomments = [...postcomments, firscomment];
                             setallcomments(postcomments);
 
-                            db.get('posts').get(state.post.postid).put({
-                                commentcount: await GUN.SEA.encrypt(postcomments.length+1, process.env.REACT_APP_ENCRYPTION_KEY),
-                            });
-                            setpostCommentCount(postcomments.length+1);
+                            // db.get('posts').get(state.post.postid).put({
+                            //     commentcount: await GUN.SEA.encrypt(postcomments.length+1, process.env.REACT_APP_ENCRYPTION_KEY),
+                            // });
+                            // setpostCommentCount(postcomments.length+1);
                             // console.log('id: ', id, 'data: ', data);
                         }
                     });
@@ -108,11 +108,6 @@ const PostPage = () => {
             }
         });
     }
-    function removeCommentFromArr(removecommentid) {
-        console.log('PostPage removeCommentFromArr: ', removecommentid);
-        const newcommentarr = allcomments.filter((comment) => comment.commentid !== removecommentid);
-        setallcomments(newcommentarr);
-    }
     function reportPost() {
         console.log('reportPost');
         toast.error('Post Reported.');
@@ -133,7 +128,7 @@ const PostPage = () => {
         posts.get(state.post.postid).put(null);
         if(state.post.imagecid){
             unpinFile(state.post.imagecid).then( async (resp) => {
-                console.log('deletePost resp: ', resp);
+                // console.log('deletePost resp: ', resp);
                 navigate(-1);
             });
         }
@@ -144,6 +139,18 @@ const PostPage = () => {
     function goBack() {
         console.log('goBack');
         navigate(-1);
+    }
+    async function removeCommentFromArr(removecommentid) {
+        // console.log('PostPage removeCommentFromArr: ', removecommentid);
+        
+        const posts = db.get('posts');
+        posts.get(state.post.postid).put({
+            commentcount: await GUN.SEA.encrypt(postCommentCount-1, process.env.REACT_APP_ENCRYPTION_KEY),
+        });
+        setpostCommentCount(postCommentCount-1);
+
+        const newcommentarr = allcomments.filter((comment) => comment.commentid !== removecommentid);
+        setallcomments(newcommentarr);
     }
     async function likePost() {
         console.log('likePost');
@@ -200,7 +207,7 @@ const PostPage = () => {
     }
 
     useEffect(() => {
-        console.log('PostPage state: ', state);
+        // console.log('PostPage state: ', state);
 
         getLatestPostData();
         isPostLikedByCurrUser();

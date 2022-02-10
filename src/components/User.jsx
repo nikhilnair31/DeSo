@@ -43,7 +43,7 @@ const User = () => {
 
     async function connectToMetamask() {
         const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log('connectToMetamask account: ', account);
+        // console.log('connectToMetamask account: ', account);
         if(account){
             setconnectedtometamask(true);
         }
@@ -55,7 +55,6 @@ const User = () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const balance = await provider.getBalance(account);
         setBalance(ethers.utils.formatEther(balance));
-        console.log('ethers.utils.formatEther(balance): ', ethers.utils.formatEther(balance));
     }
     async function saveEdits() {
         console.log('saveedits');
@@ -135,10 +134,6 @@ const User = () => {
 
         setpfpcid(null);
         setavatarurl(`https://avatars.dicebear.com/api/big-ears-neutral/${alias}.svg`);
-    
-        // let fulluserdatanew = fulluserdata;
-        // fulluserdatanew['pfpcid'] = null;
-        // setfulluserdata(fulluserdatanew);
         setineditingmode(!ineditingmode);
     }
     function removePostFromArr(removepostid) {
@@ -160,20 +155,16 @@ const User = () => {
         console.log('getfulluserdata');
         
         if(state.userpub === user.is.pub) {
-            if(connectedtometamask) getBalance();
-            else connectToMetamask();
-
-            console.log('state.userpub: ', state.userpub, ' - user.is.pub: ', user.is.pub);
             const curruser = db.get('curruser'+user.is.pub);
             curruser.once( async (data, id) => {
-                console.log('id: ', id, ' - data: ', data);
+                // console.log('id: ', id, ' - data: ', data);
                 const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
                 const decrypted_bio = await GUN.SEA.decrypt(data.userbio, process.env.REACT_APP_ENCRYPTION_KEY);
                 const decrypted_email = await GUN.SEA.decrypt(data.useremail, process.env.REACT_APP_ENCRYPTION_KEY);
                 const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, process.env.REACT_APP_ENCRYPTION_KEY);
                 const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
                 const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
-                console.log('decrypted_userpub: ', decrypted_userpub,'decrypted_useralias: ', decrypted_useralias, 'decrypted_pfpcid: ', decrypted_pfpcid, 'decrypted_userfullname: ', decrypted_userfullname);
+                // console.log('decrypted_userpub: ', decrypted_userpub,'decrypted_useralias: ', decrypted_useralias, 'decrypted_pfpcid: ', decrypted_pfpcid, 'decrypted_userfullname: ', decrypted_userfullname);
                 if(decrypted_userpub === user.is.pub) {
                     // setfulluserdata(data);
                     setalias(decrypted_useralias);
@@ -212,13 +203,16 @@ const User = () => {
     }
 
     useEffect(() => { 
-        console.log('User state: ', state);
-        if(arrstate.posts.length===0) {
-            getUsersPosts();
-        }
+        getUsersPosts();
         getfulluserdata();
+    }, []);
+    useEffect(() => { 
+        // console.log('User state: ', state);
+        if(state.userpub === user.is.pub) {
+            if(connectedtometamask) getBalance();
+            else connectToMetamask();
+        }
     }, [connectedtometamask]);
-    // }, []);
 
     if(state.userpub === user.is.pub) {
         return (

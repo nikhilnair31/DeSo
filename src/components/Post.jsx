@@ -23,10 +23,10 @@ const Post = (props) => {
     function getUserAvatar() {
         const users = db.get('users').get('curruser'+props.post.posterpub);
         users.once( async (data, id) => {
-            // console.log('getUserAvatar id: ', id, ' - data: ', data);
             const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
             const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
             const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
+            // console.log('getUserAvatar id: ', id, ' - decrypted_pfpcid: ', decrypted_pfpcid, ' - decrypted_useralias: ', decrypted_useralias);
             if(decrypted_userpub === props.post.posterpub)
                 setposteravatarurl((decrypted_pfpcid!==undefined && decrypted_pfpcid!==null && decrypted_pfpcid!=='') ? imagebasedomains[0]+decrypted_pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${decrypted_useralias}.svg`);
         });
@@ -139,7 +139,7 @@ const Post = (props) => {
         getUserAvatar();
         isPostLikedByCurrUser();
         isPostDeletableByCurrUser();
-    }, [props.post]);
+    }, [posteravatarurl]);
 
     return (
         <div className={'post '+( props.post.nftflag ? 'isnft' : '' )} >            
