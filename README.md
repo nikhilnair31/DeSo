@@ -28,8 +28,7 @@
 - Pinata for file distribution
     https://app.pinata.cloud/pinmanager
 ## To-Do
-* Home
-    - [ ] Instead of encrypting only the post text maybe encrypt the whole post?
+* Posts
     - [ ] Commenting
         - [ ] Need to include nested comments
     - [ ] Deleting
@@ -43,6 +42,7 @@
 	- [ ] Update the smart contract to make the paytomint cost flexible (ALSO MAKE IT SO YOU GET PAYED ON PAYTOMINT COMPLETING)
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Instead of encrypting only the post text maybe encrypt the whole post?
     - [x] Fix the sorting order of the posts (Doesn't work sometimes?)
     - [x] Allow for comment deletion
     - [x] Search for all of a User's posts and then filter depending on user's public key

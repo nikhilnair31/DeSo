@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { db, user } from '../helpers/user';
 import { useNavigate } from "react-router-dom";
-import { user, db } from '../helpers/user'
 import GUN from 'gun';
 import './LogIn.scss';
 
@@ -9,32 +9,35 @@ const LogIn = () => {
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
 
-    const login = () => {
+    function login () {
         console.log('login');
-        user.auth(username, password, ({ err }) => {
+        user.auth(username, password, async ({ err }) => {
             if (err){
                 console.log('login err');
                 alert(err);
             }
             else{
-                console.log('login in');
+                console.log('login');
+                console.log('user.is.pub: ', user.is.pub, ' - username: ', username);
                 
-                db.get('curruser'+user.is.pub).once( curruserpub => {
-                    console.log('curruserpub: ', curruserpub);
+                db.get('curruser'+user.is.pub).once( async (curruserpub) => {
+                    // console.log('curruserpub: ', curruserpub);
                     if(curruserpub){
                         navigate('/Home');
                     }
                     else {
                         let data = {
-                            userpub: user.is.pub, 
-                            useralias: username, 
-                            userfullname: '', 
-                            useremail: '', 
-                            userbio: '', 
+                            userpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY),
+                            useralias: await GUN.SEA.encrypt(username, process.env.REACT_APP_ENCRYPTION_KEY),
+                            userfullname: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            useremail: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            userbio: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            pfpcid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
                         }
                         const curruser = db.get('curruser'+user.is.pub);
                         curruser.put(data);
-                        db.get('users').set(curruser);
+                        const users = db.get('users');
+                        users.set(curruser);
                         navigate('/Home');
                     }
                 })

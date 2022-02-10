@@ -10,8 +10,8 @@ export const db = GUN({
 
 export const user = db.user().recall({sessionStorage: true});
 
-db.on('auth', async(event) => {
-    db.user(user.is.pub).once(dat => {
-        console.log('user: ', user);
-    });
-});
+// db.on('auth', async(event) => {
+//     db.user(user.is.pub).once(dat => {
+//         console.log('user: ', user);
+//     });
+// });

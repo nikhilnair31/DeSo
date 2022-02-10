@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
 import MenuModal from './MenuModal';
+import GUN from 'gun';
 import './Comment.scss';
 
 const Comment = ({comment, postid , removeCommentFromArr}) => {
@@ -16,9 +17,12 @@ const Comment = ({comment, postid , removeCommentFromArr}) => {
     function getUserAvatar() {
         const users = db.get('users').get('curruser'+comment.commenterpub);
         users.once(async (data, id) => {
-            // console.log('id: ', id, ' - data: ', data);
-            if(data.userpub === comment.commenterpub)
-                setposteravatarurl((data.pfpcid!==undefined && data.pfpcid!==null) ? imagebasedomains[0]+data.pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${data.useralias}.svg`);
+            console.log('getUserAvatar id: ', id, ' - data: ', data);
+            const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
+            if(decrypted_userpub === comment.commenterpub)
+                setposteravatarurl((decrypted_pfpcid!==undefined && decrypted_pfpcid!==null && decrypted_pfpcid!=='') ? imagebasedomains[0]+decrypted_pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${decrypted_useralias}.svg`);
         });
     }
     function goToPostersUserPage() {
