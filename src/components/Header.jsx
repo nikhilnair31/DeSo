@@ -37,7 +37,7 @@ const Header = (props) => {
         });
     }
     function getfulluserdata() {
-        console.log('getfulluserdata');
+        // console.log('getfulluserdata');
         
         const users = db.get('users').get('curruser'+user.is.pub);
         users.once( async (data, id) => {

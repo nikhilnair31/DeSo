@@ -23,7 +23,7 @@ const Post = (props) => {
     function getUserAvatar() {
         const users = db.get('users').get('curruser'+props.post.posterpub);
         users.once( async (data, id) => {
-            console.log('getUserAvatar id: ', id, ' - data: ', data);
+            // console.log('getUserAvatar id: ', id, ' - data: ', data);
             const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
             const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
             const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);

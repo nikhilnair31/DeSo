@@ -127,16 +127,19 @@ const User = () => {
     }
     function removePFP() {
         console.log('removepfp');
+        toast.error('Removed Profile Picture!');
 
-        const users = db.get('users');
         const curruser = db.get('curruser'+state.userpub);
         curruser.put({pfpcid: null});
-        users.set(curruser);
-        let fulluserdatanew = fulluserdata;
-        fulluserdatanew['pfpcid'] = null;
+        db.get('users').set(curruser);
+
+        setpfpcid(null);
+        setavatarurl(`https://avatars.dicebear.com/api/big-ears-neutral/${alias}.svg`);
+    
+        // let fulluserdatanew = fulluserdata;
+        // fulluserdatanew['pfpcid'] = null;
         // setfulluserdata(fulluserdatanew);
         setineditingmode(!ineditingmode);
-        toast.error('Removed Profile Picture!');
     }
     function removePostFromArr(removepostid) {
         const newcommentarr = arrstate.posts.filter((post) => post.postid !== removepostid);
@@ -184,27 +187,38 @@ const User = () => {
             });
         }
         else {
-            const users = db.get('users').get('curruser'+state.userpub);
-            users.once(async (data, id) => {
+            const otheruser = db.get('curruser'+state.userpub);
+            otheruser.once(async (data, id) => {
                 console.log('id: ', id, ' - data: ', data);
-                if(data.userpub === state.userpub){
+                const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_bio = await GUN.SEA.decrypt(data.userbio, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_email = await GUN.SEA.decrypt(data.useremail, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
+                console.log('decrypted_userpub: ', decrypted_userpub,'decrypted_useralias: ', decrypted_useralias, 'decrypted_pfpcid: ', decrypted_pfpcid, 'decrypted_userfullname: ', decrypted_userfullname);
+                if(decrypted_userpub === state.userpub){
                     // setfulluserdata(data);
-                    if(data.pfpcid!==undefined && data.pfpcid!==null) {
-                        // console.log('data.pfpcid!==undefined');
-                        setavatarurl(imagebasedomains[0]+data.pfpcid);
-                    }
+                    setalias(decrypted_useralias);
+                    setfullname(decrypted_userfullname);
+                    setemail(decrypted_email);
+                    setbio(decrypted_bio);
+                    setuserpub(decrypted_userpub);
+                    setpfpcid(decrypted_pfpcid);
+                    setavatarurl((decrypted_pfpcid!==undefined && decrypted_pfpcid!==null && decrypted_pfpcid!=='') ? imagebasedomains[0]+decrypted_pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${decrypted_useralias}.svg`);
                 }
             });
         }
     }
 
     useEffect(() => { 
-        // if(arrstate.posts.length===0) {
-        //     getUsersPosts();
-        // }
+        console.log('User state: ', state);
+        if(arrstate.posts.length===0) {
+            getUsersPosts();
+        }
         getfulluserdata();
-    // }, [connectedtometamask]);
-    }, []);
+    }, [connectedtometamask]);
+    // }, []);
 
     if(state.userpub === user.is.pub) {
         return (
@@ -230,9 +244,9 @@ const User = () => {
                     </div>
 
                     <p className='username' >{'@'+alias}</p>
-                    { fulluserdata && <p className='fullname' >{fullname}</p> }
-                    { fulluserdata && <p className='email' >{email}</p> }
-                    { fulluserdata && <p className='bio' >{bio}</p> }
+                    { fullname && <p className='fullname' >{fullname}</p> }
+                    { email && <p className='email' >{email}</p> }
+                    { bio && <p className='bio' >{bio}</p> }
                     <button className="button edit_button" onClick={editOnOff} >Edit</button>
 
                     { ineditingmode && <button className="button remove_pfp_button" onClick={removePFP} >Remove Profile Picture</button> }
@@ -286,25 +300,27 @@ const User = () => {
                         </div> }
                     </div>
 
-                    <p className='username' >{'@'+fulluserdata.useralias}</p>
-                    { fulluserdata && <p className='fullname' >{fulluserdata.userfullname}</p> }
-                    { fulluserdata && <p className='email' >{fulluserdata.useremail}</p> }
-                    { fulluserdata && <p className='bio' >{fulluserdata.userbio}</p> }
+                    <p className='username' >{'@'+alias}</p>
+                    { fullname && <p className='fullname' >{fullname}</p> }
+                    { email && <p className='email' >{email}</p> }
+                    { bio && <p className='bio' >{bio}</p> }
                 </div>
                 
-                { arrstate &&
-                <div className="user_home">
-                    <p className='posts_title' >Posts</p>
-                    <div className="user_container">
-                        <div className="user_posts_container">
-                            {
-                                arrstate.posts.map((post, index) => (
-                                    <Post key={index} post={post} curruseralias={state.useralias} />
-                                ))
-                            }
+                { 
+                    arrstate.posts.length > 0 &&
+                    <div className="user_home">
+                        <p className='posts_title' >Posts</p>
+                        <div className="user_container">
+                            <div className="user_posts_container">
+                                {
+                                    arrstate.posts.map((post, index) => (
+                                        <Post key={index} post={post} curruseralias={state.useralias} />
+                                    ))
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div> }
+                    </div> 
+                }
 
                 <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
             </div>

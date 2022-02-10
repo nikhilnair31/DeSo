@@ -31,31 +31,18 @@ const Home = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     function getCurrUsernameAlias() {
-        console.log('getCurrUsernameAlias');
+        // console.log('getCurrUsernameAlias');
         user.get('alias').on(currunam => {
-            console.log('currunam: ', currunam);
+            // console.log('currunam: ', currunam);
             setcurrusername(currunam)
         });
     }
     function getAllPostsData() {
-        console.log('getAllPostsData');
+        // console.log('getAllPostsData');
+        
         const posts = db.get('posts');
         posts.map(match).once(async (data, id) => {
             if (data) {
-                console.log('data: ', data, 'id: ', id);
-                // var post = {
-                //     postid: id, 
-                //     posterpub: data.posterpub, 
-                //     posteralias: data.posteralias,
-                //     posttext: await GUN.SEA.decrypt(data.posttext, process.env.REACT_APP_ENCRYPTION_KEY) + '',
-                //     posttime: data.posttime,
-                //     imagecid: data.imagecid,
-                //     nftflag: data.nftflag,
-                //     likecount: data.likecount,
-                //     likeduserpubs: data.likeduserpubs, 
-                //     commentcount: data.commentcount,
-                //     reportcount: data.reportcount
-                // };
                 var post = {
                     postid: id, 
                     posterpub: await GUN.SEA.decrypt(data.posterpub, process.env.REACT_APP_ENCRYPTION_KEY), 
@@ -69,7 +56,7 @@ const Home = () => {
                     commentcount: await GUN.SEA.decrypt(data.commentcount, process.env.REACT_APP_ENCRYPTION_KEY),
                     reportcount: await GUN.SEA.decrypt(data.reportcount , process.env.REACT_APP_ENCRYPTION_KEY)
                 };
-                console.log('post: ', post);
+                // console.log('post: ', post);
                 dispatch({ type: 'append', payload: post })
             }
         });
@@ -90,28 +77,21 @@ const Home = () => {
         setfilename(filename);
     }
     async function sendOutPost(isnftminted) {
-        console.log('sendOutPost - ', isnftminted);
+        // console.log('sendOutPost - ', isnftminted);
 
         if(file){
-            console.log('file');
+            // console.log('file');
 
             pinFileToIPFS(file).then( async (resp) => {
-                console.log('resp: ', resp);
+                // console.log('resp: ', resp);
+
+                if(isnftminted) toast.success('Post Minted!');
+                else toast.success('Posted!');
+                
                 let respcid = resp.IpfsHash ? resp.IpfsHash : '';
-                console.log('respcid: ', respcid);
+                // console.log('respcid: ', respcid);
 
                 const indexkey = new Date().toISOString();
-                // let data = { 
-                //     posterpub: user.is.pub, 
-                //     posteralias: currusername, 
-                //     posttext: await GUN.SEA.encrypt(newPostText, process.env.REACT_APP_ENCRYPTION_KEY), 
-                //     posttime: indexkey, 
-                //     nftflag: isnftminted, 
-                //     imagecid: respcid, 
-                //     likeduserpubs: '', 
-                //     likecount: 0, 
-                //     commentcount: 0, 
-                // }
                 let data = { 
                     posterpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY), 
                     posteralias: await GUN.SEA.encrypt(currusername, process.env.REACT_APP_ENCRYPTION_KEY), 
@@ -124,16 +104,14 @@ const Home = () => {
                     commentcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
                     reportcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
                 }
-                const posts = db.get('posts');
                 const thispost = db.get('singlepost'+indexkey);
                 thispost.put(data);
-                posts.set(thispost);
+                db.get('posts').set(thispost);
             });
         }
         else{
-            console.log('!file');
+            // console.log('!file');
             
-            toast.clearWaitingQueue();
             if(isnftminted) toast.success('Post Minted!');
             else toast.success('Posted!');
 
@@ -150,10 +128,9 @@ const Home = () => {
                 commentcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
                 reportcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
             }
-            const posts = db.get('posts');
             const thispost = db.get('singlepost'+indexkey);
             thispost.put(data);
-            posts.set(thispost);
+            db.get('posts').set(thispost);
         }
         setnewPostText('');
     }

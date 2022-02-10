@@ -19,21 +19,28 @@ const LogIn = () => {
             else{
                 console.log('login');
                 console.log('user.is.pub: ', user.is.pub, ' - username: ', username);
-
-                let data = {
-                    userpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY),
-                    useralias: await GUN.SEA.encrypt(username, process.env.REACT_APP_ENCRYPTION_KEY),
-                    userfullname: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                    useremail: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                    userbio: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                    pfpcid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                }
-                const curruser = db.get('curruser'+user.is.pub);
-                curruser.put(data);
-                const users = db.get('users');
-                users.set(curruser);
-
-                navigate('/Home');
+                
+                db.get('curruser'+user.is.pub).once( async (curruserpub) => {
+                    console.log('curruserpub: ', curruserpub);
+                    if(curruserpub){
+                        navigate('/Home');
+                    }
+                    else {
+                        let data = {
+                            userpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY),
+                            useralias: await GUN.SEA.encrypt(username, process.env.REACT_APP_ENCRYPTION_KEY),
+                            userfullname: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            useremail: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            userbio: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            pfpcid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                        }
+                        const curruser = db.get('curruser'+user.is.pub);
+                        curruser.put(data);
+                        const users = db.get('users');
+                        users.set(curruser);
+                        navigate('/Home');
+                    }
+                })
             }
         });
     }
