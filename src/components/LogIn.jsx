@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { user, db } from '../helpers/user'
+import GUN from 'gun';
 import './LogIn.scss';
-import { user } from '../helpers/user'
 
 const LogIn = () => {
     let navigate = useNavigate();
@@ -17,7 +18,26 @@ const LogIn = () => {
             }
             else{
                 console.log('login in');
-                navigate('/Home');
+                
+                db.get('curruser'+user.is.pub).once( curruserpub => {
+                    console.log('curruserpub: ', curruserpub);
+                    if(curruserpub){
+                        navigate('/Home');
+                    }
+                    else {
+                        let data = {
+                            userpub: user.is.pub, 
+                            useralias: username, 
+                            userfullname: '', 
+                            useremail: '', 
+                            userbio: '', 
+                        }
+                        const curruser = db.get('curruser'+user.is.pub);
+                        curruser.put(data);
+                        db.get('users').set(curruser);
+                        navigate('/Home');
+                    }
+                })
             }
         });
     }

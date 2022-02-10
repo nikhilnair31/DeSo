@@ -157,14 +157,14 @@ const User = () => {
 
         if(state.userpub === user.is.pub) {
             user.get('pub').once(curruserpub => {
-                // console.log('curruserpub: ', curruserpub);
+                console.log('curruserpub: ', curruserpub);
                 const users = db.get('users');
                 users.map(match).once(async (data, id) => {
+                    console.log('id: ', id, ' - data: ', data);
                     if(data.userpub === curruserpub){
-                        // console.log('id: ', id, ' - data: ', data);
                         setfulluserdata(data);
                         if(data.pfpcid!==undefined && data.pfpcid!==null) {
-                            // console.log('user pub data: ', data, ' - state: ', state , ' - curruserpub: ', curruserpub );
+                            console.log('user pub data: ', data, ' - state: ', state , ' - curruserpub: ', curruserpub );
                             setavatarurl(imagebasedomains[0]+data.pfpcid);
                         }
                     }
@@ -184,7 +184,7 @@ const User = () => {
                 }
             });
         }
-    }, []);
+    }, [fulluserdata]);
 
     if(state.userpub === user.is.pub) {
         return (
