@@ -21,7 +21,7 @@ const LogIn = () => {
                 console.log('user.is.pub: ', user.is.pub, ' - username: ', username);
                 
                 db.get('curruser'+user.is.pub).once( async (curruserpub) => {
-                    console.log('curruserpub: ', curruserpub);
+                    // console.log('curruserpub: ', curruserpub);
                     if(curruserpub){
                         navigate('/Home');
                     }
