@@ -1,4 +1,7 @@
 // Something IDK
+export const encryption_key = process.env.REACT_APP_ENCRYPTION_KEY || '#foo'
+
+// Something IDK
 export var match = {
     // lexical queries are kind of like a limited RegEx or Glob.
     '.': {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { match } from '../helpers/functions'
+import { encryption_key, match } from '../helpers/functions';
 import { pinFileToIPFS } from '../helpers/pinata'
 import { db, user } from '../helpers/user'
 import Post from './Post'
@@ -45,16 +45,16 @@ const Home = () => {
             if (data) {
                 var post = {
                     postid: id, 
-                    posterpub: await GUN.SEA.decrypt(data.posterpub, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    posteralias: await GUN.SEA.decrypt(data.posteralias, process.env.REACT_APP_ENCRYPTION_KEY),
-                    posttext: await GUN.SEA.decrypt(data.posttext, process.env.REACT_APP_ENCRYPTION_KEY) + '',
-                    posttime: await GUN.SEA.decrypt(data.posttime, process.env.REACT_APP_ENCRYPTION_KEY),
-                    imagecid: await GUN.SEA.decrypt(data.imagecid, process.env.REACT_APP_ENCRYPTION_KEY),
-                    nftflag: await GUN.SEA.decrypt(data.nftflag, process.env.REACT_APP_ENCRYPTION_KEY),
-                    likecount: await GUN.SEA.decrypt(data.likecount, process.env.REACT_APP_ENCRYPTION_KEY),
-                    likeduserpubs: await GUN.SEA.decrypt(data.likeduserpubs, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    commentcount: await GUN.SEA.decrypt(data.commentcount, process.env.REACT_APP_ENCRYPTION_KEY),
-                    reportcount: await GUN.SEA.decrypt(data.reportcount , process.env.REACT_APP_ENCRYPTION_KEY)
+                    posterpub: await GUN.SEA.decrypt(data.posterpub, encryption_key), 
+                    posteralias: await GUN.SEA.decrypt(data.posteralias, encryption_key),
+                    posttext: await GUN.SEA.decrypt(data.posttext, encryption_key) + '',
+                    posttime: await GUN.SEA.decrypt(data.posttime, encryption_key),
+                    imagecid: await GUN.SEA.decrypt(data.imagecid, encryption_key),
+                    nftflag: await GUN.SEA.decrypt(data.nftflag, encryption_key),
+                    likecount: await GUN.SEA.decrypt(data.likecount, encryption_key),
+                    likeduserpubs: await GUN.SEA.decrypt(data.likeduserpubs, encryption_key), 
+                    commentcount: await GUN.SEA.decrypt(data.commentcount, encryption_key),
+                    reportcount: await GUN.SEA.decrypt(data.reportcount , encryption_key)
                 };
                 // console.log('post: ', post);
                 dispatch({ type: 'append', payload: post })
@@ -93,16 +93,16 @@ const Home = () => {
 
                 const indexkey = new Date().toISOString();
                 let data = { 
-                    posterpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    posteralias: await GUN.SEA.encrypt(currusername, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    posttext: await GUN.SEA.encrypt(newPostText, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    posttime: await GUN.SEA.encrypt(indexkey, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    nftflag: await GUN.SEA.encrypt(isnftminted, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    imagecid: await GUN.SEA.encrypt(respcid, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    likeduserpubs: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY), 
-                    likecount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    commentcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    reportcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
+                    posterpub: await GUN.SEA.encrypt(user.is.pub, encryption_key), 
+                    posteralias: await GUN.SEA.encrypt(currusername, encryption_key), 
+                    posttext: await GUN.SEA.encrypt(newPostText, encryption_key), 
+                    posttime: await GUN.SEA.encrypt(indexkey, encryption_key), 
+                    nftflag: await GUN.SEA.encrypt(isnftminted, encryption_key), 
+                    imagecid: await GUN.SEA.encrypt(respcid, encryption_key), 
+                    likeduserpubs: await GUN.SEA.encrypt('', encryption_key), 
+                    likecount: await GUN.SEA.encrypt(0, encryption_key), 
+                    commentcount: await GUN.SEA.encrypt(0, encryption_key), 
+                    reportcount: await GUN.SEA.encrypt(0, encryption_key), 
                 }
                 const thispost = db.get('singlepost'+indexkey);
                 thispost.put(data);
@@ -117,16 +117,16 @@ const Home = () => {
 
             const indexkey = new Date().toISOString();
             let data = { 
-                posterpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY), 
-                posteralias: await GUN.SEA.encrypt(currusername, process.env.REACT_APP_ENCRYPTION_KEY), 
-                posttext: await GUN.SEA.encrypt(newPostText, process.env.REACT_APP_ENCRYPTION_KEY), 
-                posttime: await GUN.SEA.encrypt(indexkey, process.env.REACT_APP_ENCRYPTION_KEY), 
-                nftflag: await GUN.SEA.encrypt(isnftminted, process.env.REACT_APP_ENCRYPTION_KEY), 
-                imagecid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY), 
-                likeduserpubs: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY), 
-                likecount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
-                commentcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
-                reportcount: await GUN.SEA.encrypt(0, process.env.REACT_APP_ENCRYPTION_KEY), 
+                posterpub: await GUN.SEA.encrypt(user.is.pub, encryption_key), 
+                posteralias: await GUN.SEA.encrypt(currusername, encryption_key), 
+                posttext: await GUN.SEA.encrypt(newPostText, encryption_key), 
+                posttime: await GUN.SEA.encrypt(indexkey, encryption_key), 
+                nftflag: await GUN.SEA.encrypt(isnftminted, encryption_key), 
+                imagecid: await GUN.SEA.encrypt('', encryption_key), 
+                likeduserpubs: await GUN.SEA.encrypt('', encryption_key), 
+                likecount: await GUN.SEA.encrypt(0, encryption_key), 
+                commentcount: await GUN.SEA.encrypt(0, encryption_key), 
+                reportcount: await GUN.SEA.encrypt(0, encryption_key), 
             }
             const thispost = db.get('singlepost'+indexkey);
             thispost.put(data);
@@ -141,7 +141,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div id="body_child">
+        // <div id="body_child">
             <div className="home">
                 <Header setcurrusername={setcurrusername} currusername={currusername} />
 
@@ -162,7 +162,7 @@ const Home = () => {
                 <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false} limit={1}/>
                 <div id="popup-root" />
             </div>
-        </div>
+        // </div>
     );
 }
 

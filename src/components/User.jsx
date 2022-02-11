@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { useNavigate , useLocation } from "react-router-dom";
-import { db } from '../helpers/user'
-import { user } from '../helpers/user'
 import { ethers } from 'ethers';
+import { db, user } from '../helpers/user'
 import { pinFileToIPFS } from '../helpers/pinata'
 import { ToastContainer, toast } from 'react-toastify';
-import { imagebasedomains, match } from '../helpers/functions';
+import { encryption_key, imagebasedomains, match } from '../helpers/functions';
 import Post from './Post'
 import GUN from 'gun';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,12 +60,12 @@ const User = () => {
         toast.success('Edits saved!');
 
         let data = {
-            userpub: await GUN.SEA.encrypt(userpub, process.env.REACT_APP_ENCRYPTION_KEY), 
-            useralias: await GUN.SEA.encrypt(alias, process.env.REACT_APP_ENCRYPTION_KEY), 
-            userfullname: await GUN.SEA.encrypt(fullname, process.env.REACT_APP_ENCRYPTION_KEY), 
-            useremail:  await GUN.SEA.encrypt(email, process.env.REACT_APP_ENCRYPTION_KEY), 
-            userbio:  await GUN.SEA.encrypt(bio, process.env.REACT_APP_ENCRYPTION_KEY), 
-            pfpcid:  await GUN.SEA.encrypt(pfpcid, process.env.REACT_APP_ENCRYPTION_KEY), 
+            userpub: await GUN.SEA.encrypt(userpub, encryption_key), 
+            useralias: await GUN.SEA.encrypt(alias, encryption_key), 
+            userfullname: await GUN.SEA.encrypt(fullname, encryption_key), 
+            useremail:  await GUN.SEA.encrypt(email, encryption_key), 
+            userbio:  await GUN.SEA.encrypt(bio, encryption_key), 
+            pfpcid:  await GUN.SEA.encrypt(pfpcid, encryption_key), 
         }
         console.log('data: ', data);
         const curruser = db.get('curruser'+userpub);
@@ -85,16 +84,16 @@ const User = () => {
             if (data) {
                 var post = {
                     postid: id, 
-                    posterpub: await GUN.SEA.decrypt(data.posterpub, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    posteralias: await GUN.SEA.decrypt(data.posteralias, process.env.REACT_APP_ENCRYPTION_KEY),
-                    posttext: await GUN.SEA.decrypt(data.posttext, process.env.REACT_APP_ENCRYPTION_KEY) + '',
-                    posttime: await GUN.SEA.decrypt(data.posttime, process.env.REACT_APP_ENCRYPTION_KEY),
-                    imagecid: await GUN.SEA.decrypt(data.imagecid, process.env.REACT_APP_ENCRYPTION_KEY),
-                    nftflag: await GUN.SEA.decrypt(data.nftflag, process.env.REACT_APP_ENCRYPTION_KEY),
-                    likecount: await GUN.SEA.decrypt(data.likecount, process.env.REACT_APP_ENCRYPTION_KEY),
-                    likeduserpubs: await GUN.SEA.decrypt(data.likeduserpubs, process.env.REACT_APP_ENCRYPTION_KEY), 
-                    commentcount: await GUN.SEA.decrypt(data.commentcount, process.env.REACT_APP_ENCRYPTION_KEY),
-                    reportcount: await GUN.SEA.decrypt(data.reportcount , process.env.REACT_APP_ENCRYPTION_KEY)
+                    posterpub: await GUN.SEA.decrypt(data.posterpub, encryption_key), 
+                    posteralias: await GUN.SEA.decrypt(data.posteralias, encryption_key),
+                    posttext: await GUN.SEA.decrypt(data.posttext, encryption_key) + '',
+                    posttime: await GUN.SEA.decrypt(data.posttime, encryption_key),
+                    imagecid: await GUN.SEA.decrypt(data.imagecid, encryption_key),
+                    nftflag: await GUN.SEA.decrypt(data.nftflag, encryption_key),
+                    likecount: await GUN.SEA.decrypt(data.likecount, encryption_key),
+                    likeduserpubs: await GUN.SEA.decrypt(data.likeduserpubs, encryption_key), 
+                    commentcount: await GUN.SEA.decrypt(data.commentcount, encryption_key),
+                    reportcount: await GUN.SEA.decrypt(data.reportcount , encryption_key)
                 };
                 if(post.posterpub === state.userpub) {
                     dispatch({ type: 'append', payload: post })
@@ -108,7 +107,7 @@ const User = () => {
         pinFileToIPFS(inputElement.current.files[0]).then( async (resp) => {
             toast.success('Updated Profile Picture!');
 
-            const decrypted_pfpcid = await GUN.SEA.encrypt(resp.IpfsHash ? resp.IpfsHash : '', process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_pfpcid = await GUN.SEA.encrypt(resp.IpfsHash ? resp.IpfsHash : '', encryption_key);
             let data = {
                 pfpcid:  decrypted_pfpcid, 
             }
@@ -158,12 +157,12 @@ const User = () => {
             const curruser = db.get('curruser'+user.is.pub);
             curruser.once( async (data, id) => {
                 // console.log('id: ', id, ' - data: ', data);
-                const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_bio = await GUN.SEA.decrypt(data.userbio, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_email = await GUN.SEA.decrypt(data.useremail, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, encryption_key);
+                const decrypted_bio = await GUN.SEA.decrypt(data.userbio, encryption_key);
+                const decrypted_email = await GUN.SEA.decrypt(data.useremail, encryption_key);
+                const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, encryption_key);
+                const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, encryption_key);
+                const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, encryption_key);
                 // console.log('decrypted_userpub: ', decrypted_userpub,'decrypted_useralias: ', decrypted_useralias, 'decrypted_pfpcid: ', decrypted_pfpcid, 'decrypted_userfullname: ', decrypted_userfullname);
                 if(decrypted_userpub === user.is.pub) {
                     // setfulluserdata(data);
@@ -181,12 +180,12 @@ const User = () => {
             const otheruser = db.get('curruser'+state.userpub);
             otheruser.once(async (data, id) => {
                 console.log('id: ', id, ' - data: ', data);
-                const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_bio = await GUN.SEA.decrypt(data.userbio, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_email = await GUN.SEA.decrypt(data.useremail, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, encryption_key);
+                const decrypted_bio = await GUN.SEA.decrypt(data.userbio, encryption_key);
+                const decrypted_email = await GUN.SEA.decrypt(data.useremail, encryption_key);
+                const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, encryption_key);
+                const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, encryption_key);
+                const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, encryption_key);
                 console.log('decrypted_userpub: ', decrypted_userpub,'decrypted_useralias: ', decrypted_useralias, 'decrypted_pfpcid: ', decrypted_pfpcid, 'decrypted_userfullname: ', decrypted_userfullname);
                 if(decrypted_userpub === state.userpub){
                     // setfulluserdata(data);
@@ -216,7 +215,7 @@ const User = () => {
 
     if(state.userpub === user.is.pub) {
         return (
-            <div id="body_child">
+            // <div id="body_child">
                 <div className="userpage">
                     <header className="header">
                         <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
@@ -272,7 +271,7 @@ const User = () => {
 
                     <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
                 </div>
-            </div>
+            // </div>
         )
     }
     else {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import { db, user } from '../helpers/user';
 import { unpinFile } from '../helpers/pinata';
-import { imagebasedomains, timeDifference } from '../helpers/functions';
+import { encryption_key, imagebasedomains, timeDifference } from '../helpers/functions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
@@ -74,16 +74,16 @@ const PostPage = () => {
                             // }
                             let firscomment = {
                                 commentid: id,
-                                commenterpub: await GUN.SEA.decrypt(data.commenterpub, process.env.REACT_APP_ENCRYPTION_KEY),
-                                commenteralias: await GUN.SEA.decrypt(data.commenteralias, process.env.REACT_APP_ENCRYPTION_KEY),
-                                commentercomment: await GUN.SEA.decrypt(data.commentercomment, process.env.REACT_APP_ENCRYPTION_KEY),
-                                commentertime: await GUN.SEA.decrypt(data.commentertime, process.env.REACT_APP_ENCRYPTION_KEY),
+                                commenterpub: await GUN.SEA.decrypt(data.commenterpub, encryption_key),
+                                commenteralias: await GUN.SEA.decrypt(data.commenteralias, encryption_key),
+                                commentercomment: await GUN.SEA.decrypt(data.commentercomment, encryption_key),
+                                commentertime: await GUN.SEA.decrypt(data.commentertime, encryption_key),
                             }
                             postcomments = [...postcomments, firscomment];
                             setallcomments(postcomments);
 
                             // db.get('posts').get(state.post.postid).put({
-                            //     commentcount: await GUN.SEA.encrypt(postcomments.length+1, process.env.REACT_APP_ENCRYPTION_KEY),
+                            //     commentcount: await GUN.SEA.encrypt(postcomments.length+1, encryption_key),
                             // });
                             // setpostCommentCount(postcomments.length+1);
                             // console.log('id: ', id, 'data: ', data);
@@ -98,9 +98,9 @@ const PostPage = () => {
         const posts = db.get('posts');
         posts.get(state.post.postid).once( async (data, id) => {
             if (data) {
-                const decrypted_likecount = await GUN.SEA.decrypt(data.likecount, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_commentcount = await GUN.SEA.decrypt(data.commentcount, process.env.REACT_APP_ENCRYPTION_KEY);
-                const decrypted_likeduserpubs = await GUN.SEA.decrypt(data.likeduserpubs, process.env.REACT_APP_ENCRYPTION_KEY);
+                const decrypted_likecount = await GUN.SEA.decrypt(data.likecount, encryption_key);
+                const decrypted_commentcount = await GUN.SEA.decrypt(data.commentcount, encryption_key);
+                const decrypted_likeduserpubs = await GUN.SEA.decrypt(data.likeduserpubs, encryption_key);
                 console.log('data.likeduserpubs: ', data.likeduserpubs);
                 setpostLikeCount(decrypted_likecount ? decrypted_likecount : 0);
                 setpostCommentCount(decrypted_commentcount ? decrypted_commentcount : 0);
@@ -114,9 +114,9 @@ const PostPage = () => {
 
         const posts = db.get('posts').get(state.post.postid);
         posts.once(async (data, id) => {
-            const decrypted_reportcount = await GUN.SEA.decrypt(data.reportcount, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_reportcount = await GUN.SEA.decrypt(data.reportcount, encryption_key);
             posts.put({
-                reportcount: await GUN.SEA.encrypt( (decrypted_reportcount ? decrypted_reportcount+1 : 1) , process.env.REACT_APP_ENCRYPTION_KEY),
+                reportcount: await GUN.SEA.encrypt( (decrypted_reportcount ? decrypted_reportcount+1 : 1) , encryption_key),
             });
         });
     }
@@ -145,7 +145,7 @@ const PostPage = () => {
         
         const posts = db.get('posts');
         posts.get(state.post.postid).put({
-            commentcount: await GUN.SEA.encrypt(postCommentCount-1, process.env.REACT_APP_ENCRYPTION_KEY),
+            commentcount: await GUN.SEA.encrypt(postCommentCount-1, encryption_key),
         });
         setpostCommentCount(postCommentCount-1);
 
@@ -164,8 +164,8 @@ const PostPage = () => {
             setpostLikeUserPubsArr(str);
             setpostLikeCount(postLikeCount-1);
             posts.get(state.post.postid).put({
-                likecount: await GUN.SEA.encrypt(postLikeCount-1, process.env.REACT_APP_ENCRYPTION_KEY),
-                likeduserpubs: await GUN.SEA.encrypt(str, process.env.REACT_APP_ENCRYPTION_KEY),
+                likecount: await GUN.SEA.encrypt(postLikeCount-1, encryption_key),
+                likeduserpubs: await GUN.SEA.encrypt(str, encryption_key),
             });
         }
         else {
@@ -176,8 +176,8 @@ const PostPage = () => {
             setpostLikeUserPubsArr(str);
             setpostLikeCount(postLikeCount+1);
             posts.get(state.post.postid).put({
-                likecount: await GUN.SEA.encrypt(postLikeCount+1, process.env.REACT_APP_ENCRYPTION_KEY),
-                likeduserpubs: await GUN.SEA.encrypt(str, process.env.REACT_APP_ENCRYPTION_KEY),
+                likecount: await GUN.SEA.encrypt(postLikeCount+1, encryption_key),
+                likeduserpubs: await GUN.SEA.encrypt(str, encryption_key),
             });
         }
     }
@@ -188,10 +188,10 @@ const PostPage = () => {
         const indexkey = new Date().toISOString();
         const thiscomment = db.get('singlecomment'+indexkey);
         thiscomment.put({
-            commenterpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY),
-            commenteralias: await GUN.SEA.encrypt(state.curruseralias, process.env.REACT_APP_ENCRYPTION_KEY),
-            commentercomment: await GUN.SEA.encrypt(comment, process.env.REACT_APP_ENCRYPTION_KEY),
-            commentertime: await GUN.SEA.encrypt(indexkey, process.env.REACT_APP_ENCRYPTION_KEY),
+            commenterpub: await GUN.SEA.encrypt(user.is.pub, encryption_key),
+            commenteralias: await GUN.SEA.encrypt(state.curruseralias, encryption_key),
+            commentercomment: await GUN.SEA.encrypt(comment, encryption_key),
+            commentertime: await GUN.SEA.encrypt(indexkey, encryption_key),
         });
         db.get('allcomments').set(thiscomment);
         db.get('commentsof'+state.post.postid).set(thiscomment);
@@ -199,7 +199,7 @@ const PostPage = () => {
 
         const posts = db.get('posts');
         posts.get(state.post.postid).put({
-            commentcount: await GUN.SEA.encrypt(postCommentCount+1, process.env.REACT_APP_ENCRYPTION_KEY),
+            commentcount: await GUN.SEA.encrypt(postCommentCount+1, encryption_key),
         });
         setpostCommentCount(postCommentCount+1);
 
@@ -219,7 +219,7 @@ const PostPage = () => {
     }, [postLikeUserPubsArr, state.post]);
 
     return (
-        <div id="body_child">
+        // <div id="body_child">
             <div className={'postpage'}>
                 <header className="header">
                     <i className="fa fa-chevron-left backbutton" onClick={goBack} ></i>
@@ -270,7 +270,7 @@ const PostPage = () => {
                 
                 <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
             </div>
-        </div>
+        // </div>
     );
 }
 

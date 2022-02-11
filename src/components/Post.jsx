@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { db, user } from '../helpers/user';
 import { unpinFile } from '../helpers/pinata';
-import { imagebasedomains, timeDifference } from '../helpers/functions';
+import { encryption_key, imagebasedomains, timeDifference } from '../helpers/functions';
 import { ToastContainer, toast } from 'react-toastify';
 import GUN from 'gun';
 import Popup from 'reactjs-popup';
@@ -23,9 +23,9 @@ const Post = (props) => {
     function getUserAvatar() {
         const users = db.get('users').get('curruser'+props.post.posterpub);
         users.once( async (data, id) => {
-            const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
-            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
-            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, encryption_key);
+            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, encryption_key);
+            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, encryption_key);
             // console.log('getUserAvatar id: ', id, ' - decrypted_pfpcid: ', decrypted_pfpcid, ' - decrypted_useralias: ', decrypted_useralias);
             if(decrypted_userpub === props.post.posterpub)
                 setposteravatarurl((decrypted_pfpcid!==undefined && decrypted_pfpcid!==null && decrypted_pfpcid!=='') ? imagebasedomains[0]+decrypted_pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${decrypted_useralias}.svg`);
@@ -90,8 +90,8 @@ const Post = (props) => {
             setpostLikeUserPubsArr(str);
             setpostLikeCount(postLikeCount-1);
             posts.get(props.post.postid).put({
-                likecount: await GUN.SEA.encrypt(postLikeCount-1, process.env.REACT_APP_ENCRYPTION_KEY),
-                likeduserpubs: await GUN.SEA.encrypt(str, process.env.REACT_APP_ENCRYPTION_KEY),
+                likecount: await GUN.SEA.encrypt(postLikeCount-1, encryption_key),
+                likeduserpubs: await GUN.SEA.encrypt(str, encryption_key),
             });
         }
         else {
@@ -103,8 +103,8 @@ const Post = (props) => {
             setpostLikeUserPubsArr(str);
             setpostLikeCount(postLikeCount+1);
             posts.get(props.post.postid).put({
-                likecount: await GUN.SEA.encrypt(postLikeCount+1, process.env.REACT_APP_ENCRYPTION_KEY),
-                likeduserpubs: await GUN.SEA.encrypt(str, process.env.REACT_APP_ENCRYPTION_KEY),
+                likecount: await GUN.SEA.encrypt(postLikeCount+1, encryption_key),
+                likeduserpubs: await GUN.SEA.encrypt(str, encryption_key),
             });
         }
     }
@@ -114,9 +114,9 @@ const Post = (props) => {
 
         const posts = db.get('posts').get(props.post.postid);
         posts.once(async (data, id) => {
-            const decrypted_reportcount = await GUN.SEA.decrypt(data.reportcount, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_reportcount = await GUN.SEA.decrypt(data.reportcount, encryption_key);
             posts.put({
-                reportcount: await GUN.SEA.encrypt( (decrypted_reportcount ? decrypted_reportcount+1 : 1) , process.env.REACT_APP_ENCRYPTION_KEY),
+                reportcount: await GUN.SEA.encrypt( (decrypted_reportcount ? decrypted_reportcount+1 : 1) , encryption_key),
             });
         });
     }

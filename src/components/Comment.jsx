@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { db, user } from '../helpers/user';
+import { encryption_key } from '../helpers/functions';
 import { useNavigate, useLocation } from "react-router-dom";
 import { imagebasedomains, timeDifference } from '../helpers/functions';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,9 +19,9 @@ const Comment = ({comment, postid , removeCommentFromArr}) => {
         const users = db.get('users').get('curruser'+comment.commenterpub);
         users.once(async (data, id) => {
             console.log('getUserAvatar id: ', id, ' - data: ', data);
-            const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, process.env.REACT_APP_ENCRYPTION_KEY);
-            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
-            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_userpub = await GUN.SEA.decrypt(data.userpub, encryption_key);
+            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, encryption_key);
+            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, encryption_key);
             if(decrypted_userpub === comment.commenterpub)
                 setposteravatarurl((decrypted_pfpcid!==undefined && decrypted_pfpcid!==null && decrypted_pfpcid!=='') ? imagebasedomains[0]+decrypted_pfpcid : `https://avatars.dicebear.com/api/big-ears-neutral/${decrypted_useralias}.svg`);
         });

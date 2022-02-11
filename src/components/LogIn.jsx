@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { db, user } from '../helpers/user';
 import { useNavigate } from "react-router-dom";
+import { encryption_key } from '../helpers/functions';
 import GUN from 'gun';
 import './LogIn.scss';
 
@@ -27,12 +28,12 @@ const LogIn = () => {
                     }
                     else {
                         let data = {
-                            userpub: await GUN.SEA.encrypt(user.is.pub, process.env.REACT_APP_ENCRYPTION_KEY),
-                            useralias: await GUN.SEA.encrypt(username, process.env.REACT_APP_ENCRYPTION_KEY),
-                            userfullname: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                            useremail: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                            userbio: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
-                            pfpcid: await GUN.SEA.encrypt('', process.env.REACT_APP_ENCRYPTION_KEY),
+                            userpub: await GUN.SEA.encrypt(user.is.pub, encryption_key),
+                            useralias: await GUN.SEA.encrypt(username, encryption_key),
+                            userfullname: await GUN.SEA.encrypt('', encryption_key),
+                            useremail: await GUN.SEA.encrypt('', encryption_key),
+                            userbio: await GUN.SEA.encrypt('', encryption_key),
+                            pfpcid: await GUN.SEA.encrypt('', encryption_key),
                         }
                         const curruser = db.get('curruser'+user.is.pub);
                         curruser.put(data);
@@ -59,7 +60,7 @@ const LogIn = () => {
     }
 
     return (
-        <div id="body_child">
+        // <div id="body_child">
             <div className="login_container">
                 <div className="login">
                     <img className='logo_img' src='./images/Logo.png' alt='logo'/>
@@ -81,7 +82,7 @@ const LogIn = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        // </div>
     );
 }
 

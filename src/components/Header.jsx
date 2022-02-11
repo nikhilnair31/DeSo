@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { imagebasedomains } from '../helpers/functions';
+import { encryption_key, imagebasedomains } from '../helpers/functions';
 import { useNavigate } from "react-router-dom";
 import { user, db } from '../helpers/user'
 import GUN from 'gun';
@@ -42,9 +42,9 @@ const Header = (props) => {
         const users = db.get('users').get('curruser'+user.is.pub);
         users.once( async (data, id) => {
             // console.log('id: ', id, ' - data: ', data);
-            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, process.env.REACT_APP_ENCRYPTION_KEY);
-            const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, process.env.REACT_APP_ENCRYPTION_KEY);
-            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, process.env.REACT_APP_ENCRYPTION_KEY);
+            const decrypted_useralias = await GUN.SEA.decrypt(data.useralias, encryption_key);
+            const decrypted_userfullname = await GUN.SEA.decrypt(data.userfullname, encryption_key);
+            const decrypted_pfpcid = await GUN.SEA.decrypt(data.pfpcid, encryption_key);
             // console.log('decrypted_useralias: ', decrypted_useralias, ' - decrypted_userfullname: ', decrypted_userfullname);
             setfulluserdata(data);
             setuserfullname(decrypted_userfullname);
