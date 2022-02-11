@@ -1,5 +1,5 @@
 ## DeSo
-<img src="./public/images/Logo.png" width="200" height="200" />
+<img src="./public/images/Banner.png" width="200" height="200" />
 
 ## What to Run?
 - Run command to compile the smart contracts into ABIs
@@ -28,6 +28,10 @@
 - Pinata for file distribution
     https://app.pinata.cloud/pinmanager
 ## To-Do
+* General
+    - [ ] Ensure each client is able to connect to relay on Heroku
+    - [ ] Check why text-only NFT is including an image
+    - [ ] Change NFT post styling to make interactions more visible
 * Posts
     - [ ] Commenting
         - [ ] Need to include nested comments
