@@ -25,6 +25,7 @@ const LogIn = () => {
                     // console.log('curruserpub: ', curruserpub);
                     if(curruserpub){
                         navigate('/Home');
+                        // window.location.href = '/Home'
                     }
                     else {
                         let data = {
@@ -40,6 +41,7 @@ const LogIn = () => {
                         const users = db.get('users');
                         users.set(curruser);
                         navigate('/Home');
+                        // window.location.href = '/Home'
                     }
                 })
             }

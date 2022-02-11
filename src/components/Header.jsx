@@ -60,7 +60,7 @@ const Header = (props) => {
         <header className="user_bio">
             <img src={avatarurl} alt="avatar" width={45} className='userpfp' onClick={goToUserPage}/> 
             <span className='title' >hi {(userfullname!=='') ? userfullname.toLowerCase().split(" ")[0] : props.currusername}</span>
-            <i className={lighttheme ? 'themeicon fas fa-adjust spin_backward' : 'themeicon fas fa-adjust spin_forward'} onClick={themeswitch} ></i>
+            {/* <i className={lighttheme ? 'themeicon fas fa-adjust spin_backward' : 'themeicon fas fa-adjust spin_forward'} onClick={themeswitch} ></i> */}
         </header>
     );
 }
