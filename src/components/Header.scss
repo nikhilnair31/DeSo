@@ -20,7 +20,7 @@
     }
     .title {
         font-weight: bolder;
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
     }
     .themeicon {
         margin-left: auto;

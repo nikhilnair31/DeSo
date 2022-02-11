@@ -5,7 +5,7 @@
     @include all_transition_durations;
     
     .post_modal {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'cardmodal');
         @include all_transition_durations;
 
@@ -43,30 +43,30 @@
             font-size: 1rem;
             border-radius: 0.5pc;
             font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             @include themed('background-color', 'inputfield');
             @include all_transition_durations;
             &:hover:enabled  {
-                @include themed('color', 'textplus');
+                @include themed('color', 'midtext');
                 @include themed('background-color', 'inputfieldoff');
             }
 
             &.post_post_button {
                 @include themed('background-color', 'accent');
                 &:disabled {
-                    @include themed('color', 'textplus');
+                    @include themed('color', 'midtext');
                     @include themed('background-color', 'inputfieldoff');
                 }
             }
             &.mint_button {
                 @include themed('background-color', 'buttonconnected');
                 &:disabled {
-                    @include themed('color', 'textplus');
+                    @include themed('color', 'midtext');
                     @include themed('background-color', 'inputfieldoff');
                 }
             }
             &.cancel_button {
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
             }
         }
     }
@@ -77,7 +77,7 @@
     z-index: -1;
 }
 .inputfile + label {
-    @include themed('color', 'text');
+    @include themed('color', 'darktext');
     @include themed('background-color', 'inputfield');
     cursor: pointer;
     text-overflow: ellipsis;

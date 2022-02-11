@@ -30,8 +30,6 @@
 ## To-Do
 * General
     - [ ] Ensure each client is able to connect to relay on Heroku
-    - [ ] Check why text-only NFT is including an image
-    - [ ] Change NFT post styling to make interactions more visible
 * Posts
     - [ ] Commenting
         - [ ] Need to include nested comments
@@ -46,6 +44,8 @@
 	- [ ] Update the smart contract to make the paytomint cost flexible (ALSO MAKE IT SO YOU GET PAYED ON PAYTOMINT COMPLETING)
 	- [ ] See if to include additional data in metadata and if you can write other data into blockchain
 * Completed
+    - [x] Change NFT post styling to make interactions more visible
+    - [x] Check why text-only NFT is including an image
     - [x] Instead of encrypting only the post text maybe encrypt the whole post?
     - [x] Fix the sorting order of the posts (Doesn't work sometimes?)
     - [x] Allow for comment deletion

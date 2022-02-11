@@ -230,7 +230,7 @@ const User = () => {
                                 isHovered && 
                                 <div className="middle">
                                     <label htmlFor="fileInput"> 
-                                        <i type="file" className="pfpupdate far fa-edit" ></i>
+                                        <i type="file" className="pfpupdate fas fa-image" ></i>
                                     </label>
                                     <input id="fileInput" type="file" ref={inputElement} onChange ={uploadNewPFP} />
                                 </div>
@@ -250,7 +250,7 @@ const User = () => {
                         { ineditingmode && <button className="button savedits_button" onClick={saveEdits} >Save</button> }
 
                         { !ineditingmode && <button className="button signout_button" onClick={signOut} >Sign Out</button> }
-                        { !ineditingmode && <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 10) : 'Connect to MetaMask')}</button> }
+                        { !ineditingmode && <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!' : 'Connect to MetaMask')}</button> }
                     </div>
 
                     {

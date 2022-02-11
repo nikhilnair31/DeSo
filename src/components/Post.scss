@@ -33,7 +33,7 @@
             grid-gap: 0.1pc;
             justify-items: center;
             align-items: center;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             .post_alias {
                 font-weight: bolder;
                 margin: 0pc;
@@ -59,15 +59,15 @@
             justify-content: center;
             grid-gap: 0.2pc;
             .interact_button {
-                @include themed('color', 'textplus');
+                @include themed('color', 'interactionbuttons');
                 padding: 0.5pc 0pc 0pc 0pc;
                 margin: 0pc 0.5pc;
                 &.liked {
-                    @include themed('color', 'accent');
+                    @include themed('color', 'accentplus');
                 }
             }
             .interact_text {
-                @include themed('color', 'textplus');
+                @include themed('color', 'interactionbuttons');
                 padding: 0.5pc 0pc 0pc 0pc;
                 margin: 0pc 0.5pc;
             }
@@ -87,19 +87,105 @@
             font-size: 1rem;
             vertical-align: bottom;
             text-align: center;
-            @include themed('color', 'textplus');
+            @include themed('color', 'interactionbuttons');
         }
     }
+}
 
-    &.isnft {
-        box-shadow: inset 0px 0px 100px 20px white;
-        background-image: url("../assets/Swirl.jpg");
-        @include themed('background-color', 'cardnft');
+.isnft {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1pc;
+    border-radius: 0.5pc;
+    @include themed('background-color', 'accent');
+    // box-shadow: 0px 0px 6px 1px rgb(100 100 100 / 20%);
+    
+    .post_avatar_container {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 0.1pc;
+        .post_avatar {
+            width: 2.5pc;
+            height: 2.5pc;
+            border-radius: 100%;
+        }
+    }
+    .post_text_image_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        grid-gap: 0.1pc;
+        width: 100%;
+
+        .alias_container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            grid-gap: 0.1pc;
+            justify-items: center;
+            align-items: center;
+            @include themed('color', 'lighttext');
+            .post_alias {
+                font-weight: bolder;
+                margin: 0pc;
+            }
+            .post_sep {
+                margin: 0pc 0.4pc;
+            }
+            .post_time {
+                font-weight: lighter;
+                font-size: 0.8rem;
+                margin: 0pc;
+            }
+        }
+        .post_text {
+            @include themed('color', 'lighttext');
+        }
+        .post_image {
+            border-radius: 5%;
+        }
+        .post_interaction_container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            grid-gap: 0.2pc;
+            .interact_button {
+                @include themed('color', 'lighttext');
+                padding: 0.5pc 0pc 0pc 0pc;
+                margin: 0pc 0.5pc;
+                &.liked {
+                    @include themed('color', 'accentplus');
+                }
+            }
+            .interact_text {
+                @include themed('color', 'lighttext');
+                padding: 0.5pc 0pc 0pc 0pc;
+                margin: 0pc 0.5pc;
+            }
+        }
+    }
+    .post_menu_container {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 0.1pc;
+
+        .post_menu_button {
+            border: 0px;
+            line-height: 40px;
+            border-radius: 100%;
+            width: 2.5pc;
+            height: 2.5pc;
+            font-size: 1rem;
+            vertical-align: bottom;
+            text-align: center;
+            @include themed('color', 'lighttext');
+        }
     }
 }
 
 .post_text {
-    @include themed('color', 'text');
+    @include themed('color', 'darktext');
 }
 
 .post_texts {

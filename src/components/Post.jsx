@@ -142,7 +142,7 @@ const Post = (props) => {
     }, [posteravatarurl]);
 
     return (
-        <div className={'post '+( props.post.nftflag ? 'isnft' : '' )} >            
+        <div className={( props.post.nftflag ? 'isnft' : 'post' )} >            
             <div className="post_avatar_container" onClick={goToPostersUserPage}>
                 <img className="post_avatar" src={posteravatarurl} alt="avatar" />
             </div>

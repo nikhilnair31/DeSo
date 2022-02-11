@@ -2,8 +2,8 @@ $transition_duration: 300ms;
 
 $themes: (
     light: (
-        accent: #ff567d,
-        accentplus: #85e4e7,
+        accent: #aea0ff,
+        accentplus: #ff567d,
         accentalt: rgb(155, 255, 124),
         bg: rgb(255, 255, 255),
 		card: #ffffff,
@@ -32,9 +32,11 @@ $themes: (
 		mintbutton: rgb(41, 41, 41),
 		mintbuttonoff: rgb(20, 20, 20),
 
-        text: rgb(10, 10, 10),
-        textplus: rgb(151, 151, 151),
-		alttext: rgb(255, 255, 255),
+		interactionbuttons: #cccccc,
+
+        darktext: rgb(10, 10, 10),
+        midtext: #636363,
+		lighttext: rgb(255, 255, 255),
 		inputtext: rgb(15, 15, 15),
     ),
     dark: (
@@ -68,9 +70,9 @@ $themes: (
 		mintbutton: rgb(41, 41, 41),
 		mintbuttonoff: rgb(20, 20, 20),
 
-        text: rgb(255, 255, 255),
-        textplus: rgb(155, 155, 155),
-		alttext: rgb(20, 20, 20),
+        darktext: rgb(255, 255, 255),
+        midtext: rgb(155, 155, 155),
+		lighttext: rgb(20, 20, 20),
 		inputtext: rgb(201, 201, 201),
     ),
 );

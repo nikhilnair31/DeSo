@@ -5,7 +5,7 @@
     @include all_transition_durations;
     
     .menu_modal {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'cardmodal');
         @include all_transition_durations;
 
@@ -19,29 +19,29 @@
             padding: 1pc;
             border-radius: 0.5pc;
             font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             @include themed('background-color', 'inputfield');
             @include all_transition_durations;
             &:hover {
-                @include themed('color', 'textplus');
+                @include themed('color', 'midtext');
                 @include themed('background-color', 'inputfieldoff');
             }
 
             &.delete_button {
                 font-weight: bold;
-                @include themed('color', 'text');
-                @include themed('background-color', 'accent');
+                @include themed('color', 'darktext');
+                @include themed('background-color', 'accentplus');
             }
             &.report_button {
                 font-weight: bold;
-                @include themed('color', 'text');
-                @include themed('background-color', 'accent');
+                @include themed('color', 'darktext');
+                @include themed('background-color', 'accentplus');
             }
             &.share_button {
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
             }
             &.cancel_button {
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
             }
         }
     }

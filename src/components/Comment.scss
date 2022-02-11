@@ -15,7 +15,7 @@
         align-items: center;
         padding: 0pc;
         margin: 0pc;
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
 
         .post_avatar {
             width: 1.5pc;
@@ -36,7 +36,7 @@
         }
         .post_menu_button {
             margin-left: auto;
-            @include themed('color', 'textplus');
+            @include themed('color', 'midtext');
         }
     }
     .comment_comment {

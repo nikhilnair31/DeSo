@@ -14,7 +14,7 @@
         h5{
             display: flex;
             margin: 1pc auto;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             @include all_transition_durations;
         }
     }

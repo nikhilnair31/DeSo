@@ -24,7 +24,7 @@
         @include themed('background-color', 'header');
         
         .backbutton {
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             font-size: 1rem;
             padding-left: 1pc;
             // padding-right: 1pc;
@@ -37,7 +37,7 @@
             padding: 0.5pc;
         }
         .title {
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
         }
     }
     .userdata {
@@ -64,15 +64,15 @@
         .middle {
             opacity: 1;
             position: absolute;
-            top: 25%;
+            top: 19%;
             left: 50%;
             transform: translate(-50%, 0%);
             text-align: center;
             @include all_transition_durations;
 
             .pfpupdate {
-                font-size: 2rem;
-                @include themed('color', 'text');
+                font-size: 5rem;
+                @include themed('color', 'lighttext');
             }
             #fileInput{
                 display: none;
@@ -95,25 +95,25 @@
             font-weight: bolder;
             font-size: 1.5rem;
             margin: 1pc 0pc 1pc 0pc;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
         }
         .fullname {
             font-weight: 400;
             font-size: 1rem;
             margin: 0.2pc 0pc;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
         }
         .email {
             font-weight: 400;
             font-size: 1rem;
             margin: 0.2pc 0pc;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
         }
         .bio {
             font-weight: 400;
             font-size: 1rem;
             margin: 0.2pc 0pc 1pc 0pc;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
         }
         .edit_input {
             border: 0px;
@@ -131,11 +131,11 @@
             height: 7vh;
             border-radius: 0.5pc;
             margin: 0.3pc auto;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             @include themed('background-color', 'inputfield');
             @include all_transition_durations;
             &:hover:enabled {
-                @include themed('color', 'textplus');
+                @include themed('color', 'midtext');
                 @include themed('background-color', 'inputfieldoff');
             }
             
@@ -143,11 +143,11 @@
                 width: 10pc;
                 padding: 0.5pc;
                 margin: 0.1pc auto;
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
                 @include themed('background-color', 'inputfield');
             }
             &.signout_button {
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
                 @include themed('background-color', 'inputfield');
             }
             &.connect_button {
@@ -164,7 +164,7 @@
                 }
             }
             &.savedits_button {
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
                 @include themed('background-color', 'accent');
                 &:hover {
                     @include themed('color', 'accent');
@@ -179,7 +179,7 @@
         padding: 0.5pc;
         text-align: center;
         margin: 0pc;
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
     }
     .user_home {
         padding: 1pc;
@@ -196,15 +196,15 @@
         padding: 6px;
     }
     .Toastify__toast--success {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'accentalt');
     }
     .Toastify__toast--warning {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'card');
     }
     .Toastify__toast--error {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'accent');
     }
 }

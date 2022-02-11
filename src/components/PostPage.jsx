@@ -220,13 +220,13 @@ const PostPage = () => {
 
     return (
         // <div id="body_child">
-            <div className={'postpage'}>
+            <div className={'indivpostpage'}>
                 <header className="header">
                     <i className="fa fa-chevron-left backbutton" onClick={goBack} ></i>
                     <p className='title' >Post</p>
                 </header>
 
-                <div className={'postdata '+( state.post.nftflag ? 'isnft' : '' )}>
+                <div className={( state.post.nftflag ? 'indivisnft' : 'indivpost' )}>
                     <div className="post_avatar_container" onClick={goToPostersUserPage}>
                         <img className="post_avatar" src={posteravatarurl} alt="avatar" />
                     </div>

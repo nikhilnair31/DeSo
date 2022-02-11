@@ -1,5 +1,6 @@
 // Something IDK
-export const encryption_key = process.env.REACT_APP_ENCRYPTION_KEY || '#foo'
+// export const encryption_key = process.env.REACT_APP_ENCRYPTION_KEY || '#foo'
+export const encryption_key = '#foo'
 
 // Something IDK
 export var match = {

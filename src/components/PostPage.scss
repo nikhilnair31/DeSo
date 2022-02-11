@@ -1,6 +1,6 @@
 @import "../color-themes";
 
-.postpage {
+.indivpostpage {
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -20,7 +20,7 @@
         @include themed('background-color', 'header');
         
         .backbutton {
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             font-size: 1rem;
             padding-left: 1pc;
         }
@@ -32,16 +32,15 @@
             padding: 0.5pc;
         }
         .title {
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
         }
     }
 
-    .postdata {
+    .indivpost {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 1pc;
-        margin-top: 4.5pc;
         border-radius: 0.5pc;
         box-shadow: 0px 0px 6px 1px rgb(100 100 100 / 20%);
         @include themed('background-color', 'card');
@@ -70,7 +69,7 @@
                 grid-gap: 0.1pc;
                 justify-items: center;
                 align-items: center;
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
                 .post_alias {
                     font-weight: bolder;
                     margin: 0.4pc 0pc;
@@ -85,7 +84,7 @@
                 }
             }
             .post_text {
-                @include themed('color', 'text');
+                @include themed('color', 'darktext');
             }
             .post_image {
                 border-radius: 5%;
@@ -96,15 +95,15 @@
                 justify-content: center;
                 grid-gap: 0.2pc;
                 .interact_button {
-                    @include themed('color', 'textplus');
+                    @include themed('color', 'midtext');
                     padding: 0.5pc 0pc 0pc 0pc;
                     margin: 0pc 0.5pc;
                     &.liked {
-                        @include themed('color', 'accent');
+                        @include themed('color', 'accentplus');
                     }
                 }
                 .interact_text {
-                    @include themed('color', 'textplus');
+                    @include themed('color', 'midtext');
                     padding: 0.5pc 0pc 0pc 0pc;
                     margin: 0pc 0.5pc;
                 }
@@ -124,14 +123,99 @@
                 font-size: 1rem;
                 vertical-align: bottom;
                 text-align: center;
-                @include themed('color', 'textplus');
+                @include themed('color', 'midtext');
             }
         }
+    }
+    .indivisnft {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1pc;
+        border-radius: 0.5pc;
+        box-shadow: 0px 0px 6px 1px rgb(100 100 100 / 20%);
+        @include themed('background-color', 'accent');
 
-        &.isnft {
-            box-shadow: inset 0px 0px 100px 20px white;
-            background-image: url("../assets/Swirl.jpg");
-            @include themed('background-color', 'cardnft');
+        .post_avatar_container {
+            display: flex;
+            flex-direction: column;
+            grid-gap: 0.1pc;
+            .post_avatar {
+                width: 2.5pc;
+                height: 2.5pc;
+                border-radius: 100%;
+            }
+        }
+        .post_text_image_container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            grid-gap: 0.1pc;
+            width: 100%;
+
+            .alias_container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                grid-gap: 0.1pc;
+                justify-items: center;
+                align-items: center;
+                @include themed('color', 'darktext');
+                .post_alias {
+                    font-weight: bolder;
+                    margin: 0.4pc 0pc;
+                }
+                .post_sep {
+                    margin: 0.4pc 0.6pc;
+                }
+                .post_time {
+                    font-weight: lighter;
+                    font-size: 0.8rem;
+                    margin: 0.4pc 0pc;
+                }
+            }
+            .post_text {
+                @include themed('color', 'darktext');
+            }
+            .post_image {
+                border-radius: 5%;
+            }
+            .post_interaction_container {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                grid-gap: 0.2pc;
+                .interact_button {
+                    @include themed('color', 'midtext');
+                    padding: 0.5pc 0pc 0pc 0pc;
+                    margin: 0pc 0.5pc;
+                    &.liked {
+                        @include themed('color', 'accentplus');
+                    }
+                }
+                .interact_text {
+                    @include themed('color', 'midtext');
+                    padding: 0.5pc 0pc 0pc 0pc;
+                    margin: 0pc 0.5pc;
+                }
+            }
+        }
+        .post_menu_container {
+            display: flex;
+            flex-direction: column;
+            grid-gap: 0.1pc;
+
+            .post_menu_button {
+                border: 0px;
+                line-height: 40px;
+                border-radius: 100%;
+                width: 2.5pc;
+                height: 2.5pc;
+                font-size: 1rem;
+                vertical-align: bottom;
+                text-align: center;
+                @include themed('color', 'midtext');
+            }
         }
     }
 
@@ -162,18 +246,18 @@
             font-size: 1rem;
             border-radius: 0.5pc;
             font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
-            @include themed('color', 'text');
+            @include themed('color', 'darktext');
             @include themed('background-color', 'inputfield');
             @include all_transition_durations;
             &:hover:enabled  {
-                @include themed('color', 'textplus');
+                @include themed('color', 'midtext');
                 @include themed('background-color', 'inputfieldoff');
             }
 
             &.pushcomment_button {
-                @include themed('background-color', 'accent');
+                @include themed('background-color', 'accentplus');
                 &:disabled {
-                    @include themed('color', 'textplus');
+                    @include themed('color', 'midtext');
                     @include themed('background-color', 'inputfieldoff');
                 }
             }
@@ -194,21 +278,21 @@
         padding: 6px;
     }
     .Toastify__toast--success {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'accentalt');
     }
     .Toastify__toast--warning {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'card');
     }
     .Toastify__toast--error {
-        @include themed('color', 'text');
-        @include themed('background-color', 'accent');
+        @include themed('color', 'darktext');
+        @include themed('background-color', 'accentplus');
     }
 }
 
 .post_text {
-    @include themed('color', 'text');
+    @include themed('color', 'darktext');
 }
 
 .post_texts {
@@ -224,9 +308,15 @@
 
 //Mobile
 @media only screen and (max-width: 600px) {
-    .postdata {
-        margin: 0.5pc 1pc;
+    .indivpostpage {
+        .indivpost {
+            margin: 4.5pc 1pc 1pc 1pc;
+        }
+        .indivisnft {
+            margin: 4.5pc 1pc 1pc 1pc;
+        }
     }
+
     .comment_in_container {
         margin: 0.5pc 1pc;
     }
@@ -255,10 +345,23 @@
 
 //Desktop
 @media only screen and (min-width: 600px) {
-    .postdata {
-        margin: 1pc auto;
-        width: 29pc;
+    .indivpostpage {
+        .indivpost {
+            margin-top: 4.5pc;
+            margin-bottom: 0.5pc;
+            margin-left: auto;
+            margin-right: auto;
+            width: 29pc;
+        }
+        .indivisnft {
+            margin-top: 4.5pc;
+            margin-bottom: 0.5pc;
+            margin-left: auto;
+            margin-right: auto;
+            width: 29pc;
+        }
     }
+
     .comment_in_container {
         margin: 1pc auto;
         width: 31pc;

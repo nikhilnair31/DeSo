@@ -496,7 +496,7 @@ const MintModal = (props) => {
                     { type: resp.headers['content-type'] }
                 )
                 console.log('textToImage blob: ', blob);
-                props.setfile(blob);
+                // props.setfile(blob);
                 
                 pinFileToIPFS(blob).then( async (resp) => {
                     console.log('resp: ', resp);

@@ -46,6 +46,7 @@
         font-size: 1rem;
         text-align: center;
         @include themed('color', 'postbutton');
+        // background-image: linear-gradient(45deg, #9e97c9, #f7c6d6);
         @include themed('background-color', 'accent');
         @include themed('box-shadow', 'postbuttonshadow');
         @include all_transition_durations;
@@ -74,15 +75,15 @@
         padding: 6px;
     }
     .Toastify__toast--success {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'accentalt');
     }
     .Toastify__toast--warning {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'card');
     }
     .Toastify__toast--error {
-        @include themed('color', 'text');
+        @include themed('color', 'darktext');
         @include themed('background-color', 'accent');
     }
 }
