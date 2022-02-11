@@ -19,7 +19,7 @@ const LogIn = () => {
             }
             else{
                 console.log('login');
-                console.log('user.is.pub: ', user.is.pub, ' - username: ', username);
+                console.log('encryption_key: ', encryption_key, ' - user.is.pub: ', user.is.pub, ' - username: ', username);
                 
                 db.get('curruser'+user.is.pub).once( async (curruserpub) => {
                     // console.log('curruserpub: ', curruserpub);
