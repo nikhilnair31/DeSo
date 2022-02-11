@@ -1,5 +1,5 @@
 ## DeSo
-<img src="./public/images/Banner.png" width="750" height="250" />
+<img src="./public/images/Banner.png"  />
 
 ## What to Run?
 - Run command to compile the smart contracts into ABIs
