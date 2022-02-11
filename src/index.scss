@@ -47,6 +47,16 @@ html, body {
 #root {
     height: 100%;
 }
+#body_child {
+	height: 100%;
+	// width: 100%;
+    // margin: 0px;
+    // padding: 0px;
+    // overflow-x: hidden;
+    // font-family: 'GothamLight', Helvetica, Arial, Sans-Serif;
+    // background-color: rgb(128, 128, 128);
+    @include themed('background-color', 'bg');
+}
 
 //Desktop
 @media only screen and (min-width: 600px) {

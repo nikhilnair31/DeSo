@@ -141,25 +141,27 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="home">
-            <Header setcurrusername={setcurrusername} currusername={currusername} />
+        <div id="body_child">
+            <div className="home">
+                <Header setcurrusername={setcurrusername} currusername={currusername} />
 
-            <div className="container">
-                <div className="all_posts_container">
-                    {
-                        state.posts.map((post, index) => (
-                            <Post key={index} post={post} curruseralias={currusername} removePostFromArr={removePostFromArr} />
-                        ))
-                    }
+                <div className="container">
+                    <div className="all_posts_container">
+                        {
+                            state.posts.map((post, index) => (
+                                <Post key={index} post={post} curruseralias={currusername} removePostFromArr={removePostFromArr} />
+                            ))
+                        }
+                    </div>
                 </div>
+
+                <Popup trigger={<i className="fas fa-plus post_button"></i>} modal nested >
+                    { close => <PostModal close={close} currusername={currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} attachedFile={attachedFile} sendOutPost={sendOutPost} /> }
+                </Popup>
+
+                <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false} limit={1}/>
+                <div id="popup-root" />
             </div>
-
-            <Popup trigger={<i className="fas fa-plus post_button"></i>} modal nested >
-                { close => <PostModal close={close} currusername={currusername} newPostText={newPostText} setnewPostText={setnewPostText} file={file} setfile={setfile} filename={filename} attachedFile={attachedFile} sendOutPost={sendOutPost} /> }
-            </Popup>
-
-            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false} limit={1}/>
-            <div id="popup-root" />
         </div>
     );
 }

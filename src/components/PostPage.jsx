@@ -219,55 +219,57 @@ const PostPage = () => {
     }, [postLikeUserPubsArr, state.post]);
 
     return (
-        <div className={'postpage'}>
-            <header className="header">
-                <i className="fa fa-chevron-left backbutton" onClick={goBack} ></i>
-                <p className='title' >Post</p>
-            </header>
+        <div id="body_child">
+            <div className={'postpage'}>
+                <header className="header">
+                    <i className="fa fa-chevron-left backbutton" onClick={goBack} ></i>
+                    <p className='title' >Post</p>
+                </header>
 
-            <div className={'postdata '+( state.post.nftflag ? 'isnft' : '' )}>
-                <div className="post_avatar_container" onClick={goToPostersUserPage}>
-                    <img className="post_avatar" src={posteravatarurl} alt="avatar" />
-                </div>
-                <div className="post_text_image_container">
-                    <div className="alias_container">
-                        <p className="post_alias">{state.post.posteralias}</p>
-                        <p className="post_sep"> · </p>
-                        <p className="post_time">{timeDifference(ts)}</p>
+                <div className={'postdata '+( state.post.nftflag ? 'isnft' : '' )}>
+                    <div className="post_avatar_container" onClick={goToPostersUserPage}>
+                        <img className="post_avatar" src={posteravatarurl} alt="avatar" />
                     </div>
-                    <p className="post_text">{state.post.posttext}</p>
-                    { ( state.post.imagecid!=='' ) && <img className="post_image" src={imagebasedomains[0]+state.post.imagecid} alt='postimage' /> }
-                    <div className="post_interaction_container">
-                        <i className={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>
-                        <p className="interact_text like_text">{postLikeCount}</p>
-                        <i className="fas fa-comment interact_button comment_button" ></i>
-                        <p className="interact_text comment_text">{postCommentCount}</p>
+                    <div className="post_text_image_container">
+                        <div className="alias_container">
+                            <p className="post_alias">{state.post.posteralias}</p>
+                            <p className="post_sep"> · </p>
+                            <p className="post_time">{timeDifference(ts)}</p>
+                        </div>
+                        <p className="post_text">{state.post.posttext}</p>
+                        { ( state.post.imagecid!=='' ) && <img className="post_image" src={imagebasedomains[0]+state.post.imagecid} alt='postimage' /> }
+                        <div className="post_interaction_container">
+                            <i className={"fas fa-heart interact_button like_button"+(postLikedByCurrUser?' liked':'')} onClick={likePost} ></i>
+                            <p className="interact_text like_text">{postLikeCount}</p>
+                            <i className="fas fa-comment interact_button comment_button" ></i>
+                            <p className="interact_text comment_text">{postCommentCount}</p>
+                        </div>
+                    </div>
+                    <div className="post_menu_container">
+                        <Popup trigger={<i className="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
+                            { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} reportPost={reportPost} /> }
+                        </Popup>
                     </div>
                 </div>
-                <div className="post_menu_container">
-                    <Popup trigger={<i className="fas fa-ellipsis-h post_menu_button"></i>} modal nested >
-                        { close => <MenuModal close={close} canDeletePost={canDeletePost} deletePost={deletePost} reportPost={reportPost} /> }
-                    </Popup>
-                </div>
-            </div>
-            
-            <header className="comment_in_container">
-                <input className="comment_in" type="text" placeholder="Comment..." value={comment} onChange={e => setcomment(e.target.value)} />
-                <button className="button pushcomment_button" onClick={commentPost} >Save</button>
-            </header>
+                
+                <header className="comment_in_container">
+                    <input className="comment_in" type="text" placeholder="Comment..." value={comment} onChange={e => setcomment(e.target.value)} />
+                    <button className="button pushcomment_button" onClick={commentPost} >Save</button>
+                </header>
 
-            { 
-                allcomments.length>0 && 
-                <div className="allcomments_container" >
-                {   
-                    allcomments.map(c => (
-                        <Comment key={c.commentid} comment={c} postid={state.post.postid} removeCommentFromArr={removeCommentFromArr} />
-                    ))
+                { 
+                    allcomments.length>0 && 
+                    <div className="allcomments_container" >
+                    {   
+                        allcomments.map(c => (
+                            <Comment key={c.commentid} comment={c} postid={state.post.postid} removeCommentFromArr={removeCommentFromArr} />
+                        ))
+                    }
+                    </div>
                 }
-                </div>
-            }
-            
-            <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                
+                <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+            </div>
         </div>
     );
 }

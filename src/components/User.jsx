@@ -216,107 +216,111 @@ const User = () => {
 
     if(state.userpub === user.is.pub) {
         return (
-            <div className="userpage">
-                <header className="header">
-                    <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
-                    <p className='title' >Profile</p>
-                </header>
+            <div id="body_child">
+                <div className="userpage">
+                    <header className="header">
+                        <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
+                        <p className='title' >Profile</p>
+                    </header>
 
-                <div className="userdata"> 
-                    <div className="container" onMouseOver={()=>setHover(true)} onMouseLeave={()=>setHover(false)} >
-                    {/* src={imagebasedomains[0]+props.post.imagecid}  */}
-                        <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
-                        {
-                            isHovered && 
-                            <div className="middle">
-                                <label htmlFor="fileInput"> 
-                                    <i type="file" className="pfpupdate far fa-edit" ></i>
-                                </label>
-                                <input id="fileInput" type="file" ref={inputElement} onChange ={uploadNewPFP} />
-                            </div>
-                        }
+                    <div className="userdata"> 
+                        <div className="container" onMouseOver={()=>setHover(true)} onMouseLeave={()=>setHover(false)} >
+                        {/* src={imagebasedomains[0]+props.post.imagecid}  */}
+                            <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
+                            {
+                                isHovered && 
+                                <div className="middle">
+                                    <label htmlFor="fileInput"> 
+                                        <i type="file" className="pfpupdate far fa-edit" ></i>
+                                    </label>
+                                    <input id="fileInput" type="file" ref={inputElement} onChange ={uploadNewPFP} />
+                                </div>
+                            }
+                        </div>
+
+                        <p className='username' >{'@'+alias}</p>
+                        { fullname && <p className='fullname' >{fullname}</p> }
+                        { email && <p className='email' >{email}</p> }
+                        { bio && <p className='bio' >{bio}</p> }
+                        <button className="button edit_button" onClick={editOnOff} >Edit</button>
+
+                        { ineditingmode && <button className="button remove_pfp_button" onClick={removePFP} >Remove Profile Picture</button> }
+                        { ineditingmode && <input className="edit_input" type="text" placeholder="Full Name..." value={fullname} onChange={e => setfullname(e.target.value)} /> }
+                        { ineditingmode && <input className="edit_input" type="text" placeholder="Email..." value={email} onChange={e => setemail(e.target.value)} /> }
+                        { ineditingmode && <input className="edit_input" type="text" placeholder="Bio..." value={bio} onChange={e => setbio(e.target.value)} /> }
+                        { ineditingmode && <button className="button savedits_button" onClick={saveEdits} >Save</button> }
+
+                        { !ineditingmode && <button className="button signout_button" onClick={signOut} >Sign Out</button> }
+                        { !ineditingmode && <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 10) : 'Connect to MetaMask')}</button> }
                     </div>
 
-                    <p className='username' >{'@'+alias}</p>
-                    { fullname && <p className='fullname' >{fullname}</p> }
-                    { email && <p className='email' >{email}</p> }
-                    { bio && <p className='bio' >{bio}</p> }
-                    <button className="button edit_button" onClick={editOnOff} >Edit</button>
-
-                    { ineditingmode && <button className="button remove_pfp_button" onClick={removePFP} >Remove Profile Picture</button> }
-                    { ineditingmode && <input className="edit_input" type="text" placeholder="Full Name..." value={fullname} onChange={e => setfullname(e.target.value)} /> }
-                    { ineditingmode && <input className="edit_input" type="text" placeholder="Email..." value={email} onChange={e => setemail(e.target.value)} /> }
-                    { ineditingmode && <input className="edit_input" type="text" placeholder="Bio..." value={bio} onChange={e => setbio(e.target.value)} /> }
-                    { ineditingmode && <button className="button savedits_button" onClick={saveEdits} >Save</button> }
-
-                    { !ineditingmode && <button className="button signout_button" onClick={signOut} >Sign Out</button> }
-                    { !ineditingmode && <button className={'button connect_button '+(connectedtometamask ? 'connected' : '')} type="submit" disabled={connectedtometamask} onClick={connectToMetamask}>{(connectedtometamask ? 'Wallet Connected!\nBalance: '+balance.slice(0, 10) : 'Connect to MetaMask')}</button> }
-                </div>
-
-                {
-                    arrstate.posts.length > 0 &&
-                    <div className="user_home">
-                        <p className='posts_title' >Posts</p>
-                        <div className="user_container">
-                            <div className="user_posts_container">
-                                {
-                                    arrstate.posts.map((post, index) => (
-                                        <Post key={index} post={post} curruseralias={state.useralias} removePostFromArr={removePostFromArr} />
-                                    ))
-                                }
+                    {
+                        arrstate.posts.length > 0 &&
+                        <div className="user_home">
+                            <p className='posts_title' >Posts</p>
+                            <div className="user_container">
+                                <div className="user_posts_container">
+                                    {
+                                        arrstate.posts.map((post, index) => (
+                                            <Post key={index} post={post} curruseralias={state.useralias} removePostFromArr={removePostFromArr} />
+                                        ))
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
 
-                <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                    <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                </div>
             </div>
         )
     }
     else {
         return (
-            <div className="userpage">
-                <header className="header">
-                    <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
-                    <p className='title' >Profile</p>
-                </header>
+            <div id="body_child">
+                <div className="userpage">
+                    <header className="header">
+                        <i className="fa fa-chevron-left backbutton" onClick={backToHome} ></i>
+                        <p className='title' >Profile</p>
+                    </header>
 
-                <div className="userdata"> 
-                    <div className="container" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} >
-                    {/* src={imagebasedomains[0]+props.post.imagecid}  */}
-                        <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
-                        { isHovered &&
-                        <div className="middle">
-                            <label htmlFor="fileInput"> 
-                                <i type="file" className="pfpupdate far fa-edit" ></i>
-                            </label>
-                            <input id="fileInput" type="file" ref={inputElement} onChange ={uploadNewPFP} />
-                        </div> }
-                    </div>
-
-                    <p className='username' >{'@'+alias}</p>
-                    { fullname && <p className='fullname' >{fullname}</p> }
-                    { email && <p className='email' >{email}</p> }
-                    { bio && <p className='bio' >{bio}</p> }
-                </div>
-                
-                { 
-                    arrstate.posts.length > 0 &&
-                    <div className="user_home">
-                        <p className='posts_title' >Posts</p>
-                        <div className="user_container">
-                            <div className="user_posts_container">
-                                {
-                                    arrstate.posts.map((post, index) => (
-                                        <Post key={index} post={post} curruseralias={state.useralias} />
-                                    ))
-                                }
-                            </div>
+                    <div className="userdata"> 
+                        <div className="container" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} >
+                        {/* src={imagebasedomains[0]+props.post.imagecid}  */}
+                            <img src={avatarurl} alt="avatar" width={200} className='userpfp' />
+                            { isHovered &&
+                            <div className="middle">
+                                <label htmlFor="fileInput"> 
+                                    <i type="file" className="pfpupdate far fa-edit" ></i>
+                                </label>
+                                <input id="fileInput" type="file" ref={inputElement} onChange ={uploadNewPFP} />
+                            </div> }
                         </div>
-                    </div> 
-                }
 
-                <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                        <p className='username' >{'@'+alias}</p>
+                        { fullname && <p className='fullname' >{fullname}</p> }
+                        { email && <p className='email' >{email}</p> }
+                        { bio && <p className='bio' >{bio}</p> }
+                    </div>
+                    
+                    { 
+                        arrstate.posts.length > 0 &&
+                        <div className="user_home">
+                            <p className='posts_title' >Posts</p>
+                            <div className="user_container">
+                                <div className="user_posts_container">
+                                    {
+                                        arrstate.posts.map((post, index) => (
+                                            <Post key={index} post={post} curruseralias={state.useralias} />
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                        </div> 
+                    }
+
+                    <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss/>
+                </div>
             </div>
         )
     }

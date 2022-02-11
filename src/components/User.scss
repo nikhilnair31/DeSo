@@ -45,12 +45,11 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-top: 4pc;
-        padding: 2pc 2pc;
+        padding: 5pc 2pc 2pc 2pc;
         border-radius: 0.5pc;
         // width: 70%;
         // max-width: 12pc;
-        @include themed('background-color', 'card');
+        // @include themed('background-color', 'card');
 
         .user_container {
             position: relative;
