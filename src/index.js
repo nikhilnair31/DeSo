@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
 import reportWebVitals from './helpers/reportWebVitals';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, BrowserRouter, Routes, Route } from "react-router-dom";
 import LogIn from './components/LogIn';
 import Home from './components/Home';
 import User from './components/User';
@@ -17,14 +17,14 @@ document.body.classList.add('theme-light');
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <HashRouter >
             <Routes>
                 <Route path="/" element={<LogIn />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/User" element={<User />} />
                 <Route path="/Post" element={<PostPage />} />
             </Routes>
-        </BrowserRouter>
+        </HashRouter >
     </React.StrictMode>, 
     document.body
     // document.getElementById('root')
