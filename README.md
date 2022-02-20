@@ -1,5 +1,13 @@
-## DeSo
-<img src="./public/images/Banner.png"  />
+# DeSo
+<img src="./public/images/DeSo Banner.png"  />
+
+## What is DeSo?
+It's a decentralized social platform where users can post their thoughts and images and mint them into NFTs. Built using Gun JS for the decentralized database/authetication and Solidity for the NFT minting smart contracts. The smart contract was then deployed temporarily on the Ropsten, Rinkeby and Polygon testnet.
+
+## How To Run with References
+
+<details>
+<summary>What to Run?</summary>
 
 ## What to Run?
 - Run command to compile the smart contracts into ABIs
@@ -12,7 +20,12 @@
     `npx hardhat verify --network rinkeby 0x5a951603fDaaBab6e9bC9149c2eCc15b1917E96c ""`
 - Run command to deploy the smart contract to the network (`rinkeby` in this case). The network name, URL and account can be changed in the `hardhat.config` file.
     `npx hardhat run scripts/sample-script.js --network rinkeby`
-## Link
+</details>
+
+<details>
+<summary>Links</summary>
+
+## Links
 - Use link below to validate the NFT with the contract adress `0x5a951603fDaaBab6e9bC9149c2eCc15b1917E96c` and tokenID `5`
     https://testnets-api.opensea.io/asset/0x5a951603fdaabab6e9bc9149c2ecc15b1917e96c/5/validate/
     https://testnets.opensea.io/niknair31898
@@ -27,9 +40,17 @@
     https://dashboard.alchemyapi.io/
 - Pinata for file distribution
     https://app.pinata.cloud/pinmanager
-## To-Do
+</details>
+
+## To-Dos
+<details>
+<summary>To-Dos</summary>
+
+## To-Dos
 * General
     - [ ] Ensure each client is able to connect to relay on Heroku
+    - [ ] Add a link to view the NFT on OpenSea
+    - [ ] Add a way to link existing NFTs into a post
 * Posts
     - [ ] Commenting
         - [ ] Need to include nested comments
@@ -88,3 +109,4 @@
     - [x] Kinda shifted from chat to Twitter feed-ish
     - [x] Include user's pub key in the post along with alias
     - [x] Fix the posts so that they scroll within the div
+</details>

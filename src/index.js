@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
-// import './helpers/firebase';
 import reportWebVitals from './helpers/reportWebVitals';
-import { HashRouter, BrowserRouter, Routes, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LogIn from './components/LogIn';
 import Home from './components/Home';
 import User from './components/User';
@@ -28,7 +27,6 @@ ReactDOM.render(
         </BrowserRouter >
     </React.StrictMode>, 
     document.body
-    // document.getElementById('root')
 );
 
 reportWebVitals();

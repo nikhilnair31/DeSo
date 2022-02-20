@@ -87,7 +87,7 @@
             }
             .signup_button {
                 @include themed('color', 'darktext');
-                @include themed('background-color', 'inputfield');
+                @include themed('background-color', 'accent');
                 @include all_transition_durations;
                 &:hover{
                     @include themed('background-color', 'accent');
