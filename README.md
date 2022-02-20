@@ -1,4 +1,3 @@
-# DeSo
 <img src="./public/images/DeSo Banner.png"  />
 
 ## What is DeSo?
